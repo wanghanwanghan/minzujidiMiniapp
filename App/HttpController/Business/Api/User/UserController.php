@@ -5,6 +5,7 @@ namespace App\HttpController\Business\Api\User;
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\ExprFee;
+use App\HttpController\Service\OrderService;
 use wanghanwanghan\someUtils\control;
 
 class UserController extends BusinessBase
@@ -17,17 +18,16 @@ class UserController extends BusinessBase
     //创建订单
     function createOrder()
     {
+        $phone = $this->request()->getRequestParam('phone');
         $taxType = $this->request()->getRequestParam('taxType');
         $modifyAddr = $this->request()->getRequestParam('modifyAddr');
         $modifyArea = $this->request()->getRequestParam('modifyArea');
         $proxy = $this->request()->getRequestParam('proxy');
         $userType = $this->request()->getRequestParam('userType');
 
-        //需要付费的价格
-        $fee = (new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$proxy))->expr();
+        $orderInfo = OrderService::getInstance()
+            ->createOrder($phone,$userType,$taxType,$modifyAddr,$modifyArea,$proxy);
 
-        //创建订单
-
-
+        return $this->writeJson(200,null,$orderInfo,'成功');
     }
 }

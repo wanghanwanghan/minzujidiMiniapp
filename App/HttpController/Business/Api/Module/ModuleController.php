@@ -24,8 +24,6 @@ class ModuleController extends BusinessBase
 
         $fee = (new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$proxy))->expr();
 
-        CreateTable::getInstance()->miniapp_order();
-
         return $this->writeJson(200,null,$fee,'成功');
     }
 

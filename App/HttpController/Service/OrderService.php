@@ -2,12 +2,19 @@
 
 namespace App\HttpController\Service;
 
+use App\HttpController\Models\Api\Order;
 use Carbon\Carbon;
 use EasySwoole\Component\Singleton;
 
 class OrderService extends ServiceBase
 {
     use Singleton;
+
+    const ORDER_STATUS_1 = 1;//待确认
+    const ORDER_STATUS_2 = 2;//待支付
+    const ORDER_STATUS_3 = 3;//支付完成
+    const ORDER_STATUS_4 = 4;//支付异常
+    const ORDER_STATUS_5 = 5;//已退款
 
     function __construct()
     {
@@ -22,9 +29,63 @@ class OrderService extends ServiceBase
     }
 
     //创建订单
-    function createOrder($userType,$taxType,$modifyAddr,$modifyArea,$proxy)
+    function createOrder($phone,$userType,$taxType,$modifyAddr,$modifyArea,$proxy)
     {
+        $userType = (int)$userType;
+        $taxType = (int)$taxType;
+        $modifyAddr = (int)$modifyAddr;
+        $modifyArea = (int)$modifyArea;
+        $proxy = (int)$proxy;
 
+        $insert=[];
+
+        switch ($userType)
+        {
+            case 1:
+                $insert=[
+                    'orderId'=>$this->createOrderId($userType),
+                    'phone'=>$phone,
+                    'userType'=>$userType,
+                    'status'=>self::ORDER_STATUS_1,
+                    'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$proxy))->expr(),
+                ];
+                break;
+            case 2:
+                $insert=[
+                    'orderId'=>$this->createOrderId($userType),
+                    'phone'=>$phone,
+                    'userType'=>$userType,
+                    'taxType'=>$taxType,
+                    'modifyAddr'=>$modifyAddr,
+                    'modifyArea'=>$modifyArea,
+                    'proxy'=>$proxy,
+                    'status'=>self::ORDER_STATUS_1,
+                    'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$proxy))->expr(),
+                ];
+                break;
+            case 3:
+                $insert=[
+                    'orderId'=>$this->createOrderId($userType),
+                    'phone'=>$phone,
+                    'userType'=>$userType,
+                    'taxType'=>$taxType,
+                    'status'=>self::ORDER_STATUS_1,
+                    'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$proxy))->expr(),
+                ];
+                break;
+        }
+
+        try
+        {
+            Order::create()->data($insert)->save();
+
+        }catch (\Throwable $e)
+        {
+            $insert = [];
+            CommonService::getInstance()->log4PHP($e->getMessage());
+        }
+
+        return $insert;
     }
 
 
