@@ -16,7 +16,7 @@ class UserController extends BusinessBase
     //用户注册
     function reg()
     {
-        CreateTable::getInstance()->miniapp_ent_trade_type();
+        CreateTable::getInstance()->miniapp_user();
         $this->writeJson(200,control::getUuid());
     }
 
