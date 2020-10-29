@@ -3,6 +3,7 @@
 namespace App\HttpController\Business\Api\Module;
 
 use App\HttpController\Business\BusinessBase;
+use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\ExprFee;
 
 class ModuleController extends BusinessBase
@@ -22,6 +23,8 @@ class ModuleController extends BusinessBase
         $proxy = $this->request()->getRequestParam('proxy');
 
         $fee = (new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$proxy))->expr();
+
+        CreateTable::getInstance()->miniapp_order();
 
         return $this->writeJson(200,null,$fee,'成功');
     }

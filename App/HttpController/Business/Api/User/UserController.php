@@ -4,6 +4,7 @@ namespace App\HttpController\Business\Api\User;
 
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Service\CreateTable;
+use App\HttpController\Service\ExprFee;
 use wanghanwanghan\someUtils\control;
 
 class UserController extends BusinessBase
@@ -13,15 +14,20 @@ class UserController extends BusinessBase
         return parent::onRequest($action);
     }
 
-    //用户注册
-    function reg()
+    //创建订单
+    function createOrder()
     {
+        $taxType = $this->request()->getRequestParam('taxType');
+        $modifyAddr = $this->request()->getRequestParam('modifyAddr');
+        $modifyArea = $this->request()->getRequestParam('modifyArea');
+        $proxy = $this->request()->getRequestParam('proxy');
+        $userType = $this->request()->getRequestParam('userType');
 
-    }
+        //需要付费的价格
+        $fee = (new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$proxy))->expr();
 
-    //用户登录
-    function login()
-    {
+        //创建订单
+
 
     }
 }
