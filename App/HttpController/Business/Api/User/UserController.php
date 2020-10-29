@@ -16,8 +16,7 @@ class UserController extends BusinessBase
     //用户注册
     function reg()
     {
-        CreateTable::getInstance()->miniapp_user();
-        $this->writeJson(200,control::getUuid());
+
     }
 
     //用户登录

@@ -14,7 +14,8 @@ class Router extends AbstractRouter
 
         $routeCollector->addGroup('/api/v1',function (RouteCollector $routeCollector)
         {
-            $this->CommonRouterV1($routeCollector);//公共功能
+            $this->CommonRouterV1($routeCollector);//公共
+            $this->ModuleRouterV1($routeCollector);//模块
             $this->UserRouterV1($routeCollector);//用户
             // $this->Notify($routeCollector);//通知
         });
@@ -40,6 +41,18 @@ class Router extends AbstractRouter
         {
             $routeCollector->addRoute(['GET','POST'],'/reg',$prefix.'reg');//用户注册
             $routeCollector->addRoute(['GET','POST'],'/login',$prefix.'login');//用户登录
+        });
+
+        return true;
+    }
+
+    private function ModuleRouterV1(RouteCollector $routeCollector)
+    {
+        $prefix='/Business/Api/Module/ModuleController/';
+
+        $routeCollector->addGroup('/module',function (RouteCollector $routeCollector) use ($prefix)
+        {
+            $routeCollector->addRoute(['GET','POST'],'/exprFee',$prefix.'exprFee');//计算费用
         });
 
         return true;
