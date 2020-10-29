@@ -42,12 +42,33 @@ class CreateTable extends ServiceBase
         return 'ok';
     }
 
+    //公司类型表
     function miniapp_ent_type()
     {
         $sql = DDLBuilder::table(__FUNCTION__, function (Table $table) {
             $table->setTableComment('公司类型表')->setTableEngine(Engine::INNODB)->setTableCharset(Character::UTF8MB4_GENERAL_CI);
             $table->colInt('id', 11)->setIsAutoIncrement()->setIsUnsigned()->setIsPrimaryKey()->setColumnComment('主键');
             $table->colVarChar('entType', 100)->setDefaultValue('')->setColumnComment('公司类型');
+            $table->colInt('created_at', 11)->setIsUnsigned()->setDefaultValue(0);
+            $table->colInt('updated_at', 11)->setIsUnsigned()->setDefaultValue(0);
+        });
+
+        $obj = Manager::getInstance()->get('miniapp')->getObj();
+
+        $obj->rawQuery($sql);
+
+        Manager::getInstance()->get('miniapp')->recycleObj($obj);
+
+        return 'ok';
+    }
+
+    //公司纳税类型表
+    function miniapp_ent_tax_type()
+    {
+        $sql = DDLBuilder::table(__FUNCTION__, function (Table $table) {
+            $table->setTableComment('公司纳税类型表')->setTableEngine(Engine::INNODB)->setTableCharset(Character::UTF8MB4_GENERAL_CI);
+            $table->colInt('id', 11)->setIsAutoIncrement()->setIsUnsigned()->setIsPrimaryKey()->setColumnComment('主键');
+            $table->colVarChar('entTaxType', 100)->setDefaultValue('')->setColumnComment('公司纳税类型');
             $table->colInt('created_at', 11)->setIsUnsigned()->setDefaultValue(0);
             $table->colInt('updated_at', 11)->setIsUnsigned()->setDefaultValue(0);
         });
