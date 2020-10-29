@@ -15,6 +15,7 @@ class Router extends AbstractRouter
         $routeCollector->addGroup('/api/v1',function (RouteCollector $routeCollector)
         {
             $this->CommonRouterV1($routeCollector);//公共功能
+            $this->UserRouterV1($routeCollector);//用户
             // $this->Notify($routeCollector);//通知
         });
     }
@@ -25,10 +26,20 @@ class Router extends AbstractRouter
 
         $routeCollector->addGroup('/comm',function (RouteCollector $routeCollector) use ($prefix)
         {
-            $routeCollector->addRoute(['GET','POST'],'/image/upload',$prefix.'imageUpload');//图片上传
-            $routeCollector->addRoute(['GET','POST'],'/create/image/verifyCode',$prefix.'imageVerifyCode');//创建图片验证码
-            $routeCollector->addRoute(['GET','POST'],'/create/sms/verifyCode',$prefix.'smsVerifyCode');//发送手机验证码
-            $routeCollector->addRoute(['GET','POST'],'/userLngLatUpload',$prefix.'userLngLatUpload');//上传用户经纬度
+
+        });
+
+        return true;
+    }
+
+    private function UserRouterV1(RouteCollector $routeCollector)
+    {
+        $prefix='/Business/Api/User/UserController/';
+
+        $routeCollector->addGroup('/user',function (RouteCollector $routeCollector) use ($prefix)
+        {
+            $routeCollector->addRoute(['GET','POST'],'/reg',$prefix.'reg');//用户注册
+            $routeCollector->addRoute(['GET','POST'],'/login',$prefix.'login');//用户登录
         });
 
         return true;
