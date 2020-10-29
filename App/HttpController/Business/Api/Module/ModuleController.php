@@ -1,6 +1,6 @@
 <?php
 
-namespace App\HttpController\Business\Api\User;
+namespace App\HttpController\Business\Api\Module;
 
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Service\ExprFee;
