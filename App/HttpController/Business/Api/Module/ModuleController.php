@@ -48,7 +48,7 @@ class ModuleController extends BusinessBase
 
         (int)$type === 1 ? $type = 'reg' : $type = 'login';
 
-        CommonService::getInstance()->vCodeSend($phone,$type);
+        CommonService::getInstance()->vCodeSend([$phone],$type);
 
         return $this->writeJson(200,null,null,'成功');
     }
