@@ -32,7 +32,7 @@ class UserController extends BusinessBase
     }
 
     //用户注册
-    function reg()
+    function userReg()
     {
         $phone = $this->request()->getRequestParam('phone') ?? '';
         $email = $this->request()->getRequestParam('email') ?? '';
@@ -68,7 +68,7 @@ class UserController extends BusinessBase
     }
 
     //用户登录
-    function login()
+    function userLogin()
     {
         $phone = $this->request()->getRequestParam('phone') ?? '';
         $vCode = $this->request()->getRequestParam('vCode') ?? '';

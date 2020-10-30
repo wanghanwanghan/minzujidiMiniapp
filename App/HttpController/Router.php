@@ -41,6 +41,7 @@ class Router extends AbstractRouter
         {
             $routeCollector->addRoute(['GET','POST'],'/create/order',$prefix.'createOrder');//创建订单
             $routeCollector->addRoute(['GET','POST'],'/reg',$prefix.'userReg');//用户注册
+            $routeCollector->addRoute(['GET','POST'],'/login',$prefix.'userLogin');//
         });
 
         return true;
