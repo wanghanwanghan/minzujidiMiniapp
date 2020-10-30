@@ -40,6 +40,7 @@ class Router extends AbstractRouter
         $routeCollector->addGroup('/user',function (RouteCollector $routeCollector) use ($prefix)
         {
             $routeCollector->addRoute(['GET','POST'],'/create/order',$prefix.'createOrder');//创建订单
+            $routeCollector->addRoute(['GET','POST'],'/reg',$prefix.'userReg');//用户注册
         });
 
         return true;
@@ -52,6 +53,7 @@ class Router extends AbstractRouter
         $routeCollector->addGroup('/module',function (RouteCollector $routeCollector) use ($prefix)
         {
             $routeCollector->addRoute(['GET','POST'],'/exprFee',$prefix.'exprFee');//计算费用
+            $routeCollector->addRoute(['GET','POST'],'/vCodeSend',$prefix.'vCodeSend');//
         });
 
         return true;

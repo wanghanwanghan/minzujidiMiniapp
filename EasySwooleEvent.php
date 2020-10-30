@@ -4,6 +4,7 @@ namespace EasySwoole\EasySwoole;
 
 use App\HttpController\Service\CreateMysqlOrm;
 use App\HttpController\Service\CreateMysqlPool;
+use App\HttpController\Service\CreateRedisPool;
 use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
@@ -22,6 +23,7 @@ class EasySwooleEvent implements Event
 
         CreateMysqlPool::getInstance()->createMysql();
         CreateMysqlOrm::getInstance()->createMysqlOrm();
+        CreateRedisPool::getInstance()->createRedis();
     }
 
     public static function onRequest(Request $request, Response $response): bool

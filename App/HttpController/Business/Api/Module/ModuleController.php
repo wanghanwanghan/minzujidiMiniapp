@@ -40,6 +40,19 @@ class ModuleController extends BusinessBase
         return $this->writeJson(200,null,['fee'=>$fee,'tradeType'=>$tradeType],'成功');
     }
 
+    //发送验证码
+    function vCodeSend()
+    {
+        $phone = $this->request()->getRequestParam('phone');
+        $type = $this->request()->getRequestParam('type');
+
+        (int)$type === 1 ? $type = 'reg' : $type = 'login';
+
+        CommonService::getInstance()->vCodeSend($phone,$type);
+
+        return $this->writeJson(200,null,null,'成功');
+    }
+
 
 
 }
