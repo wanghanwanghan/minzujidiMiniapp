@@ -21,12 +21,13 @@ class UserController extends BusinessBase
         $taxType = $this->request()->getRequestParam('taxType');
         $modifyAddr = $this->request()->getRequestParam('modifyAddr');
         $modifyArea = $this->request()->getRequestParam('modifyArea');
+        $areaFeeItems = $this->request()->getRequestParam('areaFeeItems');
         $proxy = $this->request()->getRequestParam('proxy');
         $userType = $this->request()->getRequestParam('userType');
         $tradeType = $this->request()->getRequestParam('tradeType');
 
         $orderInfo = OrderService::getInstance()
-            ->createOrder($phone, $userType, $taxType, $modifyAddr, $modifyArea, $proxy, $tradeType);
+            ->createOrder($phone, $userType, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy, $tradeType);
 
         return $this->writeJson(200, null, $orderInfo, '成功');
     }

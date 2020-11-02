@@ -43,16 +43,20 @@ class OrderService extends ServiceBase
 
         switch ($userType)
         {
-            case 1:
+            case 1://会员企业
                 $insert=[
                     'orderId'=>$this->createOrderId($userType),
                     'phone'=>$phone,
                     'userType'=>$userType,
+                    'modifyAddr'=>$modifyAddr,
+                    'modifyArea'=>$modifyArea,
+                    'areaFeeItems'=>$areaFeeItems,
+                    'proxy'=>$proxy,
                     'status'=>self::ORDER_STATUS_1,
                     'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr(),
                 ];
                 break;
-            case 2:
+            case 2://新企业
                 $insert=[
                     'orderId'=>$this->createOrderId($userType),
                     'phone'=>$phone,
@@ -60,13 +64,14 @@ class OrderService extends ServiceBase
                     'taxType'=>$taxType,
                     'modifyAddr'=>$modifyAddr,
                     'modifyArea'=>$modifyArea,
+                    'areaFeeItems'=>$areaFeeItems,
                     'proxy'=>$proxy,
                     'status'=>self::ORDER_STATUS_1,
                     'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr(),
                     'tradeType'=>$tradeType,
                 ];
                 break;
-            case 3:
+            case 3://渠道
                 $insert=[
                     'orderId'=>$this->createOrderId($userType),
                     'phone'=>$phone,
