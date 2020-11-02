@@ -31,7 +31,7 @@ class ExprFee extends ServiceBase
             case 1:
                 //会员企业
                 $money = 0;
-                if ($this->proxy === 1) $money += 2500;
+                if ($this->proxy === 1) $money += 2499;
                 if ($this->modifyAddr === 1 && $this->modifyArea === 1) $money += count($this->areaFeeItems) * 600;
                 break;
             case 2:
@@ -40,8 +40,8 @@ class ExprFee extends ServiceBase
                 break;
             case 3:
                 //渠道
-                if ($this->taxType === 1) $money = 4000;
-                if ($this->taxType === 2) $money = 6000;
+                if ($this->taxType === 1) $money = 3999;
+                if ($this->taxType === 2) $money = 5999;
                 break;
         }
 
@@ -52,9 +52,9 @@ class ExprFee extends ServiceBase
     private function newEnt()
     {
         $money = 0;
-        if ($this->taxType === 1) $money = 6000;
-        if ($this->taxType === 2) $money = 8000;
-        if ($this->proxy === 1) $money += 2500;
+        if ($this->taxType === 1) $money = 5999;
+        if ($this->taxType === 2) $money = 7999;
+        if ($this->proxy === 1) $money += 2499;
         if ($this->modifyAddr === 1 && $this->modifyArea === 1) $money += count($this->areaFeeItems) * 600;
 
         return $money;
