@@ -26,9 +26,9 @@ class UserController extends BusinessBase
         $tradeType = $this->request()->getRequestParam('tradeType');
 
         $orderInfo = OrderService::getInstance()
-            ->createOrder($phone,$userType,$taxType,$modifyAddr,$modifyArea,$proxy,$tradeType);
+            ->createOrder($phone, $userType, $taxType, $modifyAddr, $modifyArea, $proxy, $tradeType);
 
-        return $this->writeJson(200,null,$orderInfo,'成功');
+        return $this->writeJson(200, null, $orderInfo, '成功');
     }
 
     //用户注册
@@ -71,6 +71,7 @@ class UserController extends BusinessBase
     function userLogin()
     {
         $phone = $this->request()->getRequestParam('phone') ?? '';
+        $userType = $this->request()->getRequestParam('userType') ?? '';
         $vCode = $this->request()->getRequestParam('vCode') ?? '';
 
         $redis = Redis::defer('redis');
@@ -81,7 +82,7 @@ class UserController extends BusinessBase
 
         if ((int)$vCodeInRedis !== (int)$vCode) return $this->writeJson(201, null, null, '验证码错误');
 
-        $res = User::create()->where('phone', $phone)->get();
+        $res = User::create()->where('phone', $phone)->where('type', $userType)->get();
 
         if (empty($res)) return $this->writeJson(201, null, null, '号码未注册');
 
