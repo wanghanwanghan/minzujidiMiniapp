@@ -22,10 +22,11 @@ class ModuleController extends BusinessBase
         $taxType = $this->request()->getRequestParam('taxType');
         $modifyAddr = $this->request()->getRequestParam('modifyAddr');
         $modifyArea = $this->request()->getRequestParam('modifyArea');
+        $areaFeeItems = $this->request()->getRequestParam('areaFeeItems');
         $proxy = $this->request()->getRequestParam('proxy');
         $tradeType = $this->request()->getRequestParam('tradeType');
 
-        $fee = (new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$proxy))->expr();
+        $fee = (new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr();
 
         try
         {

@@ -29,12 +29,13 @@ class OrderService extends ServiceBase
     }
 
     //创建订单
-    function createOrder($phone,$userType,$taxType,$modifyAddr,$modifyArea,$proxy,$tradeType)
+    function createOrder($phone,$userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy,$tradeType)
     {
         $userType = (int)$userType;
         $taxType = (int)$taxType;
         $modifyAddr = (int)$modifyAddr;
         $modifyArea = (int)$modifyArea;
+        $areaFeeItems = (string)$areaFeeItems;
         $proxy = (int)$proxy;
         $tradeType = (int)$tradeType;
 
@@ -48,7 +49,7 @@ class OrderService extends ServiceBase
                     'phone'=>$phone,
                     'userType'=>$userType,
                     'status'=>self::ORDER_STATUS_1,
-                    'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$proxy))->expr(),
+                    'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr(),
                 ];
                 break;
             case 2:
@@ -61,7 +62,7 @@ class OrderService extends ServiceBase
                     'modifyArea'=>$modifyArea,
                     'proxy'=>$proxy,
                     'status'=>self::ORDER_STATUS_1,
-                    'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$proxy))->expr(),
+                    'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr(),
                     'tradeType'=>$tradeType,
                 ];
                 break;
@@ -72,7 +73,7 @@ class OrderService extends ServiceBase
                     'userType'=>$userType,
                     'taxType'=>$taxType,
                     'status'=>self::ORDER_STATUS_1,
-                    'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$proxy))->expr(),
+                    'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr(),
                 ];
                 break;
         }
