@@ -17,7 +17,7 @@ class Router extends AbstractRouter
             $this->CommRouterV1($routeCollector);
             $this->ModuleRouterV1($routeCollector);//模块
             $this->UserRouterV1($routeCollector);//用户
-            // $this->Notify($routeCollector);//通知
+            $this->Notify($routeCollector);//通知
         });
     }
 
@@ -43,6 +43,7 @@ class Router extends AbstractRouter
             $routeCollector->addRoute(['GET','POST'],'/reg',$prefix.'userReg');//用户注册
             $routeCollector->addRoute(['GET','POST'],'/login',$prefix.'userLogin');//用户登录
             $routeCollector->addRoute(['GET','POST'],'/uploadFile',$prefix.'uploadFile');//上传文件
+            $routeCollector->addRoute(['GET','POST'],'/addEntDetail',$prefix.'addEntDetail');//填写公司信息
         });
 
         return true;

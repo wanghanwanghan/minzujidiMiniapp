@@ -29,7 +29,7 @@ class wxPayService
 
         $data = [
             'appid' => 'wx864577e52e8277a2',
-            'secret' => '123123123123123123123123123123123123123123123123123123123123123123123123123123123123',
+            'secret' => '2f88169a1bab8f461150483be40eb487',
             'js_code' => $code,//这是从wx.login中拿的
             'grant_type' => 'authorization_code',
         ];

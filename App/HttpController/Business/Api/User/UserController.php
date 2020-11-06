@@ -3,7 +3,9 @@
 namespace App\HttpController\Business\Api\User;
 
 use App\HttpController\Business\BusinessBase;
+use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Models\Api\User;
+use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\OrderService;
 use EasySwoole\RedisPool\Redis;
 
@@ -92,7 +94,48 @@ class UserController extends BusinessBase
     //上传文件
     function uploadFile()
     {
+        $phone = $this->request()->getRequestParam('phone') ?? '';
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
+        $type = $this->request()->getRequestParam('type') ?? '';
+        $filename = $this->request()->getRequestParam('filename') ?? '';
+
+        if (empty($phone) || !is_numeric($phone) || strlen($phone) != 11) return $this->writeJson(201,null,null,'手机错误');
+        if (empty($orderId)) return $this->writeJson(201,null,null,'订单号错误');
+        if (empty($type) || !is_numeric($type) || strlen($type) != 1) return $this->writeJson(201,null,null,'文件类型错误');
+        if (empty($filename)) return $this->writeJson(201,null,null,'文件名称错误');
+
+        $filename = explode(',',trim($filename));
+
+        $filename = array_filter($filename);
+
+        $fileNum = count($filename);
+
+        $insert = [
+            'orderId' => $orderId,
+            'phone' => $phone,
+            'type' => $type,
+            'fileNum' => $fileNum,
+            'filename' => implode(',',$filename),
+        ];
+
+        UploadFile::create()->data($insert)->save();
+
+        return $this->writeJson(200,null,$insert,'成功');
+    }
+
+    //填写公司信息
+    function addEntDetail()
+    {
 
     }
+
+
+
+
+
+
+
+
+
 
 }
