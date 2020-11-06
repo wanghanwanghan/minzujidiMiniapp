@@ -3,6 +3,7 @@
 namespace App\HttpController\Business\Api\User;
 
 use App\HttpController\Business\BusinessBase;
+use App\HttpController\Models\Api\EntDetail;
 use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Models\Api\User;
 use App\HttpController\Service\CreateTable;
@@ -156,21 +157,26 @@ class UserController extends BusinessBase
         $tzjgbj = $this->request()->getRequestParam('tzjgbj') ?? '';
         $tzfx = $this->request()->getRequestParam('tzfx') ?? '';
 
+        $insert = [
+            'phone' => $phone,
+            'orderId' => $orderId,
+            'regEntName' => $regEntName,
+            'hy' => $hy,
+            'jyfw' => $jyfw,
+            'gdmc' => $gdmc,
+            'gdbj' => $gdbj,
+            'zyyw' => $zyyw,
+            'zczb' => $zczb,
+            'ztz' => $ztz,
+            'xmnr' => $xmnr,
+            'tzjgmc' => $tzjgmc,
+            'tzjgbj' => $tzjgbj,
+            'tzfx' => $tzfx,
+        ];
 
+        EntDetail::create()->data($insert)->save();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return $this->writeJson(200,null,$insert,'成功');
     }
 
 
