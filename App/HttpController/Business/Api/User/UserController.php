@@ -24,10 +24,9 @@ class UserController extends BusinessBase
         $areaFeeItems = $this->request()->getRequestParam('areaFeeItems');
         $proxy = $this->request()->getRequestParam('proxy');
         $userType = $this->request()->getRequestParam('userType');
-        $tradeType = $this->request()->getRequestParam('tradeType');
 
         $orderInfo = OrderService::getInstance()
-            ->createOrder($phone, $userType, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy, $tradeType);
+            ->createOrder($phone, $userType, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy);
 
         return $this->writeJson(200, null, $orderInfo, '成功');
     }
@@ -90,5 +89,10 @@ class UserController extends BusinessBase
         return $this->writeJson(200, null, $res, '登录成功');
     }
 
+    //上传文件
+    function uploadFile()
+    {
+
+    }
 
 }

@@ -3,7 +3,6 @@
 namespace App\HttpController\Business\Api\Module;
 
 use App\HttpController\Business\BusinessBase;
-use App\HttpController\Models\Api\TradeType;
 use App\HttpController\Service\CommonService;
 use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\ExprFee;
@@ -24,21 +23,10 @@ class ModuleController extends BusinessBase
         $modifyArea = $this->request()->getRequestParam('modifyArea');
         $areaFeeItems = $this->request()->getRequestParam('areaFeeItems');
         $proxy = $this->request()->getRequestParam('proxy');
-        $tradeType = $this->request()->getRequestParam('tradeType');
 
         $fee = (new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr();
 
-        try
-        {
-            $tradeType = TradeType::create()->where('id',$tradeType)->get();
-
-        }catch (\Throwable $e)
-        {
-            CommonService::getInstance()->log4PHP($e->getMessage());
-            $tradeType=null;
-        }
-
-        return $this->writeJson(200,null,['fee'=>$fee,'tradeType'=>$tradeType],'成功');
+        return $this->writeJson(200,null,['fee'=>$fee],'成功');
     }
 
     //发送验证码

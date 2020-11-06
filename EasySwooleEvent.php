@@ -20,6 +20,7 @@ class EasySwooleEvent implements Event
     public static function mainServerCreate(EventRegister $register)
     {
         define('LOG_PATH', __DIR__ . DIRECTORY_SEPARATOR . 'Log' . DIRECTORY_SEPARATOR);
+        define('FILE_PATH', __DIR__ . DIRECTORY_SEPARATOR . 'Static' . DIRECTORY_SEPARATOR . 'File' . DIRECTORY_SEPARATOR);
 
         CreateMysqlPool::getInstance()->createMysql();
         CreateMysqlOrm::getInstance()->createMysqlOrm();

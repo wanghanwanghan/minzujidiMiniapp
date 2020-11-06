@@ -14,20 +14,20 @@ class Router extends AbstractRouter
 
         $routeCollector->addGroup('/api/v1',function (RouteCollector $routeCollector)
         {
-            $this->CommonRouterV1($routeCollector);//公共
+            $this->CommRouterV1($routeCollector);
             $this->ModuleRouterV1($routeCollector);//模块
             $this->UserRouterV1($routeCollector);//用户
             // $this->Notify($routeCollector);//通知
         });
     }
 
-    private function CommonRouterV1(RouteCollector $routeCollector)
+    private function CommRouterV1(RouteCollector $routeCollector)
     {
-        $prefix='/Business/Api/Common/CommonController/';
+        $prefix='/Business/Api/Comm/CommController/';
 
         $routeCollector->addGroup('/comm',function (RouteCollector $routeCollector) use ($prefix)
         {
-
+            $routeCollector->addRoute(['GET','POST'],'/uploadFile',$prefix.'uploadFile');//上传文件
         });
 
         return true;
@@ -41,7 +41,8 @@ class Router extends AbstractRouter
         {
             $routeCollector->addRoute(['GET','POST'],'/create/order',$prefix.'createOrder');//创建订单
             $routeCollector->addRoute(['GET','POST'],'/reg',$prefix.'userReg');//用户注册
-            $routeCollector->addRoute(['GET','POST'],'/login',$prefix.'userLogin');//
+            $routeCollector->addRoute(['GET','POST'],'/login',$prefix.'userLogin');//用户登录
+            $routeCollector->addRoute(['GET','POST'],'/uploadFile',$prefix.'uploadFile');//上传文件
         });
 
         return true;
@@ -66,8 +67,8 @@ class Router extends AbstractRouter
 
         $routeCollector->addGroup('/notify',function (RouteCollector $routeCollector) use ($prefix)
         {
-            $routeCollector->addRoute(['GET','POST'],'/wx',$prefix.'wxNotify');//微信的通知 信动
-            $routeCollector->addRoute(['GET','POST'],'/wx_wh',$prefix.'wxNotify_wh');//微信的通知 伟衡
+            $routeCollector->addRoute(['GET','POST'],'/wx',$prefix.'wxNotify');//微信的通知
+
         });
 
         return true;

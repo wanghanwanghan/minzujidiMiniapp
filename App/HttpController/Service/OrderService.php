@@ -29,7 +29,7 @@ class OrderService extends ServiceBase
     }
 
     //创建订单
-    function createOrder($phone,$userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy,$tradeType)
+    function createOrder($phone,$userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy)
     {
         $userType = (int)$userType;
         $taxType = (int)$taxType;
@@ -37,7 +37,6 @@ class OrderService extends ServiceBase
         $modifyArea = (int)$modifyArea;
         $areaFeeItems = (string)$areaFeeItems;
         $proxy = (int)$proxy;
-        $tradeType = (int)$tradeType;
 
         $insert=[];
 
@@ -48,12 +47,14 @@ class OrderService extends ServiceBase
                     'orderId'=>$this->createOrderId($userType),
                     'phone'=>$phone,
                     'userType'=>$userType,
+                    'taxType'=>$taxType,
                     'modifyAddr'=>$modifyAddr,
                     'modifyArea'=>$modifyArea,
                     'areaFeeItems'=>$areaFeeItems,
                     'proxy'=>$proxy,
                     'status'=>self::ORDER_STATUS_1,
                     'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr(),
+                    'finalPrice'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr(),
                 ];
                 break;
             case 2://新企业
@@ -68,7 +69,7 @@ class OrderService extends ServiceBase
                     'proxy'=>$proxy,
                     'status'=>self::ORDER_STATUS_1,
                     'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr(),
-                    'tradeType'=>$tradeType,
+                    'finalPrice'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr(),
                 ];
                 break;
             case 3://渠道
@@ -79,6 +80,7 @@ class OrderService extends ServiceBase
                     'taxType'=>$taxType,
                     'status'=>self::ORDER_STATUS_1,
                     'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr(),
+                    'finalPrice'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr(),
                 ];
                 break;
         }
