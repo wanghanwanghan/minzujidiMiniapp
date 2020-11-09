@@ -9,6 +9,7 @@ use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Models\Api\User;
 use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\OrderService;
+use App\HttpController\Service\Pay\wx\wxPayService;
 use EasySwoole\RedisPool\Redis;
 
 class UserController extends BusinessBase
@@ -91,6 +92,20 @@ class UserController extends BusinessBase
             ->createOrder($phone, $userType, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy);
 
         return $this->writeJson(200, null, $orderInfo, '成功');
+    }
+
+    //支付订单
+    function payOrder()
+    {
+        $jsCode = $this->request()->getRequestParam('jsCode') ?? '';
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
+
+        $info = Order::create()->where('orderId',$orderId)->get();
+
+        //创建小程序支付对象
+        $payObj = (new wxPayService())->miniAppPay($jsCode, $orderId, $info->finalPrice,'');
+
+        return $this->writeJson(200, null, $payObj, '成功');
     }
 
     //获取订单列表
