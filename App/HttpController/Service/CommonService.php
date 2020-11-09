@@ -25,6 +25,10 @@ class CommonService extends ServiceBase
     {
         (!is_array($content) && !is_object($content)) ?: $content = json_encode($content);
 
+
+        var_dump(LOG_PATH);
+
+
         return control::writeLog($content, LOG_PATH, $type, $filename);
     }
 
