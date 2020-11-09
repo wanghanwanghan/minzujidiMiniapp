@@ -39,9 +39,7 @@ class wxPayService
 
         $res = (new CoHttpClient())->send($url, $data, [], [], 'get');
 
-        CommonService::getInstance()->log4PHP($res);
-
-        return $res;
+        return json_decode($res,true);
     }
 
     //返回一个小程序支付resp对象
