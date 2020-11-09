@@ -127,35 +127,20 @@ class UserController extends BusinessBase
     //填写公司信息
     function addEntDetail()
     {
-        //     phone = 13800138000，用户手机号
-        //     orderId = XXX，用订单号区分是要上传哪个公司的材料
-        //     regEntName = XXX，注册公司名，逗号分割
-        //     hy = XXX，公司行业
-        //     jyfw = XXX，经营范围
-        //     gdmc = XXX，股东名称，逗号分割
-        //     gdbj = XXX，股东背景
-        //     zyyw = XXX，拟主营业务或产品
-        //     zczb = XXX，拟注册资本
-        //     ztz = XXX，预计总投资
-        //     xmnr = XXX，项目内容
-        //     tzjgmc = XXX，投资机构名称
-        //     tzjgbj = XXX，投资机构背景
-        //     tzfx = XXX，投资方向
-
         $phone = $this->request()->getRequestParam('phone') ?? '';
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
-        $regEntName = $this->request()->getRequestParam('regEntName') ?? '';
-        $hy = $this->request()->getRequestParam('hy') ?? '';
-        $jyfw = $this->request()->getRequestParam('jyfw') ?? '';
-        $gdmc = $this->request()->getRequestParam('gdmc') ?? '';
-        $gdbj = $this->request()->getRequestParam('gdbj') ?? '';
-        $zyyw = $this->request()->getRequestParam('zyyw') ?? '';
-        $zczb = $this->request()->getRequestParam('zczb') ?? '';
-        $ztz = $this->request()->getRequestParam('ztz') ?? '';
-        $xmnr = $this->request()->getRequestParam('xmnr') ?? '';
-        $tzjgmc = $this->request()->getRequestParam('tzjgmc') ?? '';
-        $tzjgbj = $this->request()->getRequestParam('tzjgbj') ?? '';
-        $tzfx = $this->request()->getRequestParam('tzfx') ?? '';
+        $regEntName = $this->request()->getRequestParam('regEntName') ?? '';//注册公司名，逗号分割
+        $hy = $this->request()->getRequestParam('hy') ?? '';//公司行业
+        $jyfw = $this->request()->getRequestParam('jyfw') ?? '';//经营范围
+        $gdmc = $this->request()->getRequestParam('gdmc') ?? '';//股东名称，逗号分割
+        $gdbj = $this->request()->getRequestParam('gdbj') ?? '';//股东背景
+        $zyyw = $this->request()->getRequestParam('zyyw') ?? '';//拟主营业务或产品
+        $zczb = $this->request()->getRequestParam('zczb') ?? '';//拟注册资本
+        $ztz = $this->request()->getRequestParam('ztz') ?? '';//预计总投资
+        $xmnr = $this->request()->getRequestParam('xmnr') ?? '';//项目内容
+        $tzjgmc = $this->request()->getRequestParam('tzjgmc') ?? '';//投资机构名称
+        $tzjgbj = $this->request()->getRequestParam('tzjgbj') ?? '';//投资机构背景
+        $tzfx = $this->request()->getRequestParam('tzfx') ?? '';//投资方向
 
         $insert = [
             'phone' => $phone,
