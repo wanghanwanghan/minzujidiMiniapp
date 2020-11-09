@@ -2,7 +2,6 @@
 
 namespace App\HttpController\Service\Pay\wx;
 
-use App\HttpController\Service\CommonService;
 use App\HttpController\Service\HttpClient\CoHttpClient;
 use EasySwoole\Pay\Pay;
 use EasySwoole\Pay\WeChat\Config as wxConf;
@@ -18,8 +17,8 @@ class wxPayService
         $conf->setMchId('1603847607');
         $conf->setKey('qqaazzwwssxxeeddccrrffvvttggbbyy');
         $conf->setNotifyUrl('https://mzjd.meirixindong.com/api/v1/notify/wx');
-        $conf->setApiClientCert('./cert/apiclient_cert.pem');
-        $conf->setApiClientKey('./cert/apiclient_key.pem');
+        $conf->setApiClientCert(file_get_contents('./cert/apiclient_cert.pem'));
+        $conf->setApiClientKey(file_get_contents('./cert/apiclient_key.pem'));
 
         return $conf;
     }
