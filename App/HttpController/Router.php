@@ -59,6 +59,7 @@ class Router extends AbstractRouter
         {
             $routeCollector->addRoute(['GET','POST'],'/exprFee',$prefix.'exprFee');//计算费用
             $routeCollector->addRoute(['GET','POST'],'/vCodeSend',$prefix.'vCodeSend');//
+            $routeCollector->addRoute(['GET','POST'],'/getTradeType',$prefix.'getTradeType');//
         });
 
         return true;
