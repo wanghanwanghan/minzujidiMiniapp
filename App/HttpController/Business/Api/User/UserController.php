@@ -147,6 +147,7 @@ class UserController extends BusinessBase
 
             $one['created_atWord'] = date('Y-m-d H:i:s',$one['created_at']);
         }
+        unset($one);
 
         $total = Order::create()->where('phone',$phone)->where('userType',$userType)->count();
 
