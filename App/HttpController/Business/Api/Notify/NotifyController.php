@@ -51,6 +51,8 @@ class NotifyController extends BusinessBase
             $status = 4;
         }
 
+        $goods = 'new';
+
         //更改订单状态
         $orderInfo->update(['status' => $status]);
 
