@@ -16,7 +16,7 @@ class wxPayService
         $conf->setMiniAppId('wx864577e52e8277a2');
         $conf->setMchId('1603847607');
         $conf->setKey('qqaazzwwssxxeeddccrrffvvttggbbyy');
-        $conf->setNotifyUrl('https://miniapp.minfuqifu.com/api/v1/notify/wx');
+        $conf->setNotifyUrl('https://mzjd.meirixindong.com/api/v1/notify/wx');
         $conf->setApiClientCert(CERT_PATH.'apiclient_cert.pem');
         $conf->setApiClientKey(CERT_PATH.'apiclient_key.pem');
 
