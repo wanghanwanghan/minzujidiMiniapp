@@ -97,6 +97,7 @@ class UserController extends BusinessBase
     //支付订单
     function payOrder()
     {
+        $phone = $this->request()->getRequestParam('phone') ?? '';
         $jsCode = $this->request()->getRequestParam('jsCode') ?? '';
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
 
