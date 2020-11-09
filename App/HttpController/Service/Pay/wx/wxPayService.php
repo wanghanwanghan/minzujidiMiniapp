@@ -105,9 +105,11 @@ class wxPayService
         //用户的openid
         $openId = $this->getOpenId($jsCode);
 
+        $openId = end($openId);
+
         CommonService::getInstance()->log4PHP($openId);
 
-        $bean->setOpenid(end($openId));
+        $bean->setOpenid($openId);
 
         //订单号
         $bean->setOutTradeNo($orderId);

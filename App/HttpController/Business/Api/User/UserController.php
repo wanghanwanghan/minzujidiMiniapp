@@ -104,7 +104,7 @@ class UserController extends BusinessBase
         $info = Order::create()->where('orderId',$orderId)->get();
 
         //创建小程序支付对象
-        $payObj = (new wxPayService())->miniAppPay($jsCode, $orderId, $info->finalPrice,'');
+        $payObj = (new wxPayService())->miniAppPay($jsCode, $orderId, $info->finalPrice,'民族基地');
 
         return $this->writeJson(200, null, $payObj, '成功');
     }
