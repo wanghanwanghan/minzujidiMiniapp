@@ -9,6 +9,7 @@ use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Models\Api\User;
 use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\OrderService;
+use App\HttpController\Service\Pay\wx\UploadFileService;
 use App\HttpController\Service\Pay\wx\wxPayService;
 use EasySwoole\RedisPool\Redis;
 
@@ -173,23 +174,9 @@ class UserController extends BusinessBase
         if (empty($type) || !is_numeric($type) || strlen($type) != 1) return $this->writeJson(201,null,null,'文件类型错误');
         if (empty($filename)) return $this->writeJson(201,null,null,'文件名称错误');
 
-        $filename = explode(',',trim($filename));
+        $res = UploadFileService::getInstance()->uploadFile($filename,$orderId,$phone,$type);
 
-        $filename = array_filter($filename);
-
-        $fileNum = count($filename);
-
-        $insert = [
-            'orderId' => $orderId,
-            'phone' => $phone,
-            'type' => $type,
-            'fileNum' => $fileNum,
-            'filename' => implode(',',$filename),
-        ];
-
-        UploadFile::create()->data($insert)->save();
-
-        return $this->writeJson(200,null,$insert,'成功');
+        return $this->writeJson(200,null,$res,'成功');
     }
 
     //填写公司信息
