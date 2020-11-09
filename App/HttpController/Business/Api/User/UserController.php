@@ -108,6 +108,30 @@ class UserController extends BusinessBase
 
         empty($list) ? $list = null : null;
 
+        foreach ($list as &$one)
+        {
+            switch ($one['status'])
+            {
+                case '1':
+                    $one['statusWord'] = '待确认';
+                    break;
+                case '2':
+                    $one['statusWord'] = '待支付';
+                    break;
+                case '3':
+                    $one['statusWord'] = '支付完成';
+                    break;
+                case '4':
+                    $one['statusWord'] = '支付异常';
+                    break;
+                case '5':
+                    $one['statusWord'] = '已退款';
+                    break;
+            }
+
+            $one['created_atWord'] = date('Y-m-d H:i:s',$one['created_at']);
+        }
+
         $total = Order::create()->where('phone',$phone)->where('userType',$userType)->count();
 
         $page = [
