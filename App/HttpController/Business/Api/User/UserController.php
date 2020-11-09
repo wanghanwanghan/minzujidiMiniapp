@@ -5,12 +5,11 @@ namespace App\HttpController\Business\Api\User;
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Models\Api\EntDetail;
 use App\HttpController\Models\Api\Order;
-use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Models\Api\User;
 use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\OrderService;
-use App\HttpController\Service\Pay\wx\UploadFileService;
 use App\HttpController\Service\Pay\wx\wxPayService;
+use App\HttpController\Service\UploadFile\UploadFileService;
 use EasySwoole\RedisPool\Redis;
 
 class UserController extends BusinessBase
