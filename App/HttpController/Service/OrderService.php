@@ -78,7 +78,7 @@ class OrderService extends ServiceBase
                     'phone'=>$phone,
                     'userType'=>$userType,
                     'taxType'=>$taxType,
-                    'status'=>self::ORDER_STATUS_1,
+                    'status'=>self::ORDER_STATUS_2,
                     'price'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr(),
                     'finalPrice'=>(new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr(),
                 ];

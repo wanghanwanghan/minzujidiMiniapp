@@ -39,4 +39,16 @@ class BusinessBase extends Index
             return false;
         }
     }
+
+    //计算分页
+    function exprOffset($page, $pageSize): int
+    {
+        return ($page - 1) * $pageSize;
+    }
+
+
+
+
+
+
 }

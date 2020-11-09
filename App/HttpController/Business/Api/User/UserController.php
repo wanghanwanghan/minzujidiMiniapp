@@ -4,6 +4,7 @@ namespace App\HttpController\Business\Api\User;
 
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Models\Api\EntDetail;
+use App\HttpController\Models\Api\Order;
 use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Models\Api\User;
 use App\HttpController\Service\CreateTable;
@@ -15,23 +16,6 @@ class UserController extends BusinessBase
     function onRequest(?string $action): ?bool
     {
         return parent::onRequest($action);
-    }
-
-    //创建订单
-    function createOrder()
-    {
-        $phone = $this->request()->getRequestParam('phone');
-        $taxType = $this->request()->getRequestParam('taxType');
-        $modifyAddr = $this->request()->getRequestParam('modifyAddr');
-        $modifyArea = $this->request()->getRequestParam('modifyArea');
-        $areaFeeItems = $this->request()->getRequestParam('areaFeeItems');
-        $proxy = $this->request()->getRequestParam('proxy');
-        $userType = $this->request()->getRequestParam('userType');
-
-        $orderInfo = OrderService::getInstance()
-            ->createOrder($phone, $userType, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy);
-
-        return $this->writeJson(200, null, $orderInfo, '成功');
     }
 
     //用户注册
@@ -90,6 +74,49 @@ class UserController extends BusinessBase
         if (empty($res)) return $this->writeJson(201, null, null, '号码未注册');
 
         return $this->writeJson(200, null, $res, '登录成功');
+    }
+
+    //创建订单
+    function createOrder()
+    {
+        $phone = $this->request()->getRequestParam('phone');
+        $taxType = $this->request()->getRequestParam('taxType');
+        $modifyAddr = $this->request()->getRequestParam('modifyAddr');
+        $modifyArea = $this->request()->getRequestParam('modifyArea');
+        $areaFeeItems = $this->request()->getRequestParam('areaFeeItems');
+        $proxy = $this->request()->getRequestParam('proxy');
+        $userType = $this->request()->getRequestParam('userType');
+
+        $orderInfo = OrderService::getInstance()
+            ->createOrder($phone, $userType, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy);
+
+        return $this->writeJson(200, null, $orderInfo, '成功');
+    }
+
+    //获取订单列表
+    function getOrderList()
+    {
+        $phone = $this->request()->getRequestParam('phone') ?? '';
+        $userType = $this->request()->getRequestParam('userType') ?? '';
+        $page = $this->request()->getRequestParam('page') ?? 1;
+        $pageSize = $this->request()->getRequestParam('pageSize') ?? 10;
+
+        $list = Order::create()->where('phone',$phone)->where('userType',$userType)->order('created_at','desc')
+            ->limit($this->exprOffset($page,$pageSize),$pageSize)->all();
+
+        $list = json_decode(json_encode($list),true);
+
+        empty($list) ? $list = null : null;
+
+        $total = Order::create()->where('phone',$phone)->where('userType',$userType)->count();
+
+        $page = [
+            'page' => $page,
+            'pageSize' => $pageSize,
+            'total' => $total
+        ];
+
+        return $this->writeJson(200,$page,$list,'成功');
     }
 
     //上传文件
