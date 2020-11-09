@@ -1,6 +1,6 @@
 <?php
 
-namespace App\HttpController\Service\Pay\wx;
+namespace App\HttpController\Service\UploadFile;
 
 use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Service\ServiceBase;
