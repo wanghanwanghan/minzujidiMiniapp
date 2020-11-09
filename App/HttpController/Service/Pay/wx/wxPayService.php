@@ -18,12 +18,8 @@ class wxPayService
         $conf->setMchId('1603847607');
         $conf->setKey('qqaazzwwssxxeeddccrrffvvttggbbyy');
         $conf->setNotifyUrl('https://mzjd.meirixindong.com/api/v1/notify/wx');
-        $conf->setApiClientCert(file_get_contents('./cert/apiclient_cert.pem'));
-        $conf->setApiClientKey(file_get_contents('./cert/apiclient_key.pem'));
-
-
-        CommonService::getInstance()->log4PHP(file_get_contents('./cert/apiclient_cert.pem'));
-
+        $conf->setApiClientCert(CERT_PATH.'apiclient_cert.pem');
+        $conf->setApiClientKey(CERT_PATH.'apiclient_key.pem');
 
         return $conf;
     }
