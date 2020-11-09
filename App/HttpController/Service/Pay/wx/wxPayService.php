@@ -21,6 +21,8 @@ class wxPayService
         $conf->setApiClientCert(CERT_PATH.'apiclient_cert.pem');
         $conf->setApiClientKey(CERT_PATH.'apiclient_key.pem');
 
+        CommonService::getInstance()->log4PHP(CERT_PATH.'apiclient_cert.pem');
+
         return $conf;
     }
 
