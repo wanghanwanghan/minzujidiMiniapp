@@ -3,6 +3,7 @@
 namespace App\HttpController\Business\Api\Module;
 
 use App\HttpController\Business\BusinessBase;
+use App\HttpController\Models\Api\TradeType;
 use App\HttpController\Service\CommonService;
 use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\ExprFee;
@@ -42,6 +43,15 @@ class ModuleController extends BusinessBase
         return $this->writeJson(200,null,null,'成功');
     }
 
+    //经营范围
+    function getTradeType()
+    {
+        $tradeType = $this->request()->getRequestParam('tradeType') ?? '';
+
+        $tradeTypeInfo = TradeType::create()->where('id',$tradeType)->get();
+
+        return $this->writeJson(200,null,$tradeTypeInfo,'成功');
+    }
 
 
 }
