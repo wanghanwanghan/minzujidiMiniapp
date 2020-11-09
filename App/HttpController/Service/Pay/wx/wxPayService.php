@@ -2,6 +2,7 @@
 
 namespace App\HttpController\Service\Pay\wx;
 
+use App\HttpController\Service\CommonService;
 use App\HttpController\Service\HttpClient\CoHttpClient;
 use EasySwoole\Pay\Pay;
 use EasySwoole\Pay\WeChat\Config as wxConf;
@@ -46,6 +47,9 @@ class wxPayService
 
         //用户的openid
         $openId = $this->getOpenId($jsCode);
+
+        CommonService::getInstance()->log4PHP($openId);
+
         $bean->setOpenid(end($openId));
 
         //订单号
