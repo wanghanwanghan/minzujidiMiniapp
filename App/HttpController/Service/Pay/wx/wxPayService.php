@@ -37,7 +37,11 @@ class wxPayService
 
         $url .= '?' . http_build_query($data);
 
-        return (new CoHttpClient())->send($url, $data, [], [], 'get');
+        $res = (new CoHttpClient())->send($url, $data, [], [], 'get');
+
+        CommonService::getInstance()->log4PHP($res);
+
+        return $res;
     }
 
     //返回一个小程序支付resp对象
@@ -47,8 +51,6 @@ class wxPayService
 
         //用户的openid
         $openId = $this->getOpenId($jsCode);
-
-        CommonService::getInstance()->log4PHP($openId);
 
         $bean->setOpenid(end($openId));
 
