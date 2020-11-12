@@ -189,7 +189,10 @@ class UserController extends BusinessBase
         $jyfw = $this->request()->getRequestParam('jyfw') ?? '';//经营范围
         $zyyw = $this->request()->getRequestParam('zyyw') ?? '';//主营业务
         $zczb = $this->request()->getRequestParam('zczb') ?? '';//注册资本
-        $image = $this->request()->getRequestParam('image') ?? '';//营业执照
+        $fr = $this->request()->getRequestParam('fr') ?? '';//注册资本
+        $frCode = $this->request()->getRequestParam('frCode') ?? '';//身份证号
+        $jbr = $this->request()->getRequestParam('jbr') ?? '';//经办人
+        $jbrCode = $this->request()->getRequestParam('jbrCode') ?? '';//经办人身份证号
 
         EntInfo::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
             $builder->where('orderId',$orderId);
@@ -198,13 +201,15 @@ class UserController extends BusinessBase
         $insert = [
             'orderId' => $orderId,
             'phone' => $phone,
-            'entName' => empty($image) ? '' : $regEntName,
             'regEntName' => $regEntName,
             'hy' => $hy,
             'jyfw' => $jyfw,
             'zyyw' => $zyyw,
             'zczb' => $zczb,
-            'image' => $image,
+            'fr' => $fr,
+            'frCode' => $frCode,
+            'jbr' => $jbr,
+            'jbrCode' => $jbrCode,
         ];
 
         EntInfo::create()->data($insert)->save();

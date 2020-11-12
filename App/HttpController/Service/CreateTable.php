@@ -175,6 +175,12 @@ class CreateTable extends ServiceBase
             $table->colVarChar('zyyw', 100)->setDefaultValue('')->setColumnComment('拟主营业务或产品');
             $table->colVarChar('zczb', 100)->setDefaultValue('')->setColumnComment('拟注册资本');
             $table->colVarChar('image', 255)->setDefaultValue('')->setColumnComment('营业执照照片');
+            $table->colVarChar('fr', 20)->setDefaultValue('')->setColumnComment('法人');
+            $table->colVarChar('frCode', 20)->setDefaultValue('')->setColumnComment('身份证');
+            $table->colVarChar('frImage', 255)->setDefaultValue('')->setColumnComment('照片');
+            $table->colVarChar('jbr', 20)->setDefaultValue('')->setColumnComment('经办人');
+            $table->colVarChar('jbrCode', 20)->setDefaultValue('')->setColumnComment('身份证');
+            $table->colVarChar('jbrImage', 255)->setDefaultValue('')->setColumnComment('照片');
             $table->colInt('created_at', 11)->setIsUnsigned()->setDefaultValue(0);
             $table->colInt('updated_at', 11)->setIsUnsigned()->setDefaultValue(0);
             $table->indexNormal('orderId_index','orderId');
