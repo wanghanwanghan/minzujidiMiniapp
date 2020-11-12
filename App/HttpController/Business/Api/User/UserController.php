@@ -235,6 +235,7 @@ class UserController extends BusinessBase
         //$csfx = $this->request()->getRequestParam('csfx') ?? '';//从事方向
         //$fr = $this->request()->getRequestParam('fr') ?? '';//法人名称
         //$frCode = $this->request()->getRequestParam('frCode') ?? '';//法人身份证
+        //$image = $this->request()->getRequestParam('image') ?? '';//照片
 
         EntGuDong::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
             $builder->where('orderId',$orderId);
@@ -255,6 +256,7 @@ class UserController extends BusinessBase
                 'csfx' => $one['csfx'],
                 'fr' => $one['fr'],
                 'frCode' => $one['frCode'],
+                'image' => $one['image'],
             ];
 
             EntGuDong::create()->data($insert)->save();
