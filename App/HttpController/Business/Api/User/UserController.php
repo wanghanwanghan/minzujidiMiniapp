@@ -3,6 +3,7 @@
 namespace App\HttpController\Business\Api\User;
 
 use App\HttpController\Business\BusinessBase;
+use App\HttpController\Models\Api\EntGuDong;
 use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Models\Api\Order;
 use App\HttpController\Models\Api\User;
@@ -220,7 +221,46 @@ class UserController extends BusinessBase
     //填写公司信息 - 股东信息
     function addEntGuDong()
     {
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
+        $content = $this->request()->getRequestParam('content') ?? '';
 
+        //$gdmc = $this->request()->getRequestParam('gdmc') ?? '';//股东名称/公司名称
+        //$code = $this->request()->getRequestParam('code') ?? '';//身份证/统一代码
+        //$type = $this->request()->getRequestParam('type') ?? '';//投资人类型
+        //$cze = $this->request()->getRequestParam('cze') ?? '';//出资额
+        //$czfs = $this->request()->getRequestParam('czfs') ?? '';//出资方式
+        //$czzb = $this->request()->getRequestParam('czzb') ?? '';//出资占比
+        //$czsj = $this->request()->getRequestParam('czsj') ?? '';//出资时间
+        //$gdbj = $this->request()->getRequestParam('gdbj') ?? '';//股东背景
+        //$csfx = $this->request()->getRequestParam('csfx') ?? '';//从事方向
+        //$fr = $this->request()->getRequestParam('fr') ?? '';//法人名称
+        //$frCode = $this->request()->getRequestParam('frCode') ?? '';//法人身份证
+
+        EntGuDong::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
+            $builder->where('orderId',$orderId);
+        });
+
+        foreach (json_decode($content) as $one)
+        {
+            $insert = [
+                'orderId' => $one['orderId'],
+                'gdmc' => $one['gdmc'],
+                'code' => $one['code'],
+                'type' => $one['type'],
+                'cze' => $one['cze'],
+                'czfs' => $one['czfs'],
+                'czzb' => $one['czzb'],
+                'czsj' => $one['czsj'],
+                'gdbj' => $one['gdbj'],
+                'csfx' => $one['csfx'],
+                'fr' => $one['fr'],
+                'frCode' => $one['frCode'],
+            ];
+
+            EntGuDong::create()->data($insert)->save();
+        }
+
+        return $this->writeJson(200,null,$insert,'成功');
     }
 
 

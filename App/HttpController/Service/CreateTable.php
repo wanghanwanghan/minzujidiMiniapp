@@ -210,6 +210,7 @@ class CreateTable extends ServiceBase
             $table->colVarChar('czzb', 50)->setDefaultValue('')->setColumnComment('出资占比');
             $table->colVarChar('czsj', 50)->setDefaultValue('')->setColumnComment('出资时间');
             $table->colText('gdbj')->setColumnComment('股东背景');
+            $table->colText('csfx')->setColumnComment('从事方向');
             $table->colVarChar('fr', 50)->setDefaultValue('')->setColumnComment('法人名称');
             $table->colVarChar('frCode', 50)->setDefaultValue('')->setColumnComment('法人身份证');
             $table->colVarChar('image', 255)->setDefaultValue('')->setColumnComment('身份证照片/营业执照照片');

@@ -80,20 +80,8 @@
 地址:api/v1/user/addEntGuDong
 方法:get/post
 参数:
-     phone = 13800138000，用户手机号
      orderId = XXX，用订单号区分是要上传哪个公司的材料
-     regEntName = XXX，注册公司名，逗号分割
-     hy = XXX，公司行业
-     jyfw = XXX，经营范围
-     gdmc = XXX，股东名称，逗号分割
-     gdbj = XXX，股东背景
-     zyyw = XXX，拟主营业务或产品
-     zczb = XXX，拟注册资本
-     ztz = XXX，预计总投资
-     xmnr = XXX，项目内容
-     tzjgmc = XXX，投资机构名称
-     tzjgbj = XXX，投资机构背景
-     tzfx = XXX，投资方向
+     content = XXX，股东信息拼成的json字符串
 //======================================================================================================================
 
 
