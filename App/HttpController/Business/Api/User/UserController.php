@@ -243,7 +243,7 @@ class UserController extends BusinessBase
         foreach (json_decode($content) as $one)
         {
             $insert = [
-                'orderId' => $one['orderId'],
+                'orderId' => $orderId,
                 'gdmc' => $one['gdmc'],
                 'code' => $one['code'],
                 'type' => $one['type'],
