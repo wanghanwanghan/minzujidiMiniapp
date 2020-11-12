@@ -69,15 +69,9 @@
      regEntName = XXX，注册公司名，逗号分割
      hy = XXX，公司行业
      jyfw = XXX，经营范围
-     gdmc = XXX，股东名称，逗号分割
-     gdbj = XXX，股东背景
      zyyw = XXX，拟主营业务或产品
      zczb = XXX，拟注册资本
-     ztz = XXX，预计总投资
-     xmnr = XXX，项目内容
-     tzjgmc = XXX，投资机构名称
-     tzjgbj = XXX，投资机构背景
-     tzfx = XXX，投资方向
+     image = XXX，营业执照照片
 //======================================================================================================================
 描述:用户 填写公司信息 - 股东信息
 地址:api/v1/user/addEntGuDong

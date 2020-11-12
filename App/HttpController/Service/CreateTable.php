@@ -174,11 +174,6 @@ class CreateTable extends ServiceBase
             $table->colText('jyfw')->setColumnComment('经营范围');
             $table->colVarChar('zyyw', 100)->setDefaultValue('')->setColumnComment('拟主营业务或产品');
             $table->colVarChar('zczb', 100)->setDefaultValue('')->setColumnComment('拟注册资本');
-            $table->colVarChar('ztz', 100)->setDefaultValue('')->setColumnComment('预计总投资');
-            $table->colText('xmnr')->setColumnComment('项目内容');
-            $table->colVarChar('tzjgmc', 100)->setDefaultValue('')->setColumnComment('投资机构名称');
-            $table->colText('tzjgbj')->setColumnComment('投资机构背景');
-            $table->colText('tzfx')->setColumnComment('投资方向');
             $table->colVarChar('image', 255)->setDefaultValue('')->setColumnComment('营业执照照片');
             $table->colInt('created_at', 11)->setIsUnsigned()->setDefaultValue(0);
             $table->colInt('updated_at', 11)->setIsUnsigned()->setDefaultValue(0);
