@@ -3,13 +3,14 @@
 namespace App\HttpController\Business\Api\User;
 
 use App\HttpController\Business\BusinessBase;
-use App\HttpController\Models\Api\EntDetail;
+use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Models\Api\Order;
 use App\HttpController\Models\Api\User;
 use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
 use App\HttpController\Service\UploadFile\UploadFileService;
+use EasySwoole\Mysqli\QueryBuilder;
 use EasySwoole\RedisPool\Redis;
 
 class UserController extends BusinessBase
@@ -178,32 +179,53 @@ class UserController extends BusinessBase
         return $this->writeJson(200,null,$res,'成功');
     }
 
-    //填写公司信息
-    function addEntDetail()
+    //填写公司信息 - 基本信息
+    function addEntInfo()
     {
-        $phone = $this->request()->getRequestParam('phone') ?? '';
+        //            $table->setTableComment('基本信息')->setTableEngine(Engine::INNODB)->setTableCharset(Character::UTF8MB4_GENERAL_CI);
+        //            $table->colInt('id', 11)->setIsAutoIncrement()->setIsUnsigned()->setIsPrimaryKey()->setColumnComment('主键');
+        //            $table->colVarChar('orderId', 50)->setDefaultValue('')->setColumnComment('订单号');
+        //            $table->colVarChar('entName', 100)->setDefaultValue('')->setColumnComment('企业名称');
+        //            $table->colVarChar('phone', 20)->setDefaultValue('');
+        //            $table->colVarChar('regEntName', 100)->setDefaultValue('')->setColumnComment('注册企业名称，逗号分割');
+        //            $table->colVarChar('hy', 100)->setDefaultValue('')->setColumnComment('公司行业');
+        //            $table->colText('jyfw')->setColumnComment('经营范围');
+        //            $table->colVarChar('zyyw', 100)->setDefaultValue('')->setColumnComment('拟主营业务或产品');
+        //            $table->colVarChar('zczb', 100)->setDefaultValue('')->setColumnComment('拟注册资本');
+        //            $table->colVarChar('ztz', 100)->setDefaultValue('')->setColumnComment('预计总投资');
+        //            $table->colText('xmnr')->setColumnComment('项目内容');
+        //            $table->colVarChar('tzjgmc', 100)->setDefaultValue('')->setColumnComment('投资机构名称');
+        //            $table->colText('tzjgbj')->setColumnComment('投资机构背景');
+        //            $table->colText('tzfx')->setColumnComment('投资方向');
+        //            $table->colVarChar('image', 255)->setDefaultValue('')->setColumnComment('营业执照照片');
+        //            $table->colInt('created_at', 11)->setIsUnsigned()->setDefaultValue(0);
+        //            $table->colInt('updated_at', 11)->setIsUnsigned()->setDefaultValue(0);
+        //            $table->indexNormal('orderId_index','orderId');
+
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
-        $regEntName = $this->request()->getRequestParam('regEntName') ?? '';//注册公司名，逗号分割
-        $hy = $this->request()->getRequestParam('hy') ?? '';//公司行业
-        $jyfw = $this->request()->getRequestParam('jyfw') ?? '';//经营范围
-        $gdmc = $this->request()->getRequestParam('gdmc') ?? '';//股东名称，逗号分割
-        $gdbj = $this->request()->getRequestParam('gdbj') ?? '';//股东背景
-        $zyyw = $this->request()->getRequestParam('zyyw') ?? '';//拟主营业务或产品
-        $zczb = $this->request()->getRequestParam('zczb') ?? '';//拟注册资本
-        $ztz = $this->request()->getRequestParam('ztz') ?? '';//预计总投资
-        $xmnr = $this->request()->getRequestParam('xmnr') ?? '';//项目内容
-        $tzjgmc = $this->request()->getRequestParam('tzjgmc') ?? '';//投资机构名称
-        $tzjgbj = $this->request()->getRequestParam('tzjgbj') ?? '';//投资机构背景
-        $tzfx = $this->request()->getRequestParam('tzfx') ?? '';//投资方向
+        $phone = $this->request()->getRequestParam('phone') ?? '';
+        $regEntName = $this->request()->getRequestParam('regEntName') ?? '';
+        $hy = $this->request()->getRequestParam('hy') ?? '';
+        $jyfw = $this->request()->getRequestParam('jyfw') ?? '';
+        $zyyw = $this->request()->getRequestParam('zyyw') ?? '';
+        $zczb = $this->request()->getRequestParam('zczb') ?? '';
+        $ztz = $this->request()->getRequestParam('ztz') ?? '';
+        $xmnr = $this->request()->getRequestParam('xmnr') ?? '';
+        $tzjgmc = $this->request()->getRequestParam('tzjgmc') ?? '';
+        $tzjgbj = $this->request()->getRequestParam('tzjgbj') ?? '';
+        $tzfx = $this->request()->getRequestParam('tzfx') ?? '';
+        $image = $this->request()->getRequestParam('image') ?? '';
+
+        EntInfo::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
+            $builder->where('orderId',$orderId);
+        });
 
         $insert = [
-            'phone' => $phone,
             'orderId' => $orderId,
+            'phone' => $phone,
             'regEntName' => $regEntName,
             'hy' => $hy,
             'jyfw' => $jyfw,
-            'gdmc' => $gdmc,
-            'gdbj' => $gdbj,
             'zyyw' => $zyyw,
             'zczb' => $zczb,
             'ztz' => $ztz,
@@ -211,13 +233,19 @@ class UserController extends BusinessBase
             'tzjgmc' => $tzjgmc,
             'tzjgbj' => $tzjgbj,
             'tzfx' => $tzfx,
+            'image' => $image,
         ];
 
-        EntDetail::create()->data($insert)->save();
+        EntInfo::create()->data($insert)->save();
 
         return $this->writeJson(200,null,$insert,'成功');
     }
 
+    //填写公司信息 - 股东信息
+    function addEntGuDong()
+    {
+
+    }
 
 
 

@@ -4,9 +4,9 @@ namespace App\HttpController\Models\Api;
 
 use App\HttpController\Models\ModelBase;
 
-class EntDetail extends ModelBase
+class EntInfo extends ModelBase
 {
-    protected $tableName = 'miniapp_ent_detail';
+    protected $tableName = 'miniapp_ent_info';
 
     protected $autoTimeStamp = true;
     protected $createTime = 'created_at';
