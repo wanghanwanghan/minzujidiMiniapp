@@ -103,10 +103,10 @@ class UserController extends BusinessBase
         $jsCode = $this->request()->getRequestParam('jsCode') ?? '';
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
 
-        $info = Order::create()->where('orderId',$orderId)->get();
+        $info = Order::create()->where('orderId', $orderId)->get();
 
         //创建小程序支付对象
-        $payObj = (new wxPayService())->miniAppPay($jsCode, $orderId, $info->finalPrice,'民族基地');
+        $payObj = (new wxPayService())->miniAppPay($jsCode, $orderId, $info->finalPrice, '民族基地');
 
         return $this->writeJson(200, null, $payObj, '成功');
     }
@@ -119,17 +119,15 @@ class UserController extends BusinessBase
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 10;
 
-        $list = Order::create()->where('phone',$phone)->where('userType',$userType)->order('created_at','desc')
-            ->limit($this->exprOffset($page,$pageSize),$pageSize)->all();
+        $list = Order::create()->where('phone', $phone)->where('userType', $userType)->order('created_at', 'desc')
+            ->limit($this->exprOffset($page, $pageSize), $pageSize)->all();
 
-        $list = json_decode(json_encode($list),true);
+        $list = json_decode(json_encode($list), true);
 
         empty($list) ? $list = null : null;
 
-        foreach ($list as &$one)
-        {
-            switch ($one['status'])
-            {
+        foreach ($list as &$one) {
+            switch ($one['status']) {
                 case '1':
                     $one['statusWord'] = '待确认';
                     break;
@@ -147,11 +145,11 @@ class UserController extends BusinessBase
                     break;
             }
 
-            $one['created_atWord'] = date('Y-m-d H:i:s',$one['created_at']);
+            $one['created_atWord'] = date('Y-m-d H:i:s', $one['created_at']);
         }
         unset($one);
 
-        $total = Order::create()->where('phone',$phone)->where('userType',$userType)->count();
+        $total = Order::create()->where('phone', $phone)->where('userType', $userType)->count();
 
         $page = [
             'page' => $page,
@@ -159,7 +157,7 @@ class UserController extends BusinessBase
             'total' => $total
         ];
 
-        return $this->writeJson(200,$page,$list,'成功');
+        return $this->writeJson(200, $page, $list, '成功');
     }
 
     //上传文件
@@ -170,14 +168,14 @@ class UserController extends BusinessBase
         $type = $this->request()->getRequestParam('type') ?? '';
         $filename = $this->request()->getRequestParam('filename') ?? '';
 
-        if (empty($phone) || !is_numeric($phone) || strlen($phone) != 11) return $this->writeJson(201,null,null,'手机错误');
-        if (empty($orderId)) return $this->writeJson(201,null,null,'订单号错误');
-        if (empty($type) || !is_numeric($type) || strlen($type) != 1) return $this->writeJson(201,null,null,'文件类型错误');
-        if (empty($filename)) return $this->writeJson(201,null,null,'文件名称错误');
+        if (empty($phone) || !is_numeric($phone) || strlen($phone) != 11) return $this->writeJson(201, null, null, '手机错误');
+        if (empty($orderId)) return $this->writeJson(201, null, null, '订单号错误');
+        if (empty($type) || !is_numeric($type) || strlen($type) != 1) return $this->writeJson(201, null, null, '文件类型错误');
+        if (empty($filename)) return $this->writeJson(201, null, null, '文件名称错误');
 
-        $res = UploadFileService::getInstance()->uploadFile($filename,$orderId,$phone,$type);
+        $res = UploadFileService::getInstance()->uploadFile($filename, $orderId, $phone, $type);
 
-        return $this->writeJson(200,null,$res,'成功');
+        return $this->writeJson(200, null, $res, '成功');
     }
 
     //填写公司信息 - 基本信息
@@ -196,7 +194,7 @@ class UserController extends BusinessBase
         $jbrCode = $this->request()->getRequestParam('jbrCode') ?? '';//经办人身份证号
 
         EntInfo::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
-            $builder->where('orderId',$orderId);
+            $builder->where('orderId', $orderId);
         });
 
         $insert = [
@@ -215,62 +213,52 @@ class UserController extends BusinessBase
 
         EntInfo::create()->data($insert)->save();
 
-        return $this->writeJson(200,null,$insert,'成功');
+        return $this->writeJson(200, null, $insert, '成功');
     }
 
     //填写公司信息 - 股东信息
     function addEntGuDong()
     {
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
-        $content = $this->request()->getRequestParam('content') ?? '';
+        $gdmc = $this->request()->getRequestParam('gdmc') ?? '';//股东名称/公司名称
+        $code = $this->request()->getRequestParam('code') ?? '';//身份证/统一代码
+        $type = $this->request()->getRequestParam('type') ?? '';//投资人类型
+        $cze = $this->request()->getRequestParam('cze') ?? '';//出资额
+        $czfs = $this->request()->getRequestParam('czfs') ?? '';//出资方式
+        $czzb = $this->request()->getRequestParam('czzb') ?? '';//出资占比
+        $czsj = $this->request()->getRequestParam('czsj') ?? '';//出资时间
+        $gdbj = $this->request()->getRequestParam('gdbj') ?? '';//股东背景
+        $csfx = $this->request()->getRequestParam('csfx') ?? '';//从事方向
+        $fr = $this->request()->getRequestParam('fr') ?? '';//法人名称
+        $frCode = $this->request()->getRequestParam('frCode') ?? '';//法人身份证
+        $image = $this->request()->getRequestParam('image') ?? '';//照片
+        $random = $this->request()->getRequestParam('random') ?? '';//随机数
 
-        //$gdmc = $this->request()->getRequestParam('gdmc') ?? '';//股东名称/公司名称
-        //$code = $this->request()->getRequestParam('code') ?? '';//身份证/统一代码
-        //$type = $this->request()->getRequestParam('type') ?? '';//投资人类型
-        //$cze = $this->request()->getRequestParam('cze') ?? '';//出资额
-        //$czfs = $this->request()->getRequestParam('czfs') ?? '';//出资方式
-        //$czzb = $this->request()->getRequestParam('czzb') ?? '';//出资占比
-        //$czsj = $this->request()->getRequestParam('czsj') ?? '';//出资时间
-        //$gdbj = $this->request()->getRequestParam('gdbj') ?? '';//股东背景
-        //$csfx = $this->request()->getRequestParam('csfx') ?? '';//从事方向
-        //$fr = $this->request()->getRequestParam('fr') ?? '';//法人名称
-        //$frCode = $this->request()->getRequestParam('frCode') ?? '';//法人身份证
-        //$image = $this->request()->getRequestParam('image') ?? '';//照片
-
-        EntGuDong::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
-            $builder->where('orderId',$orderId);
+        EntGuDong::create()->destroy(function (QueryBuilder $builder) use ($orderId, $random) {
+            $builder->where('orderId', $orderId)->where('random', $random, '<>');
         });
 
-        foreach (json_decode($content) as $one)
-        {
-            $insert = [
-                'orderId' => $orderId,
-                'gdmc' => $one['gdmc'],
-                'code' => $one['code'],
-                'type' => $one['type'],
-                'cze' => $one['cze'],
-                'czfs' => $one['czfs'],
-                'czzb' => $one['czzb'],
-                'czsj' => $one['czsj'],
-                'gdbj' => $one['gdbj'],
-                'csfx' => $one['csfx'],
-                'fr' => $one['fr'],
-                'frCode' => $one['frCode'],
-                'image' => $one['image'],
-            ];
+        $insert = [
+            'orderId' => $orderId,
+            'gdmc' => $gdmc,
+            'code' => $code,
+            'type' => $type,
+            'cze' => $cze,
+            'czfs' => $czfs,
+            'czzb' => $czzb,
+            'czsj' => $czsj,
+            'gdbj' => $gdbj,
+            'csfx' => $csfx,
+            'fr' => $fr,
+            'frCode' => $frCode,
+            'image' => $image,
+            'random' => $random,
+        ];
 
-            EntGuDong::create()->data($insert)->save();
-        }
+        EntGuDong::create()->data($insert)->save();
 
-        return $this->writeJson(200,null,$insert,'成功');
+        return $this->writeJson(200, null, $insert, '成功');
     }
-
-
-
-
-
-
-
 
 
 }
