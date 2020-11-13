@@ -76,8 +76,8 @@ class CommonService extends ServiceBase
 
         //设置文本或者html格式
         $mimeBean = new Html();
-        $mimeBean->setSubject('测试标题');
-        $mimeBean->setBody('测试内容');
+        $mimeBean->setSubject('民族基地');
+        $mimeBean->setBody('');
 
         //添加附件
         if (!empty($addAttachment)) {
