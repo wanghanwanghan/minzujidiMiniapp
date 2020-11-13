@@ -201,13 +201,13 @@ class UserController extends BusinessBase
             {
                 switch ($one['status'])
                 {
-                    case '0':
+                    case 0:
                         $one['statusWord'] = '已上传';
                         break;
-                    case '1':
+                    case 1:
                         $one['statusWord'] = '等待确认';
                         break;
-                    case '2':
+                    case 2:
                         $one['statusWord'] = '等您确认';
                         break;
                 }
