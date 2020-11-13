@@ -194,6 +194,26 @@ class UserController extends BusinessBase
 
         $res = json_decode(json_encode($res), true);
 
+        if (!empty($res))
+        {
+            foreach ($res as &$one)
+            {
+                switch ($one['status'])
+                {
+                    case '0':
+                        $one['statusWord'] = '已上传';
+                        break;
+                    case '1':
+                        $one['statusWord'] = '等待确认';
+                        break;
+                    case '2':
+                        $one['statusWord'] = '等您确认';
+                        break;
+                }
+            }
+            unset($one);
+        }
+
         return $this->writeJson(200, null, $res, '成功');
     }
 
