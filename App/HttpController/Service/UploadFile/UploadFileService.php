@@ -11,8 +11,9 @@ class UploadFileService extends ServiceBase
 {
     use Singleton;
 
-    const STATUS_1 = 1;
-    const STATUS_2 = 2;
+    const STATUS_0 = 0;//已上传
+    const STATUS_1 = 1;//等确认
+    const STATUS_2 = 2;//等您确认
     const STATUS_3 = 3;
     const STATUS_4 = 4;
     const STATUS_5 = 5;
@@ -21,7 +22,7 @@ class UploadFileService extends ServiceBase
     const STATUS_8 = 8;
     const STATUS_9 = 9;
 
-    function uploadFile($filename, $orderId, $phone, $type)
+    function uploadFile($filename, $orderId, $phone, $type,$status = 0)
     {
         $filename = explode(',', trim($filename));
 
@@ -44,8 +45,6 @@ class UploadFileService extends ServiceBase
 
             UploadFile::create()->data($insert)->save();
 
-            $res = UploadFile::create()->where('orderId',$orderId)->get();
-
         }else
         {
             //如果存在就更新
@@ -53,10 +52,11 @@ class UploadFileService extends ServiceBase
                 'fileNum' => $fileNum,
                 'filename' => implode(',', $filename),
                 //'status' => QueryBuilder::inc(1),//自增1
+                'status' => $status,
             ]);
-
-            $res = UploadFile::create()->where('orderId',$orderId)->get();
         }
+
+        $res = UploadFile::create()->where('orderId',$orderId)->get();
 
         return $res;
     }

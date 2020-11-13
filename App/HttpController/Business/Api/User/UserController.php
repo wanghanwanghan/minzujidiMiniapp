@@ -174,7 +174,9 @@ class UserController extends BusinessBase
         if (empty($type) || !is_numeric($type) || strlen($type) != 1) return $this->writeJson(201, null, null, '文件类型错误');
         if (empty($filename)) return $this->writeJson(201, null, null, '文件名称错误');
 
-        $res = UploadFileService::getInstance()->uploadFile($filename, $orderId, $phone, $type);
+        $type == 6 ? $status = 1 : $status = 0;
+
+        $res = UploadFileService::getInstance()->uploadFile($filename, $orderId, $phone, $type, $status);
 
         return $this->writeJson(200, null, $res, '成功');
     }
@@ -188,9 +190,9 @@ class UserController extends BusinessBase
         if (empty($phone) || !is_numeric($phone) || strlen($phone) != 11) return $this->writeJson(201, null, null, '手机错误');
         if (empty($orderId)) return $this->writeJson(201, null, null, '订单号错误');
 
-        $res = UploadFile::create()->where('phone',$phone)->where('orderId',$orderId)->all();
+        $res = UploadFile::create()->where('phone', $phone)->where('orderId', $orderId)->all();
 
-        $res = json_decode(json_encode($res),true);
+        $res = json_decode(json_encode($res), true);
 
         return $this->writeJson(200, null, $res, '成功');
     }
