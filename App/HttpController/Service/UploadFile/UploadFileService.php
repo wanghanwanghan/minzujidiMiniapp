@@ -39,7 +39,8 @@ class UploadFileService extends ServiceBase
                 'phone' => $phone,
                 'type' => $type,
                 'fileNum' => $fileNum,
-                'filename' => implode(',', $filename)
+                'filename' => implode(',', $filename),
+                'status' => $status,
             ];
 
             UploadFile::create()->data($insert)->save();
