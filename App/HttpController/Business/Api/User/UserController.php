@@ -210,6 +210,7 @@ class UserController extends BusinessBase
                         $one['statusWord'] = '等您确认';
                         break;
                 }
+                $one['created_atWord'] = date('Y-m-d H:i:s',$one['created_at']);
             }
             unset($one);
         }
