@@ -6,6 +6,7 @@ use App\HttpController\Business\BusinessBase;
 use App\HttpController\Models\Api\EntGuDong;
 use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Models\Api\Order;
+use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Models\Api\User;
 use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\OrderService;
@@ -174,6 +175,22 @@ class UserController extends BusinessBase
         if (empty($filename)) return $this->writeJson(201, null, null, '文件名称错误');
 
         $res = UploadFileService::getInstance()->uploadFile($filename, $orderId, $phone, $type);
+
+        return $this->writeJson(200, null, $res, '成功');
+    }
+
+    //获取上传文件列表
+    function uploadFileList()
+    {
+        $phone = $this->request()->getRequestParam('phone') ?? '';
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
+
+        if (empty($phone) || !is_numeric($phone) || strlen($phone) != 11) return $this->writeJson(201, null, null, '手机错误');
+        if (empty($orderId)) return $this->writeJson(201, null, null, '订单号错误');
+
+        $res = UploadFile::create()->where('phone',$phone)->where('orderId',$orderId)->all();
+
+        $res = json_decode(json_encode($res),true);
 
         return $this->writeJson(200, null, $res, '成功');
     }
