@@ -310,6 +310,10 @@ class UserController extends BusinessBase
         $fileType = $this->request()->getRequestParam('fileType') ?? '';
         $email = $this->request()->getRequestParam('email') ?? 'minglongoc@me.com';
 
+        $user = User::create()->where('phone',$phone)->get();
+
+        $email = $user->email;
+
         switch ($fileType)
         {
             case '5':
