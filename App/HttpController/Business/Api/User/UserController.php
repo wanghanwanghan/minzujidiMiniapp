@@ -312,11 +312,11 @@ class UserController extends BusinessBase
 
         switch ($fileType)
         {
-            case '1':
-                $file = STATIC_PATH.'xieyi.zip';
-                break;
-            case '2':
+            case '5':
                 $file = STATIC_PATH.'xinxibiao.zip';
+                break;
+            case '6':
+                $file = STATIC_PATH.'xieyi.zip';
                 break;
             default:
                 $file = null;
