@@ -8,6 +8,7 @@ use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Models\Api\Order;
 use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Models\Api\User;
+use App\HttpController\Service\CommonService;
 use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
@@ -300,5 +301,30 @@ class UserController extends BusinessBase
         return $this->writeJson(200, null, $insert, '成功');
     }
 
+    //下载文件
+    function downloadFile()
+    {
+        $phone = $this->request()->getRequestParam('phone') ?? '';
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
+        $downloadType = $this->request()->getRequestParam('downloadType') ?? '';
+        $fileType = $this->request()->getRequestParam('fileType') ?? '';
+        $email = $this->request()->getRequestParam('email') ?? 'minglongoc@me.com';
+
+        switch ($fileType)
+        {
+            case '1':
+                $file = STATIC_PATH.'xieyi.zip';
+                break;
+            case '2':
+                $file = STATIC_PATH.'xinxibiao.zip';
+                break;
+            default:
+                $file = null;
+        }
+
+        $downloadType != 1 ?: CommonService::getInstance()->sendEmail($email,[$file]);
+
+        return $this->writeJson(200,null,$file,'成功');
+    }
 
 }

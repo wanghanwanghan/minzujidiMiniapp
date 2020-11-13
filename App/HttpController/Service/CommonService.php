@@ -2,8 +2,14 @@
 
 namespace App\HttpController\Service;
 
+use App\HttpController\Service\Common\EmailTemplate\Template01;
+use App\HttpController\Service\Common\EmailTemplate\Template02;
 use EasySwoole\Component\Singleton;
 use EasySwoole\RedisPool\Redis;
+use EasySwoole\Smtp\Mailer;
+use EasySwoole\Smtp\MailerConfig;
+use EasySwoole\Smtp\Message\Attach;
+use EasySwoole\Smtp\Message\Html;
 use Qiniu\Auth;
 use Qiniu\Sms\Sms;
 use wanghanwanghan\someUtils\control;
@@ -53,5 +59,36 @@ class CommonService extends ServiceBase
         $redis->set(current($tmp) . $type, $code, 300);
 
         return empty(current($res)) ? '验证码发送失败' : '验证码发送成功';
+    }
+
+    //发送邮件
+    function sendEmail($sendTo, array $addAttachment)
+    {
+        $config = new MailerConfig();
+        $config->setServer('smtp.exmail.qq.com');
+        $config->setSsl(true);
+        $config->setPort(465);
+        $config->setUsername('mail@meirixindong.com');
+        $config->setPassword('1q2w3e4r%T');
+        $config->setMailFrom('mail@meirixindong.com');
+        $config->setTimeout(10);//设置客户端连接超时时间
+        $config->setMaxPackage(1024 * 1024 * 5);//设置包发送的大小：5M
+
+        //设置文本或者html格式
+        $mimeBean = new Html();
+        $mimeBean->setSubject('测试标题');
+        $mimeBean->setBody('测试内容');
+
+        //添加附件
+        if (!empty($addAttachment)) {
+            foreach ($addAttachment as $onePathAndFilename) {
+                $mimeBean->addAttachment(Attach::create($onePathAndFilename));
+            }
+        }
+        $mailer = new Mailer($config);
+        //发送邮件
+        $mailer->sendTo($sendTo, $mimeBean);
+
+        return true;
     }
 }
