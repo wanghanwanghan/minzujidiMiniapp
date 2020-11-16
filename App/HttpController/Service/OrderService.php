@@ -87,6 +87,10 @@ class OrderService extends ServiceBase
 
         try
         {
+            $money = (new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr();
+
+            if ($money <= 0) $insert['status'] = self::ORDER_STATUS_3;
+
             Order::create()->data($insert)->save();
 
         }catch (\Throwable $e)
