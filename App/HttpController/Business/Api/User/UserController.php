@@ -314,7 +314,7 @@ class UserController extends BusinessBase
 
         $email = $user->email;
 
-        $userFile = UploadFile::create()->where('orderId',$orderId)->where('fileType',$fileType)->get();
+        $userFile = UploadFile::create()->where('orderId',$orderId)->where('type',$fileType)->get();
 
         switch ($fileType)
         {
