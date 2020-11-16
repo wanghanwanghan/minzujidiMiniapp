@@ -314,6 +314,8 @@ class UserController extends BusinessBase
 
         $email = $user->email;
 
+        $userFile = UploadFile::create()->where('orderId',$orderId)->where('fileType',$fileType)->get();
+
         switch ($fileType)
         {
             case '5':
@@ -326,7 +328,9 @@ class UserController extends BusinessBase
                 $file = null;
         }
 
-        $downloadType != 1 ?: CommonService::getInstance()->sendEmail($email,[$file]);
+        empty($userFile) ? $sendFile = [$file] : $sendFile = [$file,FILE_PATH.$userFile->filename];
+
+        $downloadType != 1 ?: CommonService::getInstance()->sendEmail($email,$sendFile);
 
         return $this->writeJson(200,null,$file,'成功');
     }
