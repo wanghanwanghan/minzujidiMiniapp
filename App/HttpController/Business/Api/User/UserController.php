@@ -231,8 +231,16 @@ class UserController extends BusinessBase
         $zczb = $this->request()->getRequestParam('zczb') ?? '';//注册资本
         $fr = $this->request()->getRequestParam('fr') ?? '';//注册资本
         $frCode = $this->request()->getRequestParam('frCode') ?? '';//身份证号
+        $frPhone = $this->request()->getRequestParam('frPhone') ?? '';//手机
+        $frTel = $this->request()->getRequestParam('frTel') ?? '';//座机
+        $frAddr = $this->request()->getRequestParam('frAddr') ?? '';//地址
+        $frEmail = $this->request()->getRequestParam('frEmail') ?? '';//邮箱
         $jbr = $this->request()->getRequestParam('jbr') ?? '';//经办人
         $jbrCode = $this->request()->getRequestParam('jbrCode') ?? '';//经办人身份证号
+        $jbrPhone = $this->request()->getRequestParam('jbrCode') ?? '';//经办人手机
+        $jbrTel = $this->request()->getRequestParam('jbrCode') ?? '';//经办人座机
+        $jbrAddr = $this->request()->getRequestParam('jbrCode') ?? '';//经办人地址
+        $jbrEmail = $this->request()->getRequestParam('jbrCode') ?? '';//经办人邮箱
 
         EntInfo::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
             $builder->where('orderId', $orderId);
@@ -248,8 +256,16 @@ class UserController extends BusinessBase
             'zczb' => $zczb,
             'fr' => $fr,
             'frCode' => $frCode,
+            'frPhone' => $frPhone,
+            'frTel' => $frTel,
+            'frAddr' => $frAddr,
+            'frEmail' => $frEmail,
             'jbr' => $jbr,
             'jbrCode' => $jbrCode,
+            'jbrPhone' => $jbrPhone,
+            'jbrTel' => $jbrTel,
+            'jbrAddr' => $jbrAddr,
+            'jbrEmail' => $jbrEmail,
         ];
 
         EntInfo::create()->data($insert)->save();

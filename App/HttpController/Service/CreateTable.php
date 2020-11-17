@@ -177,9 +177,17 @@ class CreateTable extends ServiceBase
             $table->colVarChar('image', 255)->setDefaultValue('')->setColumnComment('营业执照照片');
             $table->colVarChar('fr', 20)->setDefaultValue('')->setColumnComment('法人');
             $table->colVarChar('frCode', 20)->setDefaultValue('')->setColumnComment('身份证');
+            $table->colVarChar('frPhone', 20)->setDefaultValue('')->setColumnComment('手机');
+            $table->colVarChar('frTel', 20)->setDefaultValue('')->setColumnComment('座机');
+            $table->colVarChar('frAddr', 200)->setDefaultValue('')->setColumnComment('地址');
+            $table->colVarChar('frEmail', 50)->setDefaultValue('')->setColumnComment('邮箱');
             $table->colVarChar('frImage', 255)->setDefaultValue('')->setColumnComment('照片');
             $table->colVarChar('jbr', 20)->setDefaultValue('')->setColumnComment('经办人');
             $table->colVarChar('jbrCode', 20)->setDefaultValue('')->setColumnComment('身份证');
+            $table->colVarChar('jbrPhone', 20)->setDefaultValue('')->setColumnComment('手机');
+            $table->colVarChar('jbrTel', 20)->setDefaultValue('')->setColumnComment('座机');
+            $table->colVarChar('jbrAddr', 200)->setDefaultValue('')->setColumnComment('地址');
+            $table->colVarChar('jbrEmail', 50)->setDefaultValue('')->setColumnComment('邮箱');
             $table->colVarChar('jbrImage', 255)->setDefaultValue('')->setColumnComment('照片');
             $table->colInt('created_at', 11)->setIsUnsigned()->setDefaultValue(0);
             $table->colInt('updated_at', 11)->setIsUnsigned()->setDefaultValue(0);

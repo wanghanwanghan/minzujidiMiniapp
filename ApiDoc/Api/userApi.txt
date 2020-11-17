@@ -80,8 +80,16 @@
      zczb = XXX，拟注册资本
      fr = XXX，法人
      frCode = XXX，身份证号
+     frPhone = XXX，手机号
+     frTel = XXX，座机
+     frAddr = XXX，地址
+     frEmail = XXX，邮箱
      jbr = XXX，经办人
      jbrCode = XXX，身份证号
+     jbrPhone = XXX，手机
+     jbrTel = XXX，座机
+     jbrAddr = XXX，地址
+     jbrEmail = XXX，邮箱
 //======================================================================================================================
 描述:用户 下载文件
 地址:api/v1/user/downloadFile

@@ -33,6 +33,8 @@ class ModuleController extends BusinessBase
     //发送验证码
     function vCodeSend()
     {
+        CreateTable::getInstance()->miniapp_ent_info();
+
         $phone = $this->request()->getRequestParam('phone');
         $type = $this->request()->getRequestParam('type');
 
