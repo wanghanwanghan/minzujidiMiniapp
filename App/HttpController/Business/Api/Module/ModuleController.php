@@ -27,14 +27,14 @@ class ModuleController extends BusinessBase
 
         $fee = (new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr();
 
+        CreateTable::getInstance()->miniapp_ent_info();
+
         return $this->writeJson(200,null,['fee'=>$fee],'成功');
     }
 
     //发送验证码
     function vCodeSend()
     {
-        CreateTable::getInstance()->miniapp_ent_info();
-
         $phone = $this->request()->getRequestParam('phone');
         $type = $this->request()->getRequestParam('type');
 
