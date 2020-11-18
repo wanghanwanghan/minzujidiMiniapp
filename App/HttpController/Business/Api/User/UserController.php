@@ -15,6 +15,7 @@ use App\HttpController\Service\Pay\wx\wxPayService;
 use App\HttpController\Service\UploadFile\UploadFileService;
 use EasySwoole\Mysqli\QueryBuilder;
 use EasySwoole\RedisPool\Redis;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class UserController extends BusinessBase
 {
