@@ -53,10 +53,11 @@ class ExprFee extends ServiceBase
     private function newEnt()
     {
         $money = 0;
+
         if ($this->taxType === 1) $money = 5999;
         if ($this->taxType === 2) $money = 7999;
         if ($this->proxy === 1) $money += 2499;
-        if ($this->modifyAddr === 1 && $this->modifyArea === 1) $money += count($this->areaFeeItems) * 600;
+        $money += count($this->areaFeeItems) * 600;
 
         return $money;
     }
