@@ -339,7 +339,7 @@ class UserController extends BusinessBase
                 //企业设立及变更备案信息表
                 //给信息表中加章
                 $docxObj = new TemplateProcessor(STATIC_PATH . 'xinxibiao.docx');
-                $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang.png','width'=>9999,'height'=>150]);
+                $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang.png','width'=>9999,'height'=>180]);
                 $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
                 $file = FILE_PATH . $orderId . '.docx';
                 break;
