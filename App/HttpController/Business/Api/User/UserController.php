@@ -336,7 +336,11 @@ class UserController extends BusinessBase
         {
             case '5':
                 //企业设立及变更备案信息表
-                $file = STATIC_PATH.'xinxibiao.docx';
+                //给信息表中加章
+                $docxObj = new TemplateProcessor(STATIC_PATH . 'xinxibiao.docx');
+                $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang.png', 'width' => 200, 'height' => 40]);
+                $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
+                $file = FILE_PATH . $orderId . '.docx';
                 break;
             case '6':
                 //企业设立登记住所管理协议
