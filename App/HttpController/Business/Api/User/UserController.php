@@ -335,10 +335,12 @@ class UserController extends BusinessBase
         switch ($fileType)
         {
             case '5':
-                $file = STATIC_PATH.'xinxibiao.zip';
+                //企业设立及变更备案信息表
+                $file = STATIC_PATH.'xinxibiao.docx';
                 break;
             case '6':
-                $file = STATIC_PATH.'xieyi.zip';
+                //企业设立登记住所管理协议
+                $file = STATIC_PATH.'xieyi.docx';
                 break;
             default:
                 $file = null;
