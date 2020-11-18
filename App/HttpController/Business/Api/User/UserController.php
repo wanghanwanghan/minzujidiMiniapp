@@ -353,4 +353,20 @@ class UserController extends BusinessBase
         return $this->writeJson(200,null,$file,'成功');
     }
 
+    //办理状态
+    function entStatus()
+    {
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
+
+        $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
+
+        $entName = explode(',',$entInfo->regEntName);
+
+        !is_string($entName) ?: $entName = [$entName];
+
+        $handleStatus = Order::create()->where('orderId',$orderId)->get()->handleStatus;
+
+        return $this->writeJson(200,null,[$entName,$handleStatus],'成功');
+    }
+
 }
