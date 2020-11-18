@@ -364,9 +364,17 @@ class UserController extends BusinessBase
 
         !is_string($entName) ?: $entName = [$entName];
 
-        $handleStatus = Order::create()->where('orderId',$orderId)->get()->handleStatus;
+        $orderInfo = Order::create()->where('orderId',$orderId)->get();
 
-        return $this->writeJson(200,null,[$entName,$handleStatus],'成功');
+        $handleStatus = $orderInfo->handleStatus;
+
+        $handleTime = date('Y-m-d H:i:s',$orderInfo->updated_at);
+
+        $res['entName'] = $entName;
+        $res['handleStatus'] = $handleStatus;
+        $res['handleTime'] = $handleTime;
+
+        return $this->writeJson(200,null,$res,'成功');
     }
 
 }
