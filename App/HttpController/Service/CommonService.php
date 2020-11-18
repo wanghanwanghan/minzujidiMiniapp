@@ -2,8 +2,6 @@
 
 namespace App\HttpController\Service;
 
-use App\HttpController\Service\Common\EmailTemplate\Template01;
-use App\HttpController\Service\Common\EmailTemplate\Template02;
 use EasySwoole\Component\Singleton;
 use EasySwoole\RedisPool\Redis;
 use EasySwoole\Smtp\Mailer;
@@ -18,8 +16,8 @@ class CommonService extends ServiceBase
 {
     use Singleton;
 
-    private $ak = 'qkAGCPMeecr8hCJER5JcamUPwGFcbq7sKAS2QemL';
-    private $sk = 'dYNKNeodv0YDHIDaV_Iw-t8fuUqZSSSdlidZCYot';
+    private $ak = 'nIwv9FzOsr2xcAikWfWCG66dr7xfrvitYWAKBeVP';
+    private $sk = '-H30p4scEq3kMdSLR2j0RdLoeR7AICvVwRtq9hWD';
 
     function __construct()
     {
@@ -50,7 +48,7 @@ class CommonService extends ServiceBase
         mt_srand();
         $code = mt_rand(100000, 999999);
 
-        $res = $client->sendMessage('1314418176716455936', $tmp, ['code' => $code]);
+        $res = $client->sendMessage('1328986196495314944', $tmp, ['code' => $code]);
 
         $redis = Redis::defer('redis');
 
