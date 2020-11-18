@@ -387,7 +387,10 @@ class UserController extends BusinessBase
                 $handleStatus = '正在办理';
         }
 
+        $fileType1 = UploadFile::create()->where('orderId',$orderId)->where('type',1)->get();
+
         $res['entName'] = $entName;
+        $res['fileType1'] = empty($fileType1) ? 0 : 1;
         $res['handleStatus'] = $handleStatus;
         $res['handleTime'] = $handleTime;
 
