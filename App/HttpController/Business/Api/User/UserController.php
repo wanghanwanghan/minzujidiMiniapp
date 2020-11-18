@@ -370,6 +370,18 @@ class UserController extends BusinessBase
 
         $handleTime = date('Y-m-d H:i:s',$orderInfo->updated_at);
 
+        switch ($handleStatus)
+        {
+            case '0':
+                $handleStatus = '正在办理';
+                break;
+            case '1':
+                $handleStatus = '办理中';
+                break;
+            default:
+                $handleStatus = '正在办理';
+        }
+
         $res['entName'] = $entName;
         $res['handleStatus'] = $handleStatus;
         $res['handleTime'] = $handleTime;
