@@ -217,7 +217,12 @@ class UserController extends BusinessBase
             unset($one);
         }
 
-        return $this->writeJson(200, null, $res, '成功');
+        //需不需要核名
+        $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
+
+        $paging['regEntName'] = $entInfo->regEntName;
+
+        return $this->writeJson(200, $paging, $res, '成功');
     }
 
     //填写公司信息 - 基本信息
@@ -395,6 +400,22 @@ class UserController extends BusinessBase
         $res['handleTime'] = $handleTime;
 
         return $this->writeJson(200,null,$res,'成功');
+    }
+
+    //上传文件页面
+    function uploadFilePage()
+    {
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
+        $phone = $this->request()->getRequestParam('phone') ?? '';
+
+
+
+
+
+
+
+
+        return $this->writeJson(200,null,[],'成功');
     }
 
 }
