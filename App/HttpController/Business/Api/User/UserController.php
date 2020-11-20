@@ -220,7 +220,7 @@ class UserController extends BusinessBase
         //需不需要核名
         $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
 
-        $paging['regEntName'] = $entInfo->regEntName;
+        $paging['regEntName'] = strpos($entInfo->regEntName,',') !== false ? 1 : 0;
 
         return $this->writeJson(200, $paging, $res, '成功');
     }
