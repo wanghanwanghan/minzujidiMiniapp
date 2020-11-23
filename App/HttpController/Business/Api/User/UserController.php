@@ -350,7 +350,7 @@ class UserController extends BusinessBase
             case '6':
                 //企业设立登记住所管理协议
                 $docxObj = new TemplateProcessor(STATIC_PATH . 'xieyi.docx');
-                $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang_heng.png','width'=>9999,'height'=>180]);
+                $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang.png','width'=>9999,'height'=>180]);
                 $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
                 $file = FILE_PATH . $orderId . '.docx';
                 break;
