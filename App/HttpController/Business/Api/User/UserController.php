@@ -385,13 +385,16 @@ class UserController extends BusinessBase
         switch ($handleStatus)
         {
             case '0':
-                $handleStatus = '正在办理';
+                $handleStatus = '审核中';
                 break;
             case '1':
-                $handleStatus = '办理中';
+                $handleStatus = '审核失败';
                 break;
             case '2':
-                $handleStatus = '审核失败';
+                $handleStatus = '正在办理';
+                break;
+            case '3':
+                $handleStatus = '办理成功';
                 break;
             default:
                 $handleStatus = '正在办理';
