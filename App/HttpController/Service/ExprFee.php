@@ -57,7 +57,14 @@ class ExprFee extends ServiceBase
         if ($this->taxType === 1) $money = 5999;
         if ($this->taxType === 2) $money = 7999;
         if ($this->proxy === 1) $money += 2499;
-        $money += count($this->areaFeeItems) * 600;
+
+        if (in_array('1',$this->areaFeeItems))
+        {
+            $money += (count($this->areaFeeItems) - 1) * 600;
+        }else
+        {
+            $money += count($this->areaFeeItems) * 600;
+        }
 
         return $money;
     }

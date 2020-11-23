@@ -331,7 +331,7 @@ class UserController extends BusinessBase
     {
         $phone = $this->request()->getRequestParam('phone') ?? '';
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
-        $downloadType = $this->request()->getRequestParam('downloadType') ?? '';
+        $downloadType = $this->request()->getRequestParam('downloadType') ?? 1;
         $fileType = $this->request()->getRequestParam('fileType') ?? '';
         $email = $this->request()->getRequestParam('email') ?? 'minglongoc@me.com';
 
@@ -345,15 +345,14 @@ class UserController extends BusinessBase
         {
             case '5':
                 //企业设立及变更备案信息表
-                //给信息表中加章
-                $docxObj = new TemplateProcessor(STATIC_PATH . 'xinxibiao.docx');
-                $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang.png','width'=>9999,'height'=>180]);
-                $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
-                $file = FILE_PATH . $orderId . '.docx';
+                $file = STATIC_PATH.'xinxibiao.docx';
                 break;
             case '6':
                 //企业设立登记住所管理协议
-                $file = STATIC_PATH.'xieyi.docx';
+                $docxObj = new TemplateProcessor(STATIC_PATH . 'xieyi.docx');
+                $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang_heng.png','width'=>9999,'height'=>180]);
+                $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
+                $file = FILE_PATH . $orderId . '.docx';
                 break;
             default:
                 $file = null;
