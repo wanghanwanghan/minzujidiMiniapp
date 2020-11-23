@@ -222,7 +222,7 @@ class UserController extends BusinessBase
         $paging['regEntName'] = strpos($entInfo->regEntName,',') !== false ? 1 : 0;
 
         //后台审核通过核准单后才让下载协议和信息表
-        $fileInfo = UploadFile::create()->where('order',$orderId)->where('type',1)->where('status',3)->get();
+        $fileInfo = UploadFile::create()->where('orderId',$orderId)->where('type',1)->where('status',3)->get();
         $paging['downloadStatus'] = !empty($fileInfo) ? 1 : 0;
 
         return $this->writeJson(200, $paging, $res, '成功');
