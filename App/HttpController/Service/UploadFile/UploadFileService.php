@@ -14,7 +14,7 @@ class UploadFileService extends ServiceBase
     const STATUS_0 = 0;//已上传
     const STATUS_1 = 1;//等确认
     const STATUS_2 = 2;//等您确认
-    const STATUS_3 = 3;
+    const STATUS_3 = 3;//确认成功
     const STATUS_4 = 4;
     const STATUS_5 = 5;
     const STATUS_6 = 6;
