@@ -390,6 +390,9 @@ class UserController extends BusinessBase
             case '1':
                 $handleStatus = '办理中';
                 break;
+            case '2':
+                $handleStatus = '审核失败';
+                break;
             default:
                 $handleStatus = '正在办理';
         }
@@ -400,6 +403,7 @@ class UserController extends BusinessBase
         $res['fileType1'] = empty($fileType1) ? 0 : 1;
         $res['handleStatus'] = $handleStatus;
         $res['handleTime'] = $handleTime;
+        $res['errInfo'] = $orderInfo->errInfo;
 
         return $this->writeJson(200,null,$res,'成功');
     }
