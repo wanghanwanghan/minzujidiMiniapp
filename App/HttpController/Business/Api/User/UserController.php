@@ -222,7 +222,7 @@ class UserController extends BusinessBase
         $paging['regEntName'] = strpos($entInfo->regEntName,',') !== false ? 1 : 0;
 
         //后台审核通过后才让下载协议和信息表
-        $fileInfo = Order::create()->where('orderId',$orderId)->where('handleStatus',1,'>')->get();
+        $fileInfo = Order::create()->where('orderId',$orderId)->where('handleStatus',2)->get();
         $paging['downloadStatus'] = !empty($fileInfo) ? 1 : 0;
 
         return $this->writeJson(200, $paging, $res, '成功');
@@ -358,12 +358,14 @@ class UserController extends BusinessBase
                 $code = $entInfo->code;
                 $fr = $entInfo->fr;
                 $frCode = $entInfo->frCode;
+                $frPhone = $entInfo->frPhone;
                 $docxObj->setValue('entName',$entName);
                 $docxObj->setValue('tradeType',$tradeType);
                 $docxObj->setValue('regMoney',$regMoney);
                 $docxObj->setValue('code',$code);
                 $docxObj->setValue('fr',$fr);
                 $docxObj->setValue('frCode',$frCode);
+                $docxObj->setValue('frPhone',$frPhone);
 
                 //签字盖章
                 $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang.png','width'=>9999,'height'=>180]);
