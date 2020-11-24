@@ -346,7 +346,44 @@ class UserController extends BusinessBase
         {
             case '5':
                 //企业设立及变更备案信息表
-                $file = STATIC_PATH.'xinxibiao.docx';
+                $docxObj = new TemplateProcessor(STATIC_PATH . 'xinxibiao.docx');
+                $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
+                //公司名称
+                $entName = $entInfo->entName;
+                $tradeType = $entInfo->hy;
+                $regMoney = $entInfo->zczb;
+                $fr = $entInfo->fr;
+                $frCode = $entInfo->frCode;
+                $frPhone = $entInfo->frPhone;
+                $frTel = $entInfo->frTel;
+                $frAddr = $entInfo->frAddr;
+                $frEmail = $entInfo->frEmail;
+                $jbr = $entInfo->jbr;
+                $jbrCode = $entInfo->jbrCode;
+                $jbrPhone = $entInfo->jbrPhone;
+                $jbrTel = $entInfo->jbrTel;
+                $jbrAddr = $entInfo->jbrAddr;
+                $jbrEmail = $entInfo->jbrEmail;
+
+                $docxObj->setValue('entName',$entName);
+                $docxObj->setValue('tradeType',$tradeType);
+                $docxObj->setValue('regMoney',$regMoney);
+                $docxObj->setValue('fr',$fr);
+                $docxObj->setValue('frCode',$frCode);
+                $docxObj->setValue('frPhone',$frPhone);
+                $docxObj->setValue('frTel',$frTel);
+                $docxObj->setValue('frAddr',$frAddr);
+                $docxObj->setValue('frEmail',$frEmail);
+                $docxObj->setValue('jbr',$jbr);
+                $docxObj->setValue('jbrCode',$jbrCode);
+                $docxObj->setValue('jbrPhone',$jbrPhone);
+                $docxObj->setValue('jbrTel',$jbrTel);
+                $docxObj->setValue('jbrAddr',$jbrAddr);
+                $docxObj->setValue('jbrEmail',$jbrEmail);
+
+                //签字盖章
+                $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
+                $file = FILE_PATH . $orderId . '.docx';
                 break;
             case '6':
                 //企业设立登记住所管理协议
