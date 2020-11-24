@@ -13,6 +13,7 @@ use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
 use App\HttpController\Service\UploadFile\UploadFileService;
+use Carbon\Carbon;
 use EasySwoole\Mysqli\QueryBuilder;
 use EasySwoole\RedisPool\Redis;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -359,6 +360,14 @@ class UserController extends BusinessBase
                 $fr = $entInfo->fr;
                 $frCode = $entInfo->frCode;
                 $frPhone = $entInfo->frPhone;
+
+                $sYear = Carbon::now()->year;
+                $sMonth = Carbon::now()->month;
+                $sDay = Carbon::now()->day;
+                $eYear = Carbon::now()->addDays(365)->year;
+                $eMonth = Carbon::now()->addDays(365)->month;
+                $eDay = Carbon::now()->addDays(365)->day;
+
                 $docxObj->setValue('entName',$entName);
                 $docxObj->setValue('tradeType',$tradeType);
                 $docxObj->setValue('regMoney',$regMoney);
@@ -366,6 +375,12 @@ class UserController extends BusinessBase
                 $docxObj->setValue('fr',$fr);
                 $docxObj->setValue('frCode',$frCode);
                 $docxObj->setValue('frPhone',$frPhone);
+                $docxObj->setValue('sYear',$sYear);
+                $docxObj->setValue('sMon',$sMonth);
+                $docxObj->setValue('sDay',$sDay);
+                $docxObj->setValue('eYear',$eYear);
+                $docxObj->setValue('eMon',$eMonth);
+                $docxObj->setValue('eDay',$eDay);
 
                 //签字盖章
                 $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang.png','width'=>9999,'height'=>180]);
