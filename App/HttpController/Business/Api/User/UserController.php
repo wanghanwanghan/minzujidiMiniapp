@@ -221,8 +221,8 @@ class UserController extends BusinessBase
         $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
         $paging['regEntName'] = strpos($entInfo->regEntName,',') !== false ? 1 : 0;
 
-        //后台审核通过核准单后才让下载协议和信息表
-        $fileInfo = UploadFile::create()->where('orderId',$orderId)->where('type',1)->where('status',3)->get();
+        //后台审核通过后才让下载协议和信息表
+        $fileInfo = Order::create()->where('orderId',$orderId)->where('handleStatus',1,'>')->get();
         $paging['downloadStatus'] = !empty($fileInfo) ? 1 : 0;
 
         return $this->writeJson(200, $paging, $res, '成功');
@@ -350,6 +350,22 @@ class UserController extends BusinessBase
             case '6':
                 //企业设立登记住所管理协议
                 $docxObj = new TemplateProcessor(STATIC_PATH . 'xieyi.docx');
+                $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
+                //公司名称
+                $entName = $entInfo->entName;
+                $tradeType = $entInfo->hy;
+                $regMoney = $entInfo->zczb;
+                $code = $entInfo->code;
+                $fr = $entInfo->fr;
+                $frCode = $entInfo->frCode;
+                $docxObj->setValue('entName',$entName);
+                $docxObj->setValue('tradeType',$tradeType);
+                $docxObj->setValue('regMoney',$regMoney);
+                $docxObj->setValue('code',$code);
+                $docxObj->setValue('fr',$fr);
+                $docxObj->setValue('frCode',$frCode);
+
+                //签字盖章
                 $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang.png','width'=>9999,'height'=>180]);
                 $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
                 $file = FILE_PATH . $orderId . '.docx';
