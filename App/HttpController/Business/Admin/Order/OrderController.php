@@ -4,6 +4,7 @@ namespace App\HttpController\Business\Admin\Order;
 
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Models\Api\Order;
+use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
 
 class OrderController extends BusinessBase
