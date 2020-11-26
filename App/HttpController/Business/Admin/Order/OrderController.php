@@ -20,18 +20,23 @@ class OrderController extends BusinessBase
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 10;
 
         $list = Order::create();
+        $total = Order::create();
 
         if (!empty($userType))
         {
             $list->where('userType',$userType);
+            $total->where('userType',$userType);
         }
 
-        $list = $list->withTotalCount()
-            ->order('updated_at','desc')
+        $list = $list->order('updated_at','desc')
             ->limit($this->exprOffset($page,$pageSize),$pageSize)
             ->all();
 
-        return $this->writeJson(200,null,$list);
+        $list = obj2Arr($list);
+
+        $total = $total->count();
+
+        return $this->writeJson(200,$this->createPaging($page,$pageSize,$total),$list);
     }
 
 

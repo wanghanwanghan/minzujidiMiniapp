@@ -46,6 +46,14 @@ class BusinessBase extends Index
         return ($page - 1) * $pageSize;
     }
 
+    function createPaging($page, $pageSize, $total): array
+    {
+        return [
+            'page' => (int)$page,
+            'pageSize' => (int)$pageSize,
+            'total' => (int)$total,
+        ];
+    }
 
 
 
