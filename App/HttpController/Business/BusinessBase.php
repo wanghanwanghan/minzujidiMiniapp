@@ -57,6 +57,4 @@ class BusinessBase extends Index
 
 
 
-
-
 }

@@ -9,6 +9,7 @@ use App\HttpController\Models\Api\Order;
 use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
+use EasySwoole\Mysqli\QueryBuilder;
 
 class OrderController extends BusinessBase
 {
@@ -27,21 +28,20 @@ class OrderController extends BusinessBase
         $list = Order::create();
         $total = Order::create();
 
-        if (!empty($userType))
-        {
-            $list->where('userType',$userType);
-            $total->where('userType',$userType);
+        if (!empty($userType)) {
+            $list->where('userType', $userType);
+            $total->where('userType', $userType);
         }
 
-        $list = $list->order('updated_at','desc')
-            ->limit($this->exprOffset($page,$pageSize),$pageSize)
+        $list = $list->order('updated_at', 'desc')
+            ->limit($this->exprOffset($page, $pageSize), $pageSize)
             ->all();
 
         $list = obj2Arr($list);
 
         $total = $total->count();
 
-        return $this->writeJson(200,$this->createPaging($page,$pageSize,$total),$list);
+        return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list);
     }
 
     //订单退款
@@ -49,15 +49,15 @@ class OrderController extends BusinessBase
     {
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
 
-        $orderInfo = Order::create()->where('orderId',$orderId)->where('status',3)->get();
+        $orderInfo = Order::create()->where('orderId', $orderId)->where('status', 3)->get();
 
-        if (empty($orderInfo)) return $this->writeJson(201,null,null,'未发现订单');
+        if (empty($orderInfo)) return $this->writeJson(201, null, null, '未发现订单');
 
-        (new wxPayService())->refund($orderId,$orderInfo->finalPrice);
+        (new wxPayService())->refund($orderId, $orderInfo->finalPrice);
 
-        $orderInfo->update(['status'=>5]);
+        $orderInfo->update(['status' => 5]);
 
-        return $this->writeJson(200,null,null,'退款成功');
+        return $this->writeJson(200, null, null, '退款成功');
     }
 
     //订单详情
@@ -65,13 +65,13 @@ class OrderController extends BusinessBase
     {
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
 
-        $orderInfo = Order::create()->where('orderId',$orderId)->get();
+        $orderInfo = Order::create()->where('orderId', $orderId)->get();
 
-        $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
+        $entInfo = EntInfo::create()->where('orderId', $orderId)->get();
 
-        $guDongInfo = EntGuDong::create()->where('orderId',$orderId)->get();
+        $guDongInfo = EntGuDong::create()->where('orderId', $orderId)->get();
 
-        $uploadFile = UploadFile::create()->where('orderId',$orderId)->all();
+        $uploadFile = UploadFile::create()->where('orderId', $orderId)->all();
 
         $info = [
             'orderInfo' => obj2Arr($orderInfo),
@@ -80,8 +80,74 @@ class OrderController extends BusinessBase
             'uploadFile' => obj2Arr($uploadFile),
         ];
 
-        return $this->writeJson(200,null,$info);
+        return $this->writeJson(200, null, $info);
     }
 
+    //更新订单详情
+    function updateDetail()
+    {
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
+        $content = $this->request()->getRequestParam('content') ?? '';
 
+        $check = Order::create()->where('orderId',$orderId)->get();
+
+        if (empty($check)) return $this->writeJson(201, null, null, '未发现订单');
+
+        $content = jsonDecode($content);
+
+        if (empty($content)) return $this->writeJson(201, null, null, '更新内容不能是空');
+
+        //更新订单信息
+        if (isset($content['orderInfo']) && !empty($content['orderInfo']))
+        {
+            Order::create()->where('orderId',$orderId)->update($content['orderInfo']);
+        }
+
+        //更新公司信息
+        if (isset($content['entInfo']) && !empty($content['entInfo']))
+        {
+            EntInfo::create()->where('orderId',$orderId)->update($content['entInfo']);
+        }
+
+        //更新股东信息
+        if (isset($content['guDongInfo']) && !empty($content['guDongInfo']))
+        {
+            EntGuDong::create()->where('orderId',$orderId)->update($content['guDongInfo']);
+        }
+
+        //更新文件上传信息
+        if (isset($content['uploadFile']) && !empty($content['uploadFile']))
+        {
+            foreach ($content['uploadFile'] as $oneFile)
+            {
+                UploadFile::create()->where(['id'=>$oneFile['id'],'orderId'=>$orderId])->update($oneFile);
+            }
+        }
+
+        return $this->writeJson(200, null, null,'更新成功');
+    }
+
+    //删除订单
+    function deleteOrder()
+    {
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
+
+        Order::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
+            $builder->where('orderId', $orderId);
+        });
+
+        EntInfo::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
+            $builder->where('orderId', $orderId);
+        });
+
+        EntGuDong::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
+            $builder->where('orderId', $orderId);
+        });
+
+        UploadFile::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
+            $builder->where('orderId', $orderId);
+        });
+
+        return $this->writeJson(200, null, null, '删除成功');
+    }
 }

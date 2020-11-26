@@ -95,8 +95,11 @@ class Router extends AbstractRouter
         {
             $prefix='/Business/Admin/Order/OrderController/';
             $routeCollector->addRoute(['GET','POST'],'/refundOrder',$prefix.'refundOrder');
+            $routeCollector->addRoute(['GET','POST'],'/deleteOrder',$prefix.'deleteOrder');
             $routeCollector->addRoute(['GET','POST'],'/selectList',$prefix.'selectList');
             $routeCollector->addRoute(['GET','POST'],'/selectDetail',$prefix.'selectDetail');
+            $routeCollector->addRoute(['GET','POST'],'/updateDetail',$prefix.'updateDetail');
+
 
 
 
