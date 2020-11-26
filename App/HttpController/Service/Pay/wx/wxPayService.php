@@ -14,7 +14,6 @@ class wxPayService
     {
         $conf = new wxConf();
 
-        $conf->setAppId('');
         $conf->setMiniAppId('wx864577e52e8277a2');
         $conf->setMchId('1603847607');
         $conf->setKey('qqaazzwwssxxeeddccrrffvvttggbbyy');
