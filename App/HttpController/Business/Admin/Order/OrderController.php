@@ -24,7 +24,7 @@ class OrderController extends BusinessBase
     {
         $userType = $this->request()->getRequestParam('userType') ?? '';
         $page = $this->request()->getRequestParam('page') ?? 1;
-        $pageSize = $this->request()->getRequestParam('pageSize') ?? 10;
+        $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
 
         $list = Order::create();
         $total = Order::create();
