@@ -3,7 +3,10 @@
 namespace App\HttpController\Business\Admin\Order;
 
 use App\HttpController\Business\BusinessBase;
+use App\HttpController\Models\Api\EntGuDong;
+use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Models\Api\Order;
+use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
 
@@ -57,7 +60,28 @@ class OrderController extends BusinessBase
         return $this->writeJson(200,null,null,'退款成功');
     }
 
+    //订单详情
+    function selectDetail()
+    {
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
 
+        $orderInfo = Order::create()->where('orderId',$orderId)->get();
+
+        $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
+
+        $guDongInfo = EntGuDong::create()->where('orderId',$orderId)->get();
+
+        $uploadFile = UploadFile::create()->where('orderId',$orderId)->get();
+
+        $info = [
+            'orderInfo' => obj2Arr($orderInfo),
+            'entInfo' => obj2Arr($entInfo),
+            'guDongInfo' => obj2Arr($guDongInfo),
+            'uploadFile' => obj2Arr($uploadFile),
+        ];
+
+        return $this->writeJson(200,null,$info);
+    }
 
 
 }
