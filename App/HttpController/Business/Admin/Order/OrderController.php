@@ -31,8 +31,6 @@ class OrderController extends BusinessBase
             ->limit($this->exprOffset($page,$pageSize),$pageSize)
             ->all();
 
-        $list = obj2Arr($list);
-
         return $this->writeJson(200,null,$list);
     }
 
