@@ -10,6 +10,7 @@ use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
 use EasySwoole\Mysqli\QueryBuilder;
+use wanghanwanghan\someUtils\control;
 
 class OrderController extends BusinessBase
 {
@@ -96,6 +97,8 @@ class OrderController extends BusinessBase
         $content = jsonDecode($content);
 
         if (empty($content)) return $this->writeJson(201, null, null, '更新内容不能是空');
+
+        $content = control::removeArrKey($content,['created_at','updated_at']);
 
         //更新订单信息
         if (isset($content['orderInfo']) && !empty($content['orderInfo']))
