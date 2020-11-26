@@ -71,7 +71,7 @@ class OrderController extends BusinessBase
 
         $guDongInfo = EntGuDong::create()->where('orderId',$orderId)->get();
 
-        $uploadFile = UploadFile::create()->where('orderId',$orderId)->get();
+        $uploadFile = UploadFile::create()->where('orderId',$orderId)->all();
 
         $info = [
             'orderInfo' => obj2Arr($orderInfo),
