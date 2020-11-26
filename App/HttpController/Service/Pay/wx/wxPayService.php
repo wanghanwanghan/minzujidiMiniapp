@@ -63,7 +63,7 @@ class wxPayService
 
         //金额
         //$bean->setTotalFee($money * 100);
-        $bean->setTotalFee(100);
+        $bean->setTotalFee(1000);
 
         //终端ip，据说高版本不用传了
         if (!empty($ipForCli)) $bean->setSpbillCreateIp($ipForCli);
