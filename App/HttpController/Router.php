@@ -7,7 +7,7 @@ use FastRoute\RouteCollector;
 
 class Router extends AbstractRouter
 {
-    public function initialize(RouteCollector $routeCollector)
+    function initialize(RouteCollector $routeCollector)
     {
         //全局模式拦截下,路由将只匹配Router.php中的控制器方法响应,将不会执行框架的默认解析
         $this->setGlobalMode(true);
@@ -18,6 +18,11 @@ class Router extends AbstractRouter
             $this->ModuleRouterV1($routeCollector);//模块
             $this->UserRouterV1($routeCollector);//用户
             $this->Notify($routeCollector);//通知
+        });
+
+        $routeCollector->addGroup('/admin/v1',function (RouteCollector $routeCollector)
+        {
+            $this->Admin($routeCollector);
         });
     }
 
@@ -83,7 +88,19 @@ class Router extends AbstractRouter
         return true;
     }
 
+    private function Admin(RouteCollector $routeCollector)
+    {
+        //订单
+        $routeCollector->addGroup('/order',function (RouteCollector $routeCollector)
+        {
+            $prefix='/Business/Admin/Order/OrderController/';
+            $routeCollector->addRoute(['GET','POST'],'/selectList',$prefix.'selectList');
 
+        });
+
+
+
+    }
 
 
 
