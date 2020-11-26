@@ -28,21 +28,15 @@ class NotifyController extends BusinessBase
 
         $content = $this->request()->getBody()->__toString();
 
-        $redis = Redis::defer('redis');
-        $redis->select(0);
-
         try {
             $data = $pay->weChat((new wxPayService())->getConf())->verify($content);
             $data = json_decode(json_encode($data), true);
         } catch (\Throwable $e) {
             $data = [];
-            $redis->set(date('Y-m-d-H-i-s'),jsonEncode(['file'=>$e->getFile(),'line'=>$e->getLine(),'msg'=>$e->getMessage()]));
         }
 
         //出错就不执行了
         if (empty($data)) return true;
-
-        $redis->set(date('Y-m-d-H-i-s'),jsonEncode($data));
 
         //拿订单信息
         $orderInfo = Order::create()->where('orderId', $data['out_trade_no'])->get();

@@ -63,7 +63,7 @@ class wxPayService
 
         //金额
         //$bean->setTotalFee($money * 100);
-        $bean->setTotalFee(1);
+        $bean->setTotalFee(10);
 
         //终端ip，据说高版本不用传了
         if (!empty($ipForCli)) $bean->setSpbillCreateIp($ipForCli);
@@ -82,9 +82,8 @@ class wxPayService
         $refund->setOutTradeNo($orderId);
         $refund->setOutRefundNo('TK' . date('YmdHis') . rand(1000, 9999));
         $money = $money * 100;
-        $refund->setTotalFee(1);
-        //$refund->setRefundFee($money - $money * 0.006);
-        $refund->setRefundFee(1);
+        $refund->setTotalFee($money);
+        $refund->setRefundFee($money - $money * 0.006);
 
         $pay = new Pay();
 

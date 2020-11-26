@@ -46,7 +46,15 @@ class OrderController extends BusinessBase
     {
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
 
-        return $this->writeJson(200,null,(new wxPayService())->refund($orderId,123));
+        $orderInfo = Order::create()->where('orderId',$orderId)->where('status',3)->get();
+
+        if (empty($orderInfo)) return $this->writeJson(201,null,null,'未发现订单');
+
+        (new wxPayService())->refund($orderId,$orderInfo->finalPrice);
+
+        $orderInfo->update(['status'=>5]);
+
+        return $this->writeJson(200,null,null,'退款成功');
     }
 
 
