@@ -6,6 +6,7 @@ use App\HttpController\Service\HttpClient\CoHttpClient;
 use EasySwoole\Pay\Pay;
 use EasySwoole\Pay\WeChat\Config as wxConf;
 use EasySwoole\Pay\WeChat\RequestBean\MiniProgram;
+use EasySwoole\Pay\WeChat\RequestBean\Refund;
 
 class wxPayService
 {
@@ -72,6 +73,23 @@ class wxPayService
 
         return $params;
     }
+
+    //退款
+    function refund($orderId,$money)
+    {
+        $refund = new Refund();
+        $refund->setOutTradeNo($orderId);
+        $refund->setOutRefundNo('TK' . date('YmdHis') . rand(1000, 9999));
+        $money = $money * 100;
+        $refund->setTotalFee(1);
+        //$refund->setRefundFee($money - $money * 0.006);
+        $refund->setRefundFee(1);
+
+        $pay = new Pay();
+
+        return $pay->weChat($this->getConf())->refund($refund);
+    }
+
 
 
 }

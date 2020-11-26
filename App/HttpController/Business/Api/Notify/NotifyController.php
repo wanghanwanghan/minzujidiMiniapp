@@ -7,6 +7,7 @@ use App\HttpController\Models\Api\Order;
 use App\HttpController\Service\Pay\wx\wxPayService;
 use EasySwoole\Pay\Pay;
 use EasySwoole\Pay\WeChat\WeChat;
+use EasySwoole\RedisPool\Redis;
 
 class NotifyController extends BusinessBase
 {
@@ -34,6 +35,9 @@ class NotifyController extends BusinessBase
             $data = [];
         }
 
+        $redis = Redis::defer('redis');
+        $redis->set(date('Y-m-d-H-i-s'),jsonEncode($data));
+
         //出错就不执行了
         if (empty($data)) return true;
 
@@ -50,8 +54,6 @@ class NotifyController extends BusinessBase
             //支付失败
             $status = 4;
         }
-
-        $goods = 'new';
 
         //更改订单状态
         $orderInfo->update(['status' => $status]);

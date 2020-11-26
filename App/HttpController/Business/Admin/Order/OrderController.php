@@ -4,6 +4,7 @@ namespace App\HttpController\Business\Admin\Order;
 
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Models\Api\Order;
+use App\HttpController\Service\Pay\wx\wxPayService;
 
 class OrderController extends BusinessBase
 {
@@ -39,6 +40,13 @@ class OrderController extends BusinessBase
         return $this->writeJson(200,$this->createPaging($page,$pageSize,$total),$list);
     }
 
+    //订单退款
+    function refundOrder()
+    {
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
+
+        return $this->writeJson(200,null,(new wxPayService())->refund($orderId,123));
+    }
 
 
 
