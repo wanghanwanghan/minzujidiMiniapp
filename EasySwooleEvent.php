@@ -27,6 +27,10 @@ class EasySwooleEvent implements Event
         CreateMysqlPool::getInstance()->createMysql();
         CreateMysqlOrm::getInstance()->createMysqlOrm();
         CreateRedisPool::getInstance()->createRedis();
+
+        $register->set(EventRegister::onMessage, function (\swoole_websocket_server $server, \swoole_websocket_frame $frame) {
+
+        });
     }
 
     public static function onRequest(Request $request, Response $response): bool
