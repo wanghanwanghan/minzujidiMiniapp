@@ -129,7 +129,7 @@ class AddrController extends BusinessBase
 
         !empty($info) ?: $info = null;
 
-        $detail = AddrUse::create()->where('addrId',$id)->order('updated_at', 'desc')->get();
+        $detail = AddrUse::create()->where('addrId',$id)->order('updated_at', 'desc')->all();
 
         !empty($detail) ?: $detail = null;
 
