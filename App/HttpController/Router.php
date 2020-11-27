@@ -99,12 +99,14 @@ class Router extends AbstractRouter
             $routeCollector->addRoute(['GET','POST'],'/selectList',$prefix.'selectList');
             $routeCollector->addRoute(['GET','POST'],'/selectDetail',$prefix.'selectDetail');
             $routeCollector->addRoute(['GET','POST'],'/updateDetail',$prefix.'updateDetail');
-
-
-
-
         });
 
+        //地址
+        $routeCollector->addGroup('/addr',function (RouteCollector $routeCollector)
+        {
+            $prefix='/Business/Admin/Addr/AddrController/';
+            $routeCollector->addRoute(['GET','POST'],'/insertAddr',$prefix.'insertAddr');
+        });
 
 
     }
