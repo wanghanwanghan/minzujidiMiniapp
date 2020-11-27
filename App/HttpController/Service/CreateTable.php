@@ -244,11 +244,11 @@ class CreateTable extends ServiceBase
             $table->colInt('id', 11)->setIsAutoIncrement()->setIsUnsigned()->setIsPrimaryKey()->setColumnComment('主键');
             $table->varchar('category', 50)->setDefaultValue('');
             $table->varchar('number', 50)->setDefaultValue('');
-            $table->varchar('num', 50)->setDefaultValue('');
+            $table->varchar('name', 50)->setDefaultValue('');
+            $table->colTinyInt('isUse', 3)->setIsUnsigned()->setDefaultValue(0);
             $table->colInt('created_at', 11)->setIsUnsigned()->setDefaultValue(0);
             $table->colInt('updated_at', 11)->setIsUnsigned()->setDefaultValue(0);
-            $table->indexNormal('category_index','category');
-            $table->indexNormal('number_index','number');
+            $table->indexNormal('category_number_index',['category','number']);
         });
 
         $obj = Manager::getInstance()->get('miniapp')->getObj();
