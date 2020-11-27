@@ -18,6 +18,7 @@ class AddrController extends BusinessBase
     //导入地址文件
     function insertAddr()
     {
+        CreateTable::getInstance()->miniapp_use_addr();
         $addrFile = $this->request()->getUploadedFile('addrFile');
 
         if ($addrFile instanceof UploadFile)
