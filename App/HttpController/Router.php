@@ -106,6 +106,9 @@ class Router extends AbstractRouter
         {
             $prefix='/Business/Admin/Addr/AddrController/';
             $routeCollector->addRoute(['GET','POST'],'/insertAddr',$prefix.'insertAddr');
+            $routeCollector->addRoute(['GET','POST'],'/editAddr',$prefix.'editAddr');
+            $routeCollector->addRoute(['GET','POST'],'/selectList',$prefix.'selectList');
+            $routeCollector->addRoute(['GET','POST'],'/selectDetail',$prefix.'selectDetail');
         });
 
 

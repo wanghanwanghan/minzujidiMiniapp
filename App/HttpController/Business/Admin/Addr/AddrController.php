@@ -4,9 +4,11 @@ namespace App\HttpController\Business\Admin\Addr;
 
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Models\Admin\Addr;
+use App\HttpController\Models\Admin\AddrUse;
 use App\HttpController\Service\CommonService;
 use App\HttpController\Service\CreateTable;
 use EasySwoole\Http\Message\UploadFile;
+use wanghanwanghan\someUtils\control;
 
 class AddrController extends BusinessBase
 {
@@ -18,7 +20,6 @@ class AddrController extends BusinessBase
     //导入地址文件
     function insertAddr()
     {
-        CreateTable::getInstance()->miniapp_use_addr();
         $addrFile = $this->request()->getUploadedFile('addrFile');
 
         if ($addrFile instanceof UploadFile)
@@ -81,6 +82,61 @@ class AddrController extends BusinessBase
         return $this->writeJson(201,null,null,'未发现上传文件');
     }
 
+    //修改地址
+    function editAddr()
+    {
+        $content = $this->request()->getRequestParam('content') ?? '';
 
+        $content = jsonDecode($content);
+
+        if (empty($content)) return $this->writeJson(201,null,null,'错误');
+
+        $id = $content['id'];
+
+        $content = control::removeArrKey($content,['id','created_at','updated_at']);
+
+        Addr::create()->where('id',$id)->update($content);
+
+        return $this->writeJson(200,null,null,'成功');
+    }
+
+    //获取地址列表
+    function selectList()
+    {
+        $page = $this->request()->getRequestParam('page') ?? 1;
+        $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
+
+        $list = Addr::create();
+        $total = Addr::create();
+
+        $list = $list->order('updated_at', 'desc')
+            ->limit($this->exprOffset($page, $pageSize), $pageSize)
+            ->all();
+
+        $list = obj2Arr($list);
+
+        $total = $total->count();
+
+        return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list);
+    }
+
+    //获取地址详情
+    function selectDetail()
+    {
+        $id = $this->request()->getRequestParam('id') ?? '';
+
+        $info = Addr::create()->where('id',$id)->get();
+
+        !empty($info) ?: $info = null;
+
+        $detail = AddrUse::create()->where('addrId',$id)->order('updated_at', 'desc')->get();
+
+        !empty($detail) ?: $detail = null;
+
+        $res['info'] = $info;
+        $res['detail'] = $detail;
+
+        return $this->writeJson(200, null, $res);
+    }
 
 }
