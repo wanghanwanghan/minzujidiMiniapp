@@ -43,8 +43,6 @@ class AddrController extends BusinessBase
 
             $i = 0;
 
-            CreateTable::getInstance()->miniapp_addr();
-
             while (true)
             {
                 $i++;
