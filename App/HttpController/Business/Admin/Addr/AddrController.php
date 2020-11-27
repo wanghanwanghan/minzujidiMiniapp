@@ -3,6 +3,7 @@
 namespace App\HttpController\Business\Admin\Addr;
 
 use App\HttpController\Business\BusinessBase;
+use App\HttpController\Models\Admin\Addr;
 use App\HttpController\Service\CommonService;
 use App\HttpController\Service\CreateTable;
 use EasySwoole\Http\Message\UploadFile;
@@ -61,11 +62,17 @@ class AddrController extends BusinessBase
                 $one[0] = trim($one[0]);
                 $one[1] = trim($one[1]);
                 $one[2] = trim($one[2]);
+
+                $check = Addr::create()->where('category',$one[0])->where('number',$one[1])->get();
+
+                if (!empty($check)) continue;
+
+                Addr::create()->data([
+                    'category' => $one[0],
+                    'number' => $one[1],
+                    'name' => $one[2],
+                ])->save();
             }
-
-
-            CreateTable::getInstance()->miniapp_addr();
-
 
             return $this->writeJson(200,null,null,'处理成功');
         }
