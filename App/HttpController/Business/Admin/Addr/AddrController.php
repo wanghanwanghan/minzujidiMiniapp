@@ -56,7 +56,7 @@ class AddrController extends BusinessBase
                 //第一行是表头
                 if ($i === 1) continue;
 
-
+                CommonService::getInstance()->log4PHP($one);
             }
 
             return $this->writeJson(200,null,null,'处理成功');
