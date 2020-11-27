@@ -135,6 +135,8 @@ class OrderController extends BusinessBase
     {
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
 
+        if (empty($orderId)) return $this->writeJson(201, null, null, 'id不能是空');
+
         Order::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
             $builder->where('orderId', $orderId);
         });
