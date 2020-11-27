@@ -236,5 +236,36 @@ class CreateTable extends ServiceBase
         return 'ok';
     }
 
+    //地址信息表
+    function miniapp_addr()
+    {
+        $sql = DDLBuilder::table(__FUNCTION__, function (Table $table) {
+            $table->setTableComment('地址信息表')->setTableEngine(Engine::INNODB)->setTableCharset(Character::UTF8MB4_GENERAL_CI);
+            $table->colInt('id', 11)->setIsAutoIncrement()->setIsUnsigned()->setIsPrimaryKey()->setColumnComment('主键');
+            $table->varchar('category', 50)->setDefaultValue('');
+            $table->varchar('number', 50)->setDefaultValue('');
+            $table->varchar('num', 50)->setDefaultValue('');
+            $table->colInt('created_at', 11)->setIsUnsigned()->setDefaultValue(0);
+            $table->colInt('updated_at', 11)->setIsUnsigned()->setDefaultValue(0);
+            $table->indexNormal('category_index','category');
+            $table->indexNormal('number_index','number');
+        });
+
+        $obj = Manager::getInstance()->get('miniapp')->getObj();
+
+        $obj->rawQuery($sql);
+
+        Manager::getInstance()->get('miniapp')->recycleObj($obj);
+
+        return 'ok';
+    }
+
+
+
+
+
+
+
+
 
 }

@@ -4,6 +4,7 @@ namespace App\HttpController\Business\Admin\Addr;
 
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Service\CommonService;
+use App\HttpController\Service\CreateTable;
 use EasySwoole\Http\Message\UploadFile;
 
 class AddrController extends BusinessBase
@@ -56,8 +57,15 @@ class AddrController extends BusinessBase
                 //第一行是表头
                 if ($i === 1) continue;
 
-                CommonService::getInstance()->log4PHP($one);
+                //处理数据
+                $one[0] = trim($one[0]);
+                $one[1] = trim($one[1]);
+                $one[2] = trim($one[2]);
             }
+
+
+            CreateTable::getInstance()->miniapp_addr();
+
 
             return $this->writeJson(200,null,null,'处理成功');
         }
