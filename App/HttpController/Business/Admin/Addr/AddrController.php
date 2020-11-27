@@ -24,7 +24,7 @@ class AddrController extends BusinessBase
             $ext = explode('.', $addrFile->getClientFilename());
             $ext = end($ext);
 
-            if ($ext !== 'xlsx') return $this->writeJson();
+            if ($ext !== 'xlsx') return $this->writeJson(201,null,null,'文件格式错误');
 
             //新建文件名
             $filename = date('YmdHis') . '.' . $ext;
