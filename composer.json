@@ -21,7 +21,8 @@
         "easyswoole/spider": "^2.0",
         "qiniu/php-sdk": "^7.3",
         "easyswoole/smtp": "^1.0",
-        "phpoffice/phpword": "^0.17.0"
+        "phpoffice/phpword": "^0.17.0",
+        "easyswoole/socket": "^1.1"
     },
     "autoload": {
         "psr-4": {
