@@ -12,6 +12,8 @@ use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
 use EasySwoole\Mysqli\QueryBuilder;
 use wanghanwanghan\someUtils\control;
+use function FastRoute\cachedDispatcher;
+use function GuzzleHttp\Psr7\try_fopen;
 
 class OrderController extends BusinessBase
 {
@@ -55,7 +57,14 @@ class OrderController extends BusinessBase
 
         if (empty($orderInfo)) return $this->writeJson(201, null, null, '未发现订单');
 
-        (new wxPayService())->refund($orderId, $orderInfo->finalPrice);
+
+        try
+        {
+            (new wxPayService())->refund($orderId, $orderInfo->finalPrice);
+        }catch (\Throwable $e)
+        {
+
+        }
 
         $orderInfo->update(['status' => 5]);
 
