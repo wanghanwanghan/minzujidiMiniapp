@@ -47,7 +47,7 @@
 地址:admin/v1/addr/insertAddr
 方法:get/post
 参数:
-     addrFile = FileStream，excel文件，后缀是xlsx
+     FileStream，excel文件，后缀是xlsx
 //======================================================================================================================
 描述:地址 修改地址
 地址:admin/v1/addr/editAddr

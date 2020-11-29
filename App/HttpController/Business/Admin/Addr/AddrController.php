@@ -20,7 +20,7 @@ class AddrController extends BusinessBase
     //导入地址文件
     function insertAddr()
     {
-        $addrFile = $this->request()->getUploadedFile('addrFile');
+        $addrFile = current($this->request()->getUploadedFiles());
 
         if ($addrFile instanceof UploadFile)
         {
