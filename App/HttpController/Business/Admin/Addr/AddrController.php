@@ -86,6 +86,7 @@ class AddrController extends BusinessBase
     function editAddr()
     {
         $content = $this->request()->getRequestParam('content') ?? '';
+        $type = $this->request()->getRequestParam('type') ?? '';
 
         $content = jsonDecode($content);
 
@@ -95,7 +96,16 @@ class AddrController extends BusinessBase
 
         $content = control::removeArrKey($content,['id','created_at','updated_at']);
 
-        Addr::create()->where('id',$id)->update($content);
+        if ($type == 1)
+        {
+            Addr::create()->where('id',$id)->update($content);
+        }elseif ($type == 2)
+        {
+            AddrUse::create()->where('id',$id)->update($content);
+        }else
+        {
+            $wanghan = null;
+        }
 
         return $this->writeJson(200,null,null,'成功');
     }
