@@ -166,7 +166,6 @@ class OrderController extends BusinessBase
         $modifyArea = $this->request()->getRequestParam('modifyArea');
         $areaFeeItems = $this->request()->getRequestParam('areaFeeItems');
         $proxy = $this->request()->getRequestParam('proxy');
-        $userType = $this->request()->getRequestParam('userType');
         $finalPrice = $this->request()->getRequestParam('finalPrice');
 
         $check = User::create()->where('phone',$phone)->get();
@@ -174,7 +173,7 @@ class OrderController extends BusinessBase
         if (empty($check)) return $this->writeJson(201, null, null, 'phone未注册');
 
         $orderInfo = OrderService::getInstance()
-            ->createSpecial($phone, $userType, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy,$finalPrice);
+            ->createSpecial($phone, $check->userType, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy,$finalPrice);
 
         return $this->writeJson(200, null, $orderInfo, '成功');
     }
