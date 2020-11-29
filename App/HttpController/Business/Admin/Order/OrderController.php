@@ -7,6 +7,7 @@ use App\HttpController\Models\Api\EntGuDong;
 use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Models\Api\Order;
 use App\HttpController\Models\Api\UploadFile;
+use App\HttpController\Models\Api\User;
 use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
 use EasySwoole\Mysqli\QueryBuilder;
@@ -167,6 +168,10 @@ class OrderController extends BusinessBase
         $proxy = $this->request()->getRequestParam('proxy');
         $userType = $this->request()->getRequestParam('userType');
         $finalPrice = $this->request()->getRequestParam('finalPrice');
+
+        $check = User::create()->where('phone',$phone)->get();
+
+        if (empty($check)) return $this->writeJson(201, null, null, 'phone未注册');
 
         $orderInfo = OrderService::getInstance()
             ->createSpecial($phone, $userType, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy,$finalPrice);
