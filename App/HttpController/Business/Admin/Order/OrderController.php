@@ -173,7 +173,7 @@ class OrderController extends BusinessBase
         if (empty($check)) return $this->writeJson(201, null, null, 'phone未注册');
 
         $orderInfo = OrderService::getInstance()
-            ->createSpecial($phone, $check->userType, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy,$finalPrice);
+            ->createSpecial($phone, $check->type, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy,$finalPrice);
 
         return $this->writeJson(200, null, $orderInfo, '成功');
     }
