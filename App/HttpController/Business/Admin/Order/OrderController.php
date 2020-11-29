@@ -13,8 +13,6 @@ use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
 use EasySwoole\Mysqli\QueryBuilder;
 use wanghanwanghan\someUtils\control;
-use function FastRoute\cachedDispatcher;
-use function GuzzleHttp\Psr7\try_fopen;
 
 class OrderController extends BusinessBase
 {

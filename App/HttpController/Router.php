@@ -112,6 +112,12 @@ class Router extends AbstractRouter
             $routeCollector->addRoute(['GET','POST'],'/selectDetail',$prefix.'selectDetail');
         });
 
+        //监控
+        $routeCollector->addGroup('/supervisor',function (RouteCollector $routeCollector)
+        {
+            $prefix='/Business/Admin/Supervisor/SupervisorController/';
+            $routeCollector->addRoute(['GET','POST'],'/selectList',$prefix.'selectList');
+        });
 
     }
 
