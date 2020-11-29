@@ -8,6 +8,7 @@ use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Models\Api\Order;
 use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Models\Api\User;
+use App\HttpController\Service\CommonService;
 use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
 use EasySwoole\Mysqli\QueryBuilder;
@@ -63,7 +64,7 @@ class OrderController extends BusinessBase
             (new wxPayService())->refund($orderId, $orderInfo->finalPrice);
         }catch (\Throwable $e)
         {
-
+            CommonService::getInstance()->log4PHP($e,__FUNCTION__);
         }
 
         $orderInfo->update(['status' => 5]);
