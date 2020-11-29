@@ -155,4 +155,22 @@ class OrderController extends BusinessBase
 
         return $this->writeJson(200, null, null, '删除成功');
     }
+
+    //创建一个特殊订单
+    function createSpecial()
+    {
+        $phone = $this->request()->getRequestParam('phone');
+        $taxType = $this->request()->getRequestParam('taxType');
+        $modifyAddr = $this->request()->getRequestParam('modifyAddr');
+        $modifyArea = $this->request()->getRequestParam('modifyArea');
+        $areaFeeItems = $this->request()->getRequestParam('areaFeeItems');
+        $proxy = $this->request()->getRequestParam('proxy');
+        $userType = $this->request()->getRequestParam('userType');
+        $finalPrice = $this->request()->getRequestParam('finalPrice');
+
+        $orderInfo = OrderService::getInstance()
+            ->createSpecial($phone, $userType, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy,$finalPrice);
+
+        return $this->writeJson(200, null, $orderInfo, '成功');
+    }
 }

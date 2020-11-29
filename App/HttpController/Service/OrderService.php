@@ -102,5 +102,43 @@ class OrderService extends ServiceBase
         return $insert;
     }
 
+    //自定义价格订单
+    function createSpecial($phone,$userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy,$finalPrice)
+    {
+        $userType = (int)$userType;
+        $taxType = (int)$taxType;
+        $modifyAddr = (int)$modifyAddr;
+        $modifyArea = (int)$modifyArea;
+        $areaFeeItems = (string)$areaFeeItems;
+        $proxy = (int)$proxy;
+
+        $insert=[
+            'orderId'=>$this->createOrderId($userType),
+            'phone'=>$phone,
+            'userType'=>$userType,
+            'taxType'=>$taxType,
+            'modifyAddr'=>$modifyAddr,
+            'modifyArea'=>$modifyArea,
+            'areaFeeItems'=>$areaFeeItems,
+            'proxy'=>$proxy,
+            'status'=>self::ORDER_STATUS_2,
+            'price'=>$finalPrice,
+            'finalPrice'=>$finalPrice,
+        ];
+
+        try
+        {
+            if ($finalPrice <= 0) $insert['status'] = self::ORDER_STATUS_3;
+
+            Order::create()->data($insert)->save();
+
+        }catch (\Throwable $e)
+        {
+            $insert = [];
+            CommonService::getInstance()->log4PHP($e->getMessage());
+        }
+
+        return $insert;
+    }
 
 }
