@@ -5,6 +5,7 @@ namespace App\Crontab\CrontabList;
 use App\Crontab\CrontabBase;
 use App\HttpController\Models\Admin\SupervisorEntNameInfo;
 use App\HttpController\Models\Admin\SupervisorPhoneEntName;
+use App\HttpController\Service\CommonService;
 use App\HttpController\Service\HttpClient\CoHttpClient;
 use Carbon\Carbon;
 use EasySwoole\EasySwoole\Crontab\AbstractCronTask;
@@ -1542,7 +1543,11 @@ class RunSupervisor extends AbstractCronTask
     //全局异常
     function onException(\Throwable $throwable, int $taskId, int $workerIndex)
     {
+        $file = $throwable->getFile();
+        $line = $throwable->getLine();
+        $msg = $throwable->getMessage();
 
+        CommonService::getInstance()->log4PHP(['file'=>$file,'line'=>$line,'msg'=>$msg]);
     }
 
 
