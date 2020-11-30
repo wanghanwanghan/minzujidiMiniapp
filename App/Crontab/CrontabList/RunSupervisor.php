@@ -77,6 +77,17 @@ class RunSupervisor extends AbstractCronTask
 
         $res = (new CoHttpClient())->send($url, $postData, $this->headers);
 
+        if (is_array($res))
+        {
+            CommonService::getInstance()->log4PHP([1,$res]);
+        }elseif (is_string($res))
+        {
+            CommonService::getInstance()->log4PHP([2,$res]);
+        }else
+        {
+            CommonService::getInstance()->log4PHP([3,$res]);
+        }
+
         if ($res['code']==200 && !empty($res['result']))
         {
             foreach ($res['result'] as $one)
