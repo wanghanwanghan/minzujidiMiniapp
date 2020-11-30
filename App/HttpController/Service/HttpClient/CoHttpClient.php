@@ -7,6 +7,14 @@ use EasySwoole\HttpClient\HttpClient;
 
 class CoHttpClient
 {
+    private $decode = false;
+
+    function setDecode($type)
+    {
+        $this->decode = $type;
+        return $this;
+    }
+
     function send($url = '', $postData = [], $headers = [], $options = [], $method = 'post')
     {
         $method = strtoupper($method);
@@ -31,6 +39,6 @@ class CoHttpClient
             return ['coHttpErr' => 'error'];
         }
 
-        return $data;
+        return $this->decode ? jsonDecode($data) : $data;
     }
 }

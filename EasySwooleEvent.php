@@ -2,6 +2,7 @@
 
 namespace EasySwoole\EasySwoole;
 
+use App\Crontab\Service\CrontabService;
 use App\HttpController\Service\CreateMysqlOrm;
 use App\HttpController\Service\CreateMysqlPool;
 use App\HttpController\Service\CreateRedisPool;
@@ -29,6 +30,7 @@ class EasySwooleEvent implements Event
         CreateMysqlPool::getInstance()->createMysql();
         CreateMysqlOrm::getInstance()->createMysqlOrm();
         CreateRedisPool::getInstance()->createRedis();
+        CrontabService::getInstance()->create();
 
         /**
          * **************** websocket控制器 **********************
