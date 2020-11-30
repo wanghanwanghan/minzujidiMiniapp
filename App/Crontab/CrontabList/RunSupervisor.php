@@ -61,14 +61,6 @@ class RunSupervisor extends AbstractCronTask
     //记录公司名和风险个数
     private function addEntName($entName,$type)
     {
-        if (isset($this->entNameArr[$entName][$type]))
-        {
-            $this->entNameArr[$entName][$type]++;
-        }else
-        {
-            $this->entNameArr[$entName][$type]=1;
-        }
-
         return true;
     }
 
