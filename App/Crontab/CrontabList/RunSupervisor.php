@@ -75,18 +75,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/qcc/getCourtV4SearchShiXin';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
-
-        if (is_array($res))
-        {
-            CommonService::getInstance()->log4PHP([1,$res]);
-        }elseif (is_string($res))
-        {
-            CommonService::getInstance()->log4PHP([2,$res]);
-        }else
-        {
-            CommonService::getInstance()->log4PHP([3,$res]);
-        }
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -126,7 +115,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/qcc/getCourtV4SearchZhiXing';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -166,7 +155,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/qcc/getJudicialAssistance';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -227,7 +216,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/fh/getCpws';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -246,7 +235,7 @@ class RunSupervisor extends AbstractCronTask
 
                 $url = 'https://api.meirixindong.com/api/v1/fh/getCpwsDetail';
 
-                $detail = (new CoHttpClient())->send($url, $postData, $this->headers);
+                $detail = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
                 ($detail['code'] == 200 && !empty($detail['result'])) ? $detail = current($detail['result']) : $detail=null;
 
@@ -302,7 +291,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/fh/getKtgg';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -321,7 +310,7 @@ class RunSupervisor extends AbstractCronTask
 
                 $url = 'https://api.meirixindong.com/api/v1/fh/getKtggDetail';
 
-                $detail = (new CoHttpClient())->send($url, $postData, $this->headers);
+                $detail = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
                 ($detail['code'] == 200 && !empty($detail['result'])) ? $detail = current($detail['result']) : $detail=null;
 
@@ -374,7 +363,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/fh/getFygg';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -393,7 +382,7 @@ class RunSupervisor extends AbstractCronTask
 
                 $url = 'https://api.meirixindong.com/api/v1/fh/getFyggDetail';
 
-                $detail = (new CoHttpClient())->send($url, $postData, $this->headers);
+                $detail = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
                 ($detail['code'] == 200 && !empty($detail['result'])) ? $detail = current($detail['result']) : $detail=null;
 
@@ -448,7 +437,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/fh/getSifacdk';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -467,7 +456,7 @@ class RunSupervisor extends AbstractCronTask
 
                 $url = 'https://api.meirixindong.com/api/v1/fh/getSifacdkDetail';
 
-                $detail = (new CoHttpClient())->send($url, $postData, $this->headers);
+                $detail = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
                 ($detail['code'] == 200 && !empty($detail['result'])) ? $detail = current($detail['result']) : $detail=null;
 
@@ -512,7 +501,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/ts/getRegisterChangeInfo';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -586,7 +575,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/ts/getRegisterChangeInfo';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -638,7 +627,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/ts/getInvestmentAbroadInfo';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -680,7 +669,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/ts/getRegisterChangeInfo';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -736,7 +725,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/qcc/getSeriousViolationList';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -778,7 +767,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/qcc/getAdministrativePenaltyList';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -818,7 +807,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/fh/getEpbparty';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -837,7 +826,7 @@ class RunSupervisor extends AbstractCronTask
 
                 $url = 'https://api.meirixindong.com/api/v1/fh/getEpbpartyDetail';
 
-                $detail = (new CoHttpClient())->send($url, $postData, $this->headers);
+                $detail = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
                 ($detail['code'] == 200 && !empty($detail['result'])) ? $detail = current($detail['result']) : $detail=null;
 
@@ -877,7 +866,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/fh/getSatpartyChufa';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -896,7 +885,7 @@ class RunSupervisor extends AbstractCronTask
 
                 $url = 'https://api.meirixindong.com/api/v1/fh/getSatpartyChufaDetail';
 
-                $detail = (new CoHttpClient())->send($url, $postData, $this->headers);
+                $detail = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
                 ($detail['code'] == 200 && !empty($detail['result'])) ? $detail = current($detail['result']) : $detail=null;
 
@@ -935,7 +924,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/fh/getSatpartyQs';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -954,7 +943,7 @@ class RunSupervisor extends AbstractCronTask
 
                 $url = 'https://api.meirixindong.com/api/v1/fh/getSatpartyQsDetail';
 
-                $detail = (new CoHttpClient())->send($url, $postData, $this->headers);
+                $detail = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
                 ($detail['code'] == 200 && !empty($detail['result'])) ? $detail = current($detail['result']) : $detail=null;
 
@@ -993,7 +982,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/fh/getCustomPunish';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -1012,7 +1001,7 @@ class RunSupervisor extends AbstractCronTask
 
                 $url = 'https://api.meirixindong.com/api/v1/fh/getCustomPunishDetail';
 
-                $detail = (new CoHttpClient())->send($url, $postData, $this->headers);
+                $detail = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
                 ($detail['code'] == 200 && !empty($detail['result'])) ? $detail = current($detail['result']) : $detail=null;
 
@@ -1052,7 +1041,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/fh/getPbcparty';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -1071,7 +1060,7 @@ class RunSupervisor extends AbstractCronTask
 
                 $url = 'https://api.meirixindong.com/api/v1/fh/getPbcpartyDetail';
 
-                $detail = (new CoHttpClient())->send($url, $postData, $this->headers);
+                $detail = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
                 ($detail['code'] == 200 && !empty($detail['result'])) ? $detail = current($detail['result']) : $detail=null;
 
@@ -1111,7 +1100,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/fh/getPbcpartyCbrc';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -1130,7 +1119,7 @@ class RunSupervisor extends AbstractCronTask
 
                 $url = 'https://api.meirixindong.com/api/v1/fh/getPbcpartyCbrcDetail';
 
-                $detail = (new CoHttpClient())->send($url, $postData, $this->headers);
+                $detail = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
                 ($detail['code'] == 200 && !empty($detail['result'])) ? $detail = current($detail['result']) : $detail=null;
 
@@ -1170,7 +1159,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/fh/getPbcpartyCsrcChufa';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -1189,7 +1178,7 @@ class RunSupervisor extends AbstractCronTask
 
                 $url = 'https://api.meirixindong.com/api/v1/fh/getPbcpartyCsrcChufaDetail';
 
-                $detail = (new CoHttpClient())->send($url, $postData, $this->headers);
+                $detail = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
                 ($detail['code'] == 200 && !empty($detail['result'])) ? $detail = current($detail['result']) : $detail=null;
 
@@ -1229,7 +1218,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/fh/getSafeChufa';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -1248,7 +1237,7 @@ class RunSupervisor extends AbstractCronTask
 
                 $url = 'https://api.meirixindong.com/api/v1/fh/getSafeChufaDetail';
 
-                $detail = (new CoHttpClient())->send($url, $postData, $this->headers);
+                $detail = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
                 ($detail['code'] == 200 && !empty($detail['result'])) ? $detail = current($detail['result']) : $detail=null;
 
@@ -1292,7 +1281,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/qcc/getOpException';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -1336,7 +1325,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/ts/getChattelMortgageInfo';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -1376,7 +1365,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/qcc/getLandMortgageList';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -1418,7 +1407,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/ts/getEquityPledgedInfo';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -1462,7 +1451,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/qcc/getAnnualReport';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
@@ -1508,7 +1497,7 @@ class RunSupervisor extends AbstractCronTask
 
         $url = 'https://api.meirixindong.com/api/v1/qcc/getIPOGuarantee';
 
-        $res = (new CoHttpClient())->send($url, $postData, $this->headers);
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
 
         if ($res['code']==200 && !empty($res['result']))
         {
