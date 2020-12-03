@@ -123,7 +123,8 @@ class AddrController extends BusinessBase
 
         $list = $list->alias('addr')
             ->field([
-                'addr.number',
+                'addr.id',
+                'addr.name',
                 'ent.code',
                 'ent.entName',
                 'ent.regEntName',
