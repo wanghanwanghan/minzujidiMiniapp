@@ -135,6 +135,7 @@ class AddrController extends BusinessBase
             ->field([
                 'addr.id',
                 'addr.name',
+                'addr.category',
                 'ent.code',
                 'ent.entName',
                 'ent.regEntName',
