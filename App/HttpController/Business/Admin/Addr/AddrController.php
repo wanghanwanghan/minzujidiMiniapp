@@ -120,10 +120,10 @@ class AddrController extends BusinessBase
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
 
         is_numeric($id) ? $list = Addr::create()->where('addr.id',$id) : $list = Addr::create();
-        is_numeric($id) ? $total = Addr::create()->where('addr.id',$id) : $total = Addr::create();
+        is_numeric($id) ? $total = Addr::create()->where('id',$id) : $total = Addr::create();
 
         !is_numeric($isUse) ?: $list->where('addr.isUse',$isUse);
-        is_numeric($isUse) ?: $total->where('addr.isUse',$isUse);
+        is_numeric($isUse) ?: $total->where('isUse',$isUse);
 
         $list = $list->alias('addr')
             ->field([
