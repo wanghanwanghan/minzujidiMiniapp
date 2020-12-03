@@ -128,7 +128,7 @@ class AddrController extends BusinessBase
         !is_numeric($isUse) ?: $total->where('isUse',$isUse);
 
         empty($entName) ?: $list->where('ent.entName',"%{$entName}%",'like');
-        empty($entName) ?: $total = EntInfo::create()->where('ent.entName',"%{$entName}%",'like');
+        empty($entName) ?: $total = EntInfo::create()->where('entName',"%{$entName}%",'like');
 
         $list = $list->alias('addr')
             ->field([
