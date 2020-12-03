@@ -200,6 +200,6 @@ class AddrController extends BusinessBase
             $tmp[] = EntInfo::create()->where('orderId',$one['orderId'])->get();
         }
 
-        return $this->writeJson(200, null, $tmp);
+        return $this->writeJson(200, null, array_filter($tmp));
     }
 }
