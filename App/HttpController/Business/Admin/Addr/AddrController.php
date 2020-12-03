@@ -111,7 +111,7 @@ class AddrController extends BusinessBase
         return $this->writeJson(200,null,null,'成功');
     }
 
-    //获取地址列表
+    //获取地址列表/详情
     function selectList()
     {
         $id = $this->request()->getRequestParam('id') ?? '';
@@ -173,5 +173,4 @@ class AddrController extends BusinessBase
 
         return $this->writeJson(200, null, $res);
     }
-
 }

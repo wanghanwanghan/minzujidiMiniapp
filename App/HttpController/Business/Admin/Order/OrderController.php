@@ -76,7 +76,10 @@ class OrderController extends BusinessBase
     //订单详情
     function selectDetail()
     {
+        $addrId = $this->request()->getRequestParam('addrId') ?? '';
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
+
+        empty($addrId) ?: $orderId = Addr::create()->get($addrId)->orderId;
 
         $orderInfo = Order::create()->where('orderId', $orderId)->get();
 
