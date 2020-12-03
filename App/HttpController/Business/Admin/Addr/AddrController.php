@@ -123,9 +123,21 @@ class AddrController extends BusinessBase
 
         $list = $list->alias('addr')
             ->field([
-                'addr.*',
+                'addr.number',
+                'ent.code',
+                'ent.entName',
+                'ent.regEntName',
+                'addr.isUse',
+                'userTable.phone',
+                'addrUse.startTime',
+                'addrUse.endTime',
+                'ent.fr',
+                'ent.frPhone',
+                'ent.jbr',
+                'ent.jbrPhone',
                 'orderTable.finalPrice',
             ])
+            ->join('miniapp_use_addr as addrUse','addr.orderId = addrUse.orderId','left')
             ->join('miniapp_ent_info as ent','addr.orderId = ent.orderId','left')
             ->join('miniapp_order as orderTable','addr.orderId = orderTable.orderId','left')
             ->join('miniapp_user as userTable','orderTable.phone = userTable.phone','left')
