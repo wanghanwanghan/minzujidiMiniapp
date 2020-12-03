@@ -187,7 +187,7 @@ class AddrController extends BusinessBase
 
         $orderId = obj2Arr($orderId);
 
-        if (empty($orderId)) return $this->writeJson(201, null, null);
+        if (empty($orderId)) return $this->writeJson(200, null, []);
 
         $tmp = [];
 

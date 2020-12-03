@@ -53,8 +53,8 @@
      handleStatus = 0，状态编号，0审核中，1审核失败，2正在办理，3办理失败，4办理成功
      errInfo = XXX，给用户留言
 //======================================================================================================================
-描述:订单 办理完成但还未分配地址的
-地址:admin/v1/order/selectOrderIdByHandleStatus
+描述:地址 办理完成但还未分配地址的
+地址:admin/v1/addr/selectOrderIdByHandleStatus
 方法:get/post
 参数:
      无参数
