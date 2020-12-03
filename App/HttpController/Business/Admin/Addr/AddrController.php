@@ -6,6 +6,7 @@ use App\HttpController\Business\BusinessBase;
 use App\HttpController\Models\Admin\Addr;
 use App\HttpController\Models\Admin\AddrUse;
 use App\HttpController\Models\Api\EntInfo;
+use App\HttpController\Models\Api\Order;
 use App\HttpController\Service\CommonService;
 use App\HttpController\Service\CreateTable;
 use EasySwoole\Http\Message\UploadFile;
@@ -177,5 +178,28 @@ class AddrController extends BusinessBase
         $res['detail'] = $detail;
 
         return $this->writeJson(200, null, $res);
+    }
+
+    //办理完成但还未分配地址的
+    function selectOrderIdByHandleStatus()
+    {
+        $orderId = Order::create()->where('handleStatus',4)->all();
+
+        $orderId = obj2Arr($orderId);
+
+        if (empty($orderId)) return $this->writeJson(201, null, null);
+
+        $tmp = [];
+
+        foreach ($orderId as $one)
+        {
+            $check = Addr::create()->where('orderId',$one['orderId'],'<>')->get();
+
+            if (empty($check)) continue;
+
+            $tmp[] = $one;
+        }
+
+        return $this->writeJson(200, null, $tmp);
     }
 }

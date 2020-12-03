@@ -112,6 +112,7 @@ class Router extends AbstractRouter
             $routeCollector->addRoute(['GET','POST'],'/editAddr',$prefix.'editAddr');
             $routeCollector->addRoute(['GET','POST'],'/selectList',$prefix.'selectList');
             $routeCollector->addRoute(['GET','POST'],'/selectDetail',$prefix.'selectDetail');
+            $routeCollector->addRoute(['GET','POST'],'/selectOrderIdByHandleStatus',$prefix.'selectOrderIdByHandleStatus');
         });
 
         //监控
