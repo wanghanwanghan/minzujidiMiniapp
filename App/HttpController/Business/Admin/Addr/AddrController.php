@@ -154,7 +154,7 @@ class AddrController extends BusinessBase
 
         $total = $total->count();
 
-        return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list, [$lastQuery,$id,$isUse]);
+        return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list);
     }
 
     //获取地址详情
