@@ -8,6 +8,7 @@ use App\HttpController\Models\Admin\AddrUse;
 use App\HttpController\Service\CommonService;
 use App\HttpController\Service\CreateTable;
 use EasySwoole\Http\Message\UploadFile;
+use EasySwoole\ORM\DbManager;
 use wanghanwanghan\someUtils\control;
 
 class AddrController extends BusinessBase
@@ -122,7 +123,7 @@ class AddrController extends BusinessBase
 
         $list = $list->alias('addr')
             ->field('*')
-            ->join('miniapp_ent_info as ent','addr.orderId = ent.orderId','left')
+            ->join('miniapp_ent_info as ent','addr.orderId = ent.orderId')
             ->order('addr.updated_at', 'desc')
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
             ->all();
@@ -131,7 +132,7 @@ class AddrController extends BusinessBase
 
         $total = $total->count();
 
-        return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list);
+        return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list,$lastQuery = DbManager::getInstance()->getLastQuery()->getLastQuery());
     }
 
     //获取地址详情
