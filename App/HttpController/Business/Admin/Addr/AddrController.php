@@ -193,9 +193,9 @@ class AddrController extends BusinessBase
 
         foreach ($orderId as $one)
         {
-            $check = Addr::create()->where('orderId',$one['orderId'],'<>')->get();
+            $check = Addr::create()->where('orderId',$one['orderId'])->get();
 
-            if (empty($check)) continue;
+            if (!empty($check)) continue;
 
             $tmp[] = $one;
         }
