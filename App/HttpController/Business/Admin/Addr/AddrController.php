@@ -5,6 +5,7 @@ namespace App\HttpController\Business\Admin\Addr;
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Models\Admin\Addr;
 use App\HttpController\Models\Admin\AddrUse;
+use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Service\CommonService;
 use App\HttpController\Service\CreateTable;
 use EasySwoole\Http\Message\UploadFile;
@@ -116,6 +117,7 @@ class AddrController extends BusinessBase
     {
         $id = $this->request()->getRequestParam('id') ?? '';
         $isUse = $this->request()->getRequestParam('isUse') ?? '';
+        $entName = $this->request()->getRequestParam('entName') ?? '';
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
 
@@ -124,6 +126,9 @@ class AddrController extends BusinessBase
 
         !is_numeric($isUse) ?: $list->where('addr.isUse',$isUse);
         !is_numeric($isUse) ?: $total->where('isUse',$isUse);
+
+        empty($entName) ?: $list->where('ent.entName',"%{$entName}%",'like');
+        empty($entName) ?: $total = EntInfo::create()->where('ent.entName',"%{$entName}%",'like');
 
         $list = $list->alias('addr')
             ->field([
