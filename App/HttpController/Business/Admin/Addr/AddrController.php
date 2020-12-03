@@ -115,7 +115,7 @@ class AddrController extends BusinessBase
     function selectList()
     {
         $id = $this->request()->getRequestParam('id') ?? '';
-        $isUse = $this->request()->getRequestParam('isUse') ?? '1';
+        $isUse = $this->request()->getRequestParam('isUse') ?? '';
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
 
