@@ -79,7 +79,7 @@ class OrderController extends BusinessBase
         $addrId = $this->request()->getRequestParam('addrId') ?? '';
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
 
-        empty($addrId) ?: $orderId = Addr::create()->get($addrId)->orderId;
+        !is_numeric($addrId) ?: $orderId = Addr::create()->get($addrId)->orderId;
 
         $orderInfo = Order::create()->where('orderId', $orderId)->get();
 
