@@ -148,8 +148,6 @@ class AddrController extends BusinessBase
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
             ->all();
 
-        $lastQuery = DbManager::getInstance()->getLastQuery()->getLastQuery();
-
         $list = obj2Arr($list);
 
         $total = $total->count();
