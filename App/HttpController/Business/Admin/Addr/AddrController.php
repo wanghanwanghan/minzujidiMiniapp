@@ -114,12 +114,11 @@ class AddrController extends BusinessBase
     //获取地址列表
     function selectList()
     {
-        $isUse = $this->request()->getRequestParam('isUse') ?? '';
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
 
-        is_numeric($isUse) ? $list = Addr::create()->where('isUse',$isUse) : $list = Addr::create();
-        is_numeric($isUse) ? $total = Addr::create()->where('isUse',$isUse) : $total = Addr::create();
+        $list = Addr::create();
+        $total = Addr::create();
 
         $list = $list->alias('addr')
             ->field([
