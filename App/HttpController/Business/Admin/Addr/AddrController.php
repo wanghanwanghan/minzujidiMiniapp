@@ -121,6 +121,7 @@ class AddrController extends BusinessBase
         is_numeric($isUse) ? $total = Addr::create()->where('isUse',$isUse) : $total = Addr::create();
 
         $list = $list->alias('addr')
+            ->field('*')
             ->join('miniapp_ent_info as ent','addr.orderId = ent.orderId')
             ->order('addr.updated_at', 'desc')
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
