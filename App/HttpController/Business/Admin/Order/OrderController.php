@@ -185,4 +185,33 @@ class OrderController extends BusinessBase
 
         return $this->writeJson(200, null, $orderInfo, '成功');
     }
+
+    //修改审核状态
+    function editHandleStatus()
+    {
+        $orderId = $this->request()->getRequestParam('orderId');
+        $handleStatus = $this->request()->getRequestParam('handleStatus');
+        $errInfo = $this->request()->getRequestParam('errInfo');
+
+        $info = Order::create()->where('orderId',$orderId)->get();
+
+        if (empty($info)) $this->writeJson(201, null, null, '未找到订单');
+
+        $info->update(['handleStatus'=>$handleStatus,'errInfo'=>$errInfo]);
+
+        return $this->writeJson(200, null, null, '成功');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
