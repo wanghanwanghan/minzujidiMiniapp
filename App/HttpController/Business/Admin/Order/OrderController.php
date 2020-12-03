@@ -3,6 +3,8 @@
 namespace App\HttpController\Business\Admin\Order;
 
 use App\HttpController\Business\BusinessBase;
+use App\HttpController\Models\Admin\Addr;
+use App\HttpController\Models\Admin\AddrUse;
 use App\HttpController\Models\Api\EntGuDong;
 use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Models\Api\Order;
@@ -11,6 +13,7 @@ use App\HttpController\Models\Api\User;
 use App\HttpController\Service\CommonService;
 use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
+use Carbon\Carbon;
 use EasySwoole\Mysqli\QueryBuilder;
 use wanghanwanghan\someUtils\control;
 
@@ -200,6 +203,28 @@ class OrderController extends BusinessBase
         $info->update(['handleStatus'=>$handleStatus,'errInfo'=>$errInfo]);
 
         return $this->writeJson(200, null, null, '成功');
+    }
+
+    //修改订单所用的地址
+    function editOrderAddr()
+    {
+        $orderId = $this->request()->getRequestParam('orderId');
+        $addrId = $this->request()->getRequestParam('addrId');
+
+        $addInfo = Addr::create()->where('id',$addrId)->where('isUse',0)->get();
+
+        if (empty($addInfo)) return $this->writeJson(201, null, null, '地址已被占用');
+
+        $addInfo->update(['isUse'=>1,'orderId'=>$orderId]);
+
+        AddrUse::create()->data([
+            'orderId'=>$orderId,
+            'addrId'=>$addrId,
+            'startTime'=>time(),
+            'endTime'=>Carbon::now()->addYears(1)->timestamp,
+        ])->save();
+
+        return $this->writeJson(200, null, null, '修改成功');
     }
 
 

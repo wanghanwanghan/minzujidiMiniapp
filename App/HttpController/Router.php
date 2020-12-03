@@ -101,6 +101,7 @@ class Router extends AbstractRouter
             $routeCollector->addRoute(['GET','POST'],'/updateDetail',$prefix.'updateDetail');
             $routeCollector->addRoute(['GET','POST'],'/createSpecial',$prefix.'createSpecial');
             $routeCollector->addRoute(['GET','POST'],'/editHandleStatus',$prefix.'editHandleStatus');
+            $routeCollector->addRoute(['GET','POST'],'/editOrderAddr',$prefix.'editOrderAddr');
         });
 
         //地址
