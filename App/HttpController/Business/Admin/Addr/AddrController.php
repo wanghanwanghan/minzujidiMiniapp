@@ -197,7 +197,7 @@ class AddrController extends BusinessBase
 
             if (!empty($check)) continue;
 
-            $tmp[] = $one;
+            $tmp[] = EntInfo::create()->where('orderId',$one['orderId'])->get();
         }
 
         return $this->writeJson(200, null, $tmp);
