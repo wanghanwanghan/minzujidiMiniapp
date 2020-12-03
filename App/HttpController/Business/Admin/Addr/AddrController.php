@@ -128,11 +128,13 @@ class AddrController extends BusinessBase
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
             ->all();
 
+        $lastQuery = DbManager::getInstance()->getLastQuery()->getLastQuery();
+
         $list = obj2Arr($list);
 
         $total = $total->count();
 
-        return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list,$lastQuery = DbManager::getInstance()->getLastQuery()->getLastQuery());
+        return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list,$lastQuery);
     }
 
     //获取地址详情
