@@ -230,6 +230,19 @@ class OrderController extends BusinessBase
         return $this->writeJson(200, null, null, '修改成功');
     }
 
+    //文件上传
+    function adminUploadFile()
+    {
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
+        $type = $this->request()->getRequestParam('type') ?? '';
+        $filename = $this->request()->getRequestParam('filename') ?? '';
+
+        $info = Order::create()->where('orderId',$orderId)->get();
+
+        $info->update(['filePackage'=>$filename]);
+
+        return $this->writeJson(200, null, null, '成功');
+    }
 
 
 
