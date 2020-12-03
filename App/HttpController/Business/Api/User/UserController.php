@@ -464,6 +464,9 @@ class UserController extends BusinessBase
                 $handleStatus = '正在办理';
                 break;
             case '3':
+                $handleStatus = '办理失败';
+                break;
+            case '4':
                 $handleStatus = '办理成功';
                 break;
             default:
