@@ -123,7 +123,7 @@ class AddrController extends BusinessBase
 
         $list = $list->alias('addr')
             ->join('miniapp_ent_info as ent','addr.orderId = ent.orderId','left')
-            ->join('miniapp_order as order','addr.orderId = order.orderId','left')
+            ->join('miniapp_order as orderT','addr.orderId = orderT.orderId','left')
             ->order('addr.updated_at', 'desc')
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
             ->all();
