@@ -122,8 +122,13 @@ class AddrController extends BusinessBase
         is_numeric($isUse) ? $total = Addr::create()->where('isUse',$isUse) : $total = Addr::create();
 
         $list = $list->alias('addr')
+            ->field([
+                'addr.*',
+                'orderTable.finalPrice',
+            ])
             ->join('miniapp_ent_info as ent','addr.orderId = ent.orderId','left')
-            ->join('miniapp_order as orderT','addr.orderId = orderT.orderId','left')
+            ->join('miniapp_order as orderTable','addr.orderId = orderTable.orderId','left')
+            ->join('miniapp_user as userTable','orderTable.phone = userTable.phone','left')
             ->order('addr.updated_at', 'desc')
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
             ->all();
@@ -134,7 +139,7 @@ class AddrController extends BusinessBase
 
         $total = $total->count();
 
-        return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list,$lastQuery);
+        return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list, $lastQuery);
     }
 
     //获取地址详情
