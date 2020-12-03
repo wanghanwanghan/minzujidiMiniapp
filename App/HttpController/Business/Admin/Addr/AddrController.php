@@ -129,7 +129,6 @@ class AddrController extends BusinessBase
                 'ent.entName',
                 'ent.regEntName',
                 'addr.isUse',
-                'userTable.phone',
                 'addrUse.startTime',
                 'addrUse.endTime',
                 'ent.fr',
@@ -141,7 +140,6 @@ class AddrController extends BusinessBase
             ->join('miniapp_use_addr as addrUse','addr.orderId = addrUse.orderId','left')
             ->join('miniapp_ent_info as ent','addr.orderId = ent.orderId','left')
             ->join('miniapp_order as orderTable','addr.orderId = orderTable.orderId','left')
-            ->join('miniapp_user as userTable','orderTable.phone = userTable.phone','left')
             ->order('addr.updated_at', 'desc')
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
             ->all();
