@@ -59,10 +59,10 @@ class OrderController extends BusinessBase
 
         if (empty($orderInfo)) return $this->writeJson(201, null, null, '未发现订单');
 
-
         try
         {
-            (new wxPayService())->refund($orderId, $orderInfo->finalPrice);
+            $res = (new wxPayService())->refund($orderId, $orderInfo->finalPrice);
+            CommonService::getInstance()->log4PHP($res,__FUNCTION__);
         }catch (\Throwable $e)
         {
             CommonService::getInstance()->log4PHP($e,__FUNCTION__);
