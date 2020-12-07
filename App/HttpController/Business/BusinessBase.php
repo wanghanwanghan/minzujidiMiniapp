@@ -3,6 +3,7 @@
 namespace App\HttpController\Business;
 
 use App\HttpController\Index;
+use App\HttpController\Service\ExportExcelService;
 
 class BusinessBase extends Index
 {
@@ -40,7 +41,7 @@ class BusinessBase extends Index
         }
     }
 
-    function exportExcel()
+    function exportExcel($entList)
     {
         $config = [
             'path' => FILE_PATH,
@@ -53,6 +54,7 @@ class BusinessBase extends Index
         $fileObject = $xlsxObject->fileName($fileName);
 
         // Writing data to a file ......
+        (new ExportExcelService())->export($fileObject);
 
         // Output
         $filePath = $fileObject->output();

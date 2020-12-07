@@ -125,13 +125,22 @@ class AddrController extends BusinessBase
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
 
         is_numeric($id) ? $list = Addr::create()->where('addr.id',$id) : $list = Addr::create();
+        is_numeric($id) ? $entList = Addr::create()->where('addr.id',$id) : $entList = Addr::create();
         is_numeric($id) ? $total = Addr::create()->where('id',$id) : $total = Addr::create();
 
         !is_numeric($isUse) ?: $list->where('addr.isUse',$isUse);
+        !is_numeric($isUse) ?: $entList->where('addr.isUse',$isUse);
         !is_numeric($isUse) ?: $total->where('isUse',$isUse);
 
-        empty($entName) ?: $list->where('ent.entName',"%{$entName}%",'like');
-        empty($entName) ?: $total = EntInfo::create()->where('entName',"%{$entName}%",'like');
+        if (strpos($entName,',') !== false)
+        {
+            $entName = explode(',',$entName);
+            $entName = array_filter($entName);
+        }else
+        {
+            empty($entName) ?: $list->where('ent.entName',"%{$entName}%",'like');
+            empty($entName) ?: $total = EntInfo::create()->where('entName',"%{$entName}%",'like');
+        }
 
         $list = $list->alias('addr')
             ->field([
@@ -163,7 +172,25 @@ class AddrController extends BusinessBase
 
         if ((int)$export === 1)
         {
-            return $this->exportExcel();
+            if (!empty($entName) && is_array($entName))
+            {
+                $entList = $entName;
+            }else
+            {
+                $entList = $entList->alias('addr')
+                    ->field(['ent.entName'])
+                    ->join('miniapp_use_addr as addrUse','addr.orderId = addrUse.orderId','left')
+                    ->join('miniapp_ent_info as ent','addr.orderId = ent.orderId','left')
+                    ->join('miniapp_order as orderTable','addr.orderId = orderTable.orderId','left')
+                    ->order('addrUse.endTime', 'desc')
+                    ->all();
+
+                $entList = obj2Arr($entList);
+
+                $entList = control::array_flatten($entList);
+            }
+
+            return $this->exportExcel($entList);
         }else
         {
             return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list);
