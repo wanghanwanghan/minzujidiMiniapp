@@ -197,6 +197,8 @@ class AddrController extends BusinessBase
 
                 !empty($entList) ?: $entList = [];
 
+                CommonService::getInstance()->log4PHP($entList);
+
                 $entList = control::array_flatten($entList);
             }
 
