@@ -48,7 +48,7 @@ class BusinessBase extends Index
             'path' => FILE_PATH,
         ];
 
-        $fileName   = __FUNCTION__.'.xlsx';
+        $fileName = __FUNCTION__.'.xlsx';
 
         $xlsxObject = new \Vtiful\Kernel\Excel($config);
 
@@ -61,12 +61,18 @@ class BusinessBase extends Index
         // Output
         $filePath = $fileObject->output();
 
-        $this->response()->write(file_get_contents($filePath));
+        //$this->response()->write(file_get_contents($filePath));
+        //$this->response()->withHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        //$this->response()->withHeader('Content-Disposition', 'attachment;filename='.$fileName);
+        //$this->response()->withHeader('Cache-Control','max-age=0');
+        //$this->response()->withStatus(200);
+        //$this->response()->end();
+
+        $this->response()->sendFile($filePath);
         $this->response()->withHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         $this->response()->withHeader('Content-Disposition', 'attachment;filename='.$fileName);
         $this->response()->withHeader('Cache-Control','max-age=0');
         $this->response()->withStatus(200);
-        $this->response()->end();
 
         return true;
     }
