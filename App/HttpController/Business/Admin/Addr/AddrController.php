@@ -195,6 +195,8 @@ class AddrController extends BusinessBase
 
                 $entList = obj2Arr($entList);
 
+                !empty($entList) ?: $entList = [];
+
                 $entList = control::array_flatten($entList);
             }
 
