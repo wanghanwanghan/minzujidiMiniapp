@@ -16,7 +16,11 @@ class ExportExcelService extends ServiceBase
     //只填数据
     function export(Excel $fileObject,$entList): bool
     {
+        $entList = array_filter($entList);
+
         if (empty($entList)) return false;
+
+        CommonService::getInstance()->log4PHP($entList);
 
         $header = [
             'orderTable.entName',

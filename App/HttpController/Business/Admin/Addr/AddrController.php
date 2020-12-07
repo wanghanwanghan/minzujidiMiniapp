@@ -200,8 +200,6 @@ class AddrController extends BusinessBase
                 $entList = control::array_flatten($entList);
             }
 
-            CommonService::getInstance()->log4PHP($entList);
-
             return $this->exportExcel($entList);
         }else
         {
