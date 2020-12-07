@@ -30,8 +30,6 @@ class ExportExcelService extends ServiceBase
             'orderTable.modifyArea',
             'orderTable.areaFeeItems',
             'orderTable.proxy',
-            'orderTable.status',
-            'orderTable.handleStatus',
             'orderTable.finalPrice',
             'orderTable.created_at',
             'entInfoTable.code',
@@ -64,8 +62,6 @@ class ExportExcelService extends ServiceBase
                 'orderTable.modifyArea',
                 'orderTable.areaFeeItems',
                 'orderTable.proxy',
-                'orderTable.status',
-                'orderTable.handleStatus',
                 'orderTable.finalPrice',
                 'orderTable.created_at',
                 'entInfoTable.code',
@@ -102,6 +98,73 @@ class ExportExcelService extends ServiceBase
         {
             foreach ($list as $one)
             {
+                switch ($one['userType'])
+                {
+                    case 1:
+                        $one['userType'] = '民族园内企业';
+                        break;
+                    case 2:
+                        $one['userType'] = '新注册企业';
+                        break;
+                    case 3:
+                        $one['userType'] = '渠道方';
+                        break;
+                }
+
+                switch ($one['taxType'])
+                {
+                    case 1:
+                        $one['taxType'] = '小规模纳税人';
+                        break;
+                    case 2:
+                        $one['taxType'] = '一般纳税人';
+                        break;
+                }
+
+                switch ($one['modifyAddr'])
+                {
+                    case 1:
+                        $one['modifyAddr'] = '需要变更地址';
+                        break;
+                    case 2:
+                        $one['modifyAddr'] = '不需要变更地址';
+                        break;
+                }
+
+                switch ($one['modifyArea'])
+                {
+                    case 1:
+                        $one['modifyArea'] = '不同区';
+                        break;
+                    case 2:
+                        $one['modifyArea'] = '同区';
+                        break;
+                }
+
+                $areaFeeItems = '';
+                if (strpos($one['areaFeeItems'],'1') !== false) $areaFeeItems .= ',工商,';
+                if (strpos($one['areaFeeItems'],'2') !== false) $areaFeeItems .= ',税务,';
+                if (strpos($one['areaFeeItems'],'3') !== false) $areaFeeItems .= ',银行,';
+                if (strpos($one['areaFeeItems'],'4') !== false) $areaFeeItems .= ',社保,';
+                if (strpos($one['areaFeeItems'],'5') !== false) $areaFeeItems .= ',公积金,';
+                $one['areaFeeItems'] = trim($areaFeeItems,',');
+
+                switch ($one['proxy'])
+                {
+                    case 1:
+                        $one['proxy'] = '需要代理记账';
+                        break;
+                    case 2:
+                        $one['proxy'] = '不需要代理记账';
+                        break;
+                }
+
+                $one['created_at'] = date('Y-m-d H:i:s',$one['created_at']);
+
+                $one['startTime'] = date('Y-m-d H:i:s',$one['startTime']);
+
+                $one['endTime'] = date('Y-m-d H:i:s',$one['endTime']);
+
                 $tmp[] = array_values($one);
             }
         }
