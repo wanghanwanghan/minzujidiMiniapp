@@ -119,6 +119,8 @@ class AddrController extends BusinessBase
         $id = $this->request()->getRequestParam('id') ?? '';
         $isUse = $this->request()->getRequestParam('isUse') ?? '';
         $entName = $this->request()->getRequestParam('entName') ?? '';
+        $cond = $this->request()->getRequestParam('cond') ?? '';
+        $export = $this->request()->getRequestParam('export') ?? '';
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
 
@@ -151,7 +153,7 @@ class AddrController extends BusinessBase
             ->join('miniapp_use_addr as addrUse','addr.orderId = addrUse.orderId','left')
             ->join('miniapp_ent_info as ent','addr.orderId = ent.orderId','left')
             ->join('miniapp_order as orderTable','addr.orderId = orderTable.orderId','left')
-            ->order('addr.updated_at', 'desc')
+            ->order('addrUse.endTime', 'desc')
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
             ->all();
 
@@ -159,7 +161,13 @@ class AddrController extends BusinessBase
 
         $total = $total->count();
 
-        return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list);
+        if ((int)$export === 1)
+        {
+            return $this->exportExcel();
+        }else
+        {
+            return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list);
+        }
     }
 
     //获取地址详情

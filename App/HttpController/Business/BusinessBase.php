@@ -40,6 +40,33 @@ class BusinessBase extends Index
         }
     }
 
+    function exportExcel()
+    {
+        $config = [
+            'path' => FILE_PATH,
+        ];
+
+        $fileName   = 'tempTemp.xlsx';
+        $xlsxObject = new \Vtiful\Kernel\Excel($config);
+
+        // Init File
+        $fileObject = $xlsxObject->fileName($fileName);
+
+        // Writing data to a file ......
+
+        // Output
+        $filePath = $fileObject->output();
+
+        $this->response()->write(file_get_contents($filePath));
+        $this->response()->withHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $this->response()->withHeader('Content-Disposition', 'attachment;filename='.$fileName);
+        $this->response()->withHeader('Cache-Control','max-age=0');
+        $this->response()->withStatus(200);
+        $this->response()->end();
+
+        return true;
+    }
+
     //计算分页
     function exprOffset($page, $pageSize): int
     {
