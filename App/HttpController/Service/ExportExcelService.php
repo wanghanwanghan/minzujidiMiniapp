@@ -94,9 +94,7 @@ class ExportExcelService extends ServiceBase
             ->where(['orderTable.status'=>3,'orderTable.handleStatus'=>4])
             ->all();
 
-        $res = DbManager::getInstance()->getLastQuery()->getLastQuery();
-
-        CommonService::getInstance()->log4PHP($res);
+        $list = obj2Arr($list);
 
         $fileObject->header($header)->data($list);
 
