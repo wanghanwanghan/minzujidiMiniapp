@@ -34,7 +34,7 @@ class ExportExcelService extends ServiceBase
 
         $data = [];
 
-        for ($i=0;$i<=60000;$i++)
+        for ($i=0;$i<=100;$i++)
         {
             $data[]=[
                 control::getUuid(),
