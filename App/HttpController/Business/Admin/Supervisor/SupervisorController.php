@@ -119,11 +119,13 @@ class SupervisorController extends BusinessBase
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 10;
 
         //获取所有办理完成的公司
-        $entList = Order::create()->where('status',3)->where('handleStatus',4)->all();
+        $entList = Order::create()->where('status',3)->where('handleStatus',4)
+            ->limit($this->exprOffset($page,$pageSize),$pageSize)
+            ->all();
 
+        $total = Order::create()->where('status',3)->where('handleStatus',4)->count();
 
-
-        return $this->writeJson(200,null,$entList);
+        return $this->writeJson(200,$this->createPaging($page,$pageSize,$total),$entList);
     }
 
 
