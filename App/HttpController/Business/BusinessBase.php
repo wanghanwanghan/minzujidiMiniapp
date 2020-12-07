@@ -4,6 +4,7 @@ namespace App\HttpController\Business;
 
 use App\HttpController\Index;
 use App\HttpController\Service\ExportExcelService;
+use wanghanwanghan\someUtils\control;
 
 class BusinessBase extends Index
 {
@@ -47,14 +48,15 @@ class BusinessBase extends Index
             'path' => FILE_PATH,
         ];
 
-        $fileName   = 'tempTemp.xlsx';
+        $fileName   = __FUNCTION__.'.xlsx';
+
         $xlsxObject = new \Vtiful\Kernel\Excel($config);
 
         // Init File
         $fileObject = $xlsxObject->fileName($fileName);
 
         // Writing data to a file ......
-        (new ExportExcelService())->export($fileObject);
+        (new ExportExcelService())->export($fileObject,$entList);
 
         // Output
         $filePath = $fileObject->output();

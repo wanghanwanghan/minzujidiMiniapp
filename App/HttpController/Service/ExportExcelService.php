@@ -13,7 +13,7 @@ class ExportExcelService extends ServiceBase
     }
 
     //只填数据
-    function export(Excel $fileObject): bool
+    function export(Excel $fileObject,$entList): bool
     {
         $header = [
             'addr.id',
