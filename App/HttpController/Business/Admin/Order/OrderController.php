@@ -5,6 +5,7 @@ namespace App\HttpController\Business\Admin\Order;
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Models\Admin\Addr;
 use App\HttpController\Models\Admin\AddrUse;
+use App\HttpController\Models\Admin\SupervisorPhoneEntName;
 use App\HttpController\Models\Api\EntGuDong;
 use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Models\Api\Order;
@@ -255,9 +256,16 @@ class OrderController extends BusinessBase
         if (empty($entName)) return $this->writeJson(201,null,null,'entName不能是空');
 
         EntInfo::create()->where('orderId',$orderId)->update(['entName'=>$entName,'code'=>$code]);
+        Order::create()->where('orderId',$orderId)->update(['entName'=>$entName]);
+        UploadFile::create()->where('orderId',$orderId)->update(['entName'=>$entName]);
+        UploadFile::create()->where('orderId',$orderId)->update(['entName'=>$entName]);
+        $info = SupervisorPhoneEntName::create()->where('entName',$entName)->get();
 
+        !empty($info) ?: SupervisorPhoneEntName::create()->data([
+            'phone'=>11111111111,'entName'=>$entName,'status'=>1
+        ])->save();
 
-        return $this->writeJson(200,null,null);
+        return $this->writeJson(200,null,null,'成功');
     }
 
 
