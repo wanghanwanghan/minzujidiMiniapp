@@ -96,6 +96,8 @@ class ExportExcelService extends ServiceBase
 
         $list = obj2Arr($list);
 
+        CommonService::getInstance()->log4PHP($list);
+
         $fileObject->header($header)->data($list);
 
         return true;
