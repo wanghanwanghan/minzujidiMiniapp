@@ -3,6 +3,7 @@
 namespace App\HttpController\Service;
 
 use App\HttpController\Models\Api\Order;
+use EasySwoole\ORM\DbManager;
 use Vtiful\Kernel\Excel;
 use wanghanwanghan\someUtils\control;
 
@@ -19,8 +20,6 @@ class ExportExcelService extends ServiceBase
         $entList = array_filter($entList);
 
         if (empty($entList)) return false;
-
-        CommonService::getInstance()->log4PHP($entList);
 
         $header = [
             'orderTable.entName',
@@ -94,6 +93,10 @@ class ExportExcelService extends ServiceBase
             ->where('orderTable.entName',$entList,'in')
             ->where(['orderTable.status'=>3,'orderTable.handleStatus'=>4])
             ->all();
+
+        $res = DbManager::getInstance()->getLastQuery()->getLastQuery();
+
+        CommonService::getInstance()->log4PHP($res);
 
         $fileObject->header($header)->data($list);
 
