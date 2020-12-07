@@ -86,7 +86,7 @@
      id = 1，地址主键
      isUse = 1，1是已被使用，0是未使用
      entName = XXX，支持模糊搜索，导出时，传逗号分割的字符串
-     cond = XXX，查询条件
+     cond = XXX，查询条件，1是按照地址过期时间从近到远
      export = 1，是否导出
      page = 1
      pageSize = 10

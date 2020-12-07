@@ -142,7 +142,7 @@ class AddrController extends BusinessBase
             empty($entName) ?: $total = EntInfo::create()->where('entName',"%{$entName}%",'like');
         }
 
-        $list = $list->alias('addr')
+        $list->alias('addr')
             ->field([
                 'addr.id',
                 'addr.name',
@@ -161,10 +161,19 @@ class AddrController extends BusinessBase
             ])
             ->join('miniapp_use_addr as addrUse','addr.orderId = addrUse.orderId','left')
             ->join('miniapp_ent_info as ent','addr.orderId = ent.orderId','left')
-            ->join('miniapp_order as orderTable','addr.orderId = orderTable.orderId','left')
-            ->order('addrUse.endTime', 'desc')
-            ->limit($this->exprOffset($page, $pageSize), $pageSize)
-            ->all();
+            ->join('miniapp_order as orderTable','addr.orderId = orderTable.orderId','left');
+
+        //查询条件
+        switch ((int)$cond)
+        {
+            case 1:
+                //1是按照地址过期时间从近到远
+                $list->order('addrUse.endTime', 'desc');
+                break;
+            default:
+        }
+
+        $list = $list->limit($this->exprOffset($page, $pageSize), $pageSize)->all();
 
         $list = obj2Arr($list);
 
@@ -182,7 +191,6 @@ class AddrController extends BusinessBase
                     ->join('miniapp_use_addr as addrUse','addr.orderId = addrUse.orderId','left')
                     ->join('miniapp_ent_info as ent','addr.orderId = ent.orderId','left')
                     ->join('miniapp_order as orderTable','addr.orderId = orderTable.orderId','left')
-                    ->order('addrUse.endTime', 'desc')
                     ->all();
 
                 $entList = obj2Arr($entList);
