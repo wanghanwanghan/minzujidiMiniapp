@@ -2,6 +2,7 @@
 
 namespace App\HttpController\Service;
 
+use App\HttpController\Models\Api\Order;
 use Vtiful\Kernel\Excel;
 use wanghanwanghan\someUtils\control;
 
@@ -15,50 +16,85 @@ class ExportExcelService extends ServiceBase
     //只填数据
     function export(Excel $fileObject,$entList): bool
     {
+        if (empty($entList)) return false;
+
         $header = [
-            'addr.id',
-            'addr.name',
-            'addr.category',
-            'ent.code',
-            'ent.entName',
-            'ent.regEntName',
-            'addr.isUse',
-            'addrUse.startTime',
-            'addrUse.endTime',
-            'ent.fr',
-            'ent.frPhone',
-            'ent.jbr',
-            'ent.jbrPhone',
+            'orderTable.entName',
+            'entInfoTable.code',
+            'orderTable.phone',
+            'orderTable.userType',
+            'orderTable.taxType',
+            'orderTable.modifyAddr',
+            'orderTable.modifyArea',
+            'orderTable.areaFeeItems',
+            'orderTable.proxy',
+            'orderTable.status',
+            'orderTable.handleStatus',
             'orderTable.finalPrice',
+            'orderTable.created_at',
+            'entInfoTable.fr',
+            'entInfoTable.frCode',
+            'entInfoTable.frPhone',
+            'entInfoTable.frTel',
+            'entInfoTable.frAddr',
+            'entInfoTable.frEmail',
+            'entInfoTable.jbr',
+            'entInfoTable.jbrCode',
+            'entInfoTable.jbrPhone',
+            'entInfoTable.jbrTel',
+            'entInfoTable.jbrAddr',
+            'entInfoTable.jbrEmail',
+            'addrTable.category',
+            'addrTable.number',
+            'addrTable.name',
+            'useAddrTable.startTime',
+            'useAddrTable.endTime',
         ];
 
-        $data = [];
+        $list = Order::create()->alias('orderTable')
+            ->field([
+                'orderTable.entName',
+                'entInfoTable.code',
+                'orderTable.phone',
+                'orderTable.userType',
+                'orderTable.taxType',
+                'orderTable.modifyAddr',
+                'orderTable.modifyArea',
+                'orderTable.areaFeeItems',
+                'orderTable.proxy',
+                'orderTable.status',
+                'orderTable.handleStatus',
+                'orderTable.finalPrice',
+                'orderTable.created_at',
+                'entInfoTable.fr',
+                'entInfoTable.frCode',
+                'entInfoTable.frPhone',
+                'entInfoTable.frTel',
+                'entInfoTable.frAddr',
+                'entInfoTable.frEmail',
+                'entInfoTable.jbr',
+                'entInfoTable.jbrCode',
+                'entInfoTable.jbrPhone',
+                'entInfoTable.jbrTel',
+                'entInfoTable.jbrAddr',
+                'entInfoTable.jbrEmail',
+                'addrTable.category',
+                'addrTable.number',
+                'addrTable.name',
+                'useAddrTable.startTime',
+                'useAddrTable.endTime',
+            ])
+            ->join('miniapp_ent_info as entInfoTable','orderTable.orderId = entInfoTable.orderId','left')
+            ->join('miniapp_addr as addrTable','orderTable.orderId = addrTable.orderId','left')
+            ->join('miniapp_use_addr as useAddrTable','orderTable.orderId = useAddrTable.orderId','left')
+            ->where('orderTable.entName',$entList,'in')
+            ->where(['orderTable.status'=>3,'orderTable.handleStatus'=>4])
+            ->all();
 
-        for ($i=0;$i<=100;$i++)
-        {
-            $data[]=[
-                control::getUuid(),
-                control::getUuid(),
-                control::getUuid(),
-                control::getUuid(),
-                control::getUuid(),
-                control::getUuid(),
-                control::getUuid(),
-                control::getUuid(),
-                control::getUuid(),
-                control::getUuid(),
-                control::getUuid(),
-                control::getUuid(),
-                control::getUuid(),
-                control::getUuid(),
-            ];
-        }
-
-        $fileObject->header($header)->data($data);
+        $fileObject->header($header)->data($list);
 
         return true;
     }
-
 
 
 
