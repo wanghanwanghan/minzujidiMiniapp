@@ -168,7 +168,7 @@ class AddrController extends BusinessBase
         {
             case 1:
                 //1是按照地址过期时间从近到远
-                $list->order('addrUse.endTime', 'desc');
+                $list->order('addrUse.endTime', 'asc');
                 break;
             default:
         }
