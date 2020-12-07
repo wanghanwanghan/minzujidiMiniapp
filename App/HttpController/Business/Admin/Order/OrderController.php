@@ -244,6 +244,22 @@ class OrderController extends BusinessBase
         return $this->writeJson(200, null, null, '成功');
     }
 
+    //办理完成后关联公司名称
+    function addEntNameToTable()
+    {
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
+        $entName = $this->request()->getRequestParam('entName') ?? '';
+        $code = $this->request()->getRequestParam('code') ?? '';
+
+        if (empty($orderId)) return $this->writeJson(201,null,null,'orderId不能是空');
+        if (empty($entName)) return $this->writeJson(201,null,null,'entName不能是空');
+
+        EntInfo::create()->where('orderId',$orderId)->update(['entName'=>$entName,'code'=>$code]);
+
+
+        return $this->writeJson(200,null,null);
+    }
+
 
 
 
