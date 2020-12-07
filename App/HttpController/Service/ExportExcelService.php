@@ -22,34 +22,34 @@ class ExportExcelService extends ServiceBase
         if (empty($entList)) return false;
 
         $header = [
-            'orderTable.entName',
-            'orderTable.phone',
-            'orderTable.userType',
-            'orderTable.taxType',
-            'orderTable.modifyAddr',
-            'orderTable.modifyArea',
-            'orderTable.areaFeeItems',
-            'orderTable.proxy',
-            'orderTable.finalPrice',
-            'orderTable.created_at',
-            'entInfoTable.code',
-            'entInfoTable.fr',
-            'entInfoTable.frCode',
-            'entInfoTable.frPhone',
-            'entInfoTable.frTel',
-            'entInfoTable.frAddr',
-            'entInfoTable.frEmail',
-            'entInfoTable.jbr',
-            'entInfoTable.jbrCode',
-            'entInfoTable.jbrPhone',
-            'entInfoTable.jbrTel',
-            'entInfoTable.jbrAddr',
-            'entInfoTable.jbrEmail',
-            'addrTable.category',
-            'addrTable.number',
-            'addrTable.name',
-            'useAddrTable.startTime',
-            'useAddrTable.endTime',
+            '企业名称',
+            '提交人手机号',
+            '提交人所属',
+            '纳税类型类型',
+            '是否变更地址',
+            '是否跨区',
+            '附加业务',
+            '是否代理记账',
+            '订单价格',
+            '下单时间',
+            '统一社会信用代码',
+            '法人',
+            '法人身份证',
+            '法人手机号',
+            '法人座机号',
+            '法人联系地址',
+            '法人电子邮箱',
+            '经办人',
+            '经办人身份证',
+            '经办人手机号',
+            '经办人座机号',
+            '经办人联系地址',
+            '经办人电子邮箱',
+            '地址分类',
+            '地址号码',
+            '地址名称',
+            '地址开始使用时间',
+            '地址到期时间',
         ];
 
         $list = Order::create()->alias('orderTable')
@@ -142,11 +142,11 @@ class ExportExcelService extends ServiceBase
                 }
 
                 $areaFeeItems = '';
-                if (strpos($one['areaFeeItems'],'1') !== false) $areaFeeItems .= ',工商,';
-                if (strpos($one['areaFeeItems'],'2') !== false) $areaFeeItems .= ',税务,';
-                if (strpos($one['areaFeeItems'],'3') !== false) $areaFeeItems .= ',银行,';
-                if (strpos($one['areaFeeItems'],'4') !== false) $areaFeeItems .= ',社保,';
-                if (strpos($one['areaFeeItems'],'5') !== false) $areaFeeItems .= ',公积金,';
+                if (strpos($one['areaFeeItems'],'1') !== false) $areaFeeItems .= '工商,';
+                if (strpos($one['areaFeeItems'],'2') !== false) $areaFeeItems .= '税务,';
+                if (strpos($one['areaFeeItems'],'3') !== false) $areaFeeItems .= '银行,';
+                if (strpos($one['areaFeeItems'],'4') !== false) $areaFeeItems .= '社保,';
+                if (strpos($one['areaFeeItems'],'5') !== false) $areaFeeItems .= '公积金,';
                 $one['areaFeeItems'] = trim($areaFeeItems,',');
 
                 switch ($one['proxy'])
