@@ -23,7 +23,6 @@ class ExportExcelService extends ServiceBase
 
         $header = [
             'orderTable.entName',
-            'entInfoTable.code',
             'orderTable.phone',
             'orderTable.userType',
             'orderTable.taxType',
@@ -35,6 +34,7 @@ class ExportExcelService extends ServiceBase
             'orderTable.handleStatus',
             'orderTable.finalPrice',
             'orderTable.created_at',
+            'entInfoTable.code',
             'entInfoTable.fr',
             'entInfoTable.frCode',
             'entInfoTable.frPhone',
