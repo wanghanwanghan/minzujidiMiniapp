@@ -121,6 +121,7 @@ class Router extends AbstractRouter
         {
             $prefix='/Business/Admin/Supervisor/SupervisorController/';
             $routeCollector->addRoute(['GET','POST'],'/selectList',$prefix.'selectList');
+            $routeCollector->addRoute(['GET','POST'],'/selectEntList',$prefix.'selectEntList');
         });
 
     }

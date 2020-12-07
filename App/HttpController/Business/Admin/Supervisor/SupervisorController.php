@@ -5,6 +5,7 @@ namespace App\HttpController\Business\Admin\Supervisor;
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Models\Admin\SupervisorEntNameInfo;
 use App\HttpController\Models\Admin\SupervisorPhoneEntName;
+use App\HttpController\Models\Api\Order;
 use Carbon\Carbon;
 
 class SupervisorController extends BusinessBase
@@ -111,7 +112,19 @@ class SupervisorController extends BusinessBase
         ], ['entList' => $entList, 'detail' => $detail], '查询成功');
     }
 
+    //获取风险监控公司列表
+    function selectEntList()
+    {
+        $page = $this->request()->getRequestParam('page') ?? 1;
+        $pageSize = $this->request()->getRequestParam('pageSize') ?? 10;
 
+        //获取所有办理完成的公司
+        $entList = Order::create()->where('status',3)->where('handleStatus',4)->all();
+
+
+
+        return $this->writeJson(200,null,$entList);
+    }
 
 
 
