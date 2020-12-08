@@ -119,7 +119,7 @@ class AddrController extends BusinessBase
     {
         $id = $this->request()->getRequestParam('id') ?? '';
         $isUse = $this->request()->getRequestParam('isUse') ?? '';
-        $entName = $this->request()->getRequestParam('entName') ?? '';
+        $entName = $this->request()->getRequestParam('entName') ?? '';//搜公司名称，地址名称，法人
         $cond = $this->request()->getRequestParam('cond') ?? '';
         $export = $this->request()->getRequestParam('export') ?? '';
         $page = $this->request()->getRequestParam('page') ?? 1;
@@ -135,12 +135,15 @@ class AddrController extends BusinessBase
 
         if (strpos($entName,',') !== false)
         {
+            //这里是数组
             $entName = explode(',',$entName);
             $entName = array_filter($entName);
         }else
         {
-            empty($entName) ?: $list->where('ent.entName',"%{$entName}%",'like');
-            empty($entName) ?: $total = EntInfo::create()->where('entName',"%{$entName}%",'like');
+            empty($entName) ?: $list
+                ->where("ent.entName like %{$entName}% or addr.name like %{$entName}% or ent.fr like %{$entName}%");
+            empty($entName) ?: $total = EntInfo::create()
+                ->where("entName like %{$entName}% or fr like %{$entName}%");
         }
 
         $list->alias('addr')
