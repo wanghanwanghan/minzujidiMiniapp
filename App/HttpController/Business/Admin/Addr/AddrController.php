@@ -141,9 +141,9 @@ class AddrController extends BusinessBase
         }else
         {
             empty($entName) ?: $list
-                ->where("ent.entName like %{$entName}% or addr.name like %{$entName}% or ent.fr like %{$entName}%");
+                ->where("ent.entName like '%{$entName}%' or addr.name like '%{$entName}%' or ent.fr like '%{$entName}%'");
             empty($entName) ?: $total = EntInfo::create()
-                ->where("entName like %{$entName}% or fr like %{$entName}%");
+                ->where("entName like '%{$entName}%' or fr like '%{$entName}%'");
         }
 
         $list->alias('addr')
