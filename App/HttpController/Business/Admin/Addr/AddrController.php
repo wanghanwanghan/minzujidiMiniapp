@@ -179,7 +179,7 @@ class AddrController extends BusinessBase
                 break;
             case 3:
                 //3是开业并且地址异常
-                $list->where('ent.entStatusInApi','%地址异常%','like');
+                $list->where('ent.entStatusInApi','%地址%','like');
                 break;
             case 4:
                 //4是吊销
