@@ -171,7 +171,8 @@ class AddrController extends BusinessBase
         {
             case 1:
                 //1是地址模糊搜索
-                $list->order('addrUse.endTime','asc');
+                //Addr::create()->where('name','%民族园1号%','like');
+                //$list->where('addrUse.endTime','asc');
                 break;
             case 2:
                 //2是开业
@@ -195,7 +196,8 @@ class AddrController extends BusinessBase
                 break;
             case 7:
                 //7是30天内到期
-                $list->where('addrUse.endTime' ,Carbon::now()->addDays(30)->timestamp,'<');
+                $list->where('addrUse.endTime',Carbon::now()->addDays(30)->timestamp,'<');
+                $list->order('addrUse.endTime','asc');
                 break;
             default:
         }
