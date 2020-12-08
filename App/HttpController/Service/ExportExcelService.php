@@ -180,6 +180,7 @@ class ExportExcelService extends ServiceBase
 
                 if (!empty($zlht))
                 {
+                    //
                     $one['zlhtStartTime'] = date('Y-m-d H:i:s',$zlht['startTime']);
                     $one['zlhtEndTime'] = date('Y-m-d H:i:s',$zlht['endTime']);
                 }
