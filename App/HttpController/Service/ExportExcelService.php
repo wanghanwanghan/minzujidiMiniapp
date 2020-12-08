@@ -25,7 +25,7 @@ class ExportExcelService extends ServiceBase
             '企业名称',
             '提交人手机号',
             '提交人所属',
-            '纳税类型类型',
+            '纳税类型',
             '是否变更地址',
             '是否跨区',
             '附加业务',

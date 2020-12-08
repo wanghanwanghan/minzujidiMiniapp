@@ -22,7 +22,7 @@ class UploadFileService extends ServiceBase
     const STATUS_8 = 8;
     const STATUS_9 = 9;
 
-    function uploadFile($filename, $orderId, $phone, $type, $status = 0)
+    function uploadFile($filename, $orderId, $phone, $type, $status = 0 , $startTime = 0, $endTime = 0)
     {
         $filename = explode(',', trim($filename));
 
@@ -34,6 +34,7 @@ class UploadFileService extends ServiceBase
         $info = UploadFile::create()->where('orderId', $orderId)->where('type', $type)->get();
 
         if (empty($info)) {
+
             $insert = [
                 'orderId' => $orderId,
                 'phone' => $phone,
@@ -41,17 +42,22 @@ class UploadFileService extends ServiceBase
                 'fileNum' => $fileNum,
                 'filename' => implode(',', $filename),
                 'status' => $status,
+                'startTime' => $startTime,
+                'endTime' => $endTime,
             ];
 
             UploadFile::create()->data($insert)->save();
 
         } else {
+
             //如果存在就更新
             $info->update([
                 'fileNum' => $fileNum,
                 'filename' => implode(',', $filename),
                 //'status' => QueryBuilder::inc(1),//自增1
                 'status' => $status,
+                'startTime' => $startTime,
+                'endTime' => $endTime,
             ]);
         }
 
