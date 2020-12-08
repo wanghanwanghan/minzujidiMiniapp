@@ -3,6 +3,7 @@
 namespace App\HttpController\Service;
 
 use App\HttpController\Models\Api\Order;
+use App\HttpController\Models\Api\UploadFile;
 use EasySwoole\ORM\DbManager;
 use Vtiful\Kernel\Excel;
 use wanghanwanghan\someUtils\control;
@@ -22,6 +23,7 @@ class ExportExcelService extends ServiceBase
         if (empty($entList)) return false;
 
         $header = [
+            '订单号',
             '企业名称',
             '提交人手机号',
             '提交人所属',
@@ -58,6 +60,7 @@ class ExportExcelService extends ServiceBase
 
         $list = Order::create()->alias('orderTable')
             ->field([
+                'orderTable.orderId',
                 'orderTable.entName',
                 'orderTable.phone',
                 'orderTable.userType',
@@ -97,10 +100,6 @@ class ExportExcelService extends ServiceBase
             ->where('orderTable.entName',$entList,'in')
             ->where(['orderTable.status'=>3,'orderTable.handleStatus'=>4])
             ->all();
-
-        $sql = DbManager::getInstance()->getLastQuery()->getLastQuery();
-
-        CommonService::getInstance()->log4PHP($sql);
 
         $list = obj2Arr($list);
 
@@ -176,8 +175,14 @@ class ExportExcelService extends ServiceBase
                 $one['startTime'] = date('Y-m-d H:i:s',$one['startTime']);
                 $one['endTime'] = date('Y-m-d H:i:s',$one['endTime']);
 
-                $one['zlhtStartTime'] = date('Y-m-d H:i:s',$one['zlhtStartTime']);
-                $one['zlhtEndTime'] = date('Y-m-d H:i:s',$one['zlhtEndTime']);
+                //添加租赁合同时间，如果存在
+                $zlht = UploadFile::create()->where(['orderId'=>$one['orderId'],'type'=>4])->get();
+
+                if (!empty($zlht))
+                {
+                    $one['zlhtStartTime'] = date('Y-m-d H:i:s',$zlht['startTime']);
+                    $one['zlhtEndTime'] = date('Y-m-d H:i:s',$zlht['endTime']);
+                }
 
                 $tmp[] = array_values($one);
             }
