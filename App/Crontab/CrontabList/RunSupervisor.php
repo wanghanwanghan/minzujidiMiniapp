@@ -83,9 +83,9 @@ class RunSupervisor extends AbstractCronTask
         {
             $apiDetail = current($res['result']);
 
-            $entStatus = isset($apiDetail['ENTSTATUS']) ?? '';
-            $entCode = isset($apiDetail['SHXYDM']) ?? '';
-            $entAddr = isset($apiDetail['DOM']) ?? '';
+            $entStatus = $apiDetail['ENTSTATUS'] ?? '';
+            $entCode = $apiDetail['SHXYDM'] ?? '';
+            $entAddr = $apiDetail['DOM'] ?? '';
 
             $entInfo = EntInfo::create()->where('entName',$entName)->get();
 
