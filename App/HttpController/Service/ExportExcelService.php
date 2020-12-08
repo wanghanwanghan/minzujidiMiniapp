@@ -88,15 +88,14 @@ class ExportExcelService extends ServiceBase
                 'addrTable.name',
                 'useAddrTable.startTime',
                 'useAddrTable.endTime',
-                'uploadTable.startTime as zlhtStartTime',
-                'uploadTable.endTime as zlhtEndTime',
+                'zlhtStartTime',
+                'zlhtEndTime',
             ])
             ->join('miniapp_ent_info as entInfoTable','orderTable.orderId = entInfoTable.orderId','left')
             ->join('miniapp_addr as addrTable','orderTable.orderId = addrTable.orderId','left')
             ->join('miniapp_use_addr as useAddrTable','orderTable.orderId = useAddrTable.orderId','left')
-            ->join('miniapp_upload_file as uploadTable','orderTable.orderId = uploadTable.orderId','left')
             ->where('orderTable.entName',$entList,'in')
-            ->where(['orderTable.status'=>3,'orderTable.handleStatus'=>4,'uploadTable.type'=>4])
+            ->where(['orderTable.status'=>3,'orderTable.handleStatus'=>4])
             ->all();
 
         $sql = DbManager::getInstance()->getLastQuery()->getLastQuery();
