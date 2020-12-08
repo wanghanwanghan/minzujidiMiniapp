@@ -88,8 +88,8 @@ class ExportExcelService extends ServiceBase
                 'addrTable.name',
                 'useAddrTable.startTime',
                 'useAddrTable.endTime',
-                'zlhtStartTime',
-                'zlhtEndTime',
+                '"" as zlhtStartTime',
+                '"" as zlhtEndTime',
             ])
             ->join('miniapp_ent_info as entInfoTable','orderTable.orderId = entInfoTable.orderId','left')
             ->join('miniapp_addr as addrTable','orderTable.orderId = addrTable.orderId','left')
