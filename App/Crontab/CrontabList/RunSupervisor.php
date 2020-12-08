@@ -5,6 +5,7 @@ namespace App\Crontab\CrontabList;
 use App\Crontab\CrontabBase;
 use App\HttpController\Models\Admin\SupervisorEntNameInfo;
 use App\HttpController\Models\Admin\SupervisorPhoneEntName;
+use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Service\CommonService;
 use App\HttpController\Service\HttpClient\CoHttpClient;
 use Carbon\Carbon;
@@ -53,6 +54,7 @@ class RunSupervisor extends AbstractCronTask
             $this->gs($one['entName']);
             $this->gl($one['entName']);
             $this->jy($one['entName']);
+            $this->addDetailInfo($one['entName']);
         }
 
         return true;
@@ -62,6 +64,39 @@ class RunSupervisor extends AbstractCronTask
     private function addEntName($entName,$type)
     {
         return true;
+    }
+
+    //补全公司信息，新进园区的企业，可能没有统一社会信用代码
+    private function addDetailInfo($entName): void
+    {
+        $postData = [
+            'phone' => 11111111111,
+            'entName' => $entName,
+        ];
+
+        $url = 'https://api.meirixindong.com/api/v1/ts/getRegisterInfo';
+
+        $res = (new CoHttpClient())->setDecode(true)->send($url, $postData, $this->headers);
+
+        if ($res['code']==200 && !empty($res['result']))
+        {
+            $apiDetail = current($res['result']);
+
+            $entStatus = isset($apiDetail['ENTSTATUS']) ?? '';
+            $entCode = isset($apiDetail['SHXYDM']) ?? '';
+            $entAddr = isset($apiDetail['DOM']) ?? '';
+
+            $entInfo = EntInfo::create()->where('entName',$entName)->get();
+
+            if (!empty($entInfo))
+            {
+                $entInfo->update([
+                    'entStatusInApi' => $entStatus,
+                    'code' => $entCode,
+                    'entAddrInApi' => $entAddr,
+                ]);
+            }
+        }
     }
 
     //司法相关
