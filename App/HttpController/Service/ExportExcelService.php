@@ -99,6 +99,10 @@ class ExportExcelService extends ServiceBase
             ->where(['orderTable.status'=>3,'orderTable.handleStatus'=>4,'uploadTable.type'=>4])
             ->all();
 
+        $sql = DbManager::getInstance()->getLastQuery()->getLastQuery();
+
+        CommonService::getInstance()->log4PHP($sql);
+
         $list = obj2Arr($list);
 
         $tmp = [];
