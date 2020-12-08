@@ -42,8 +42,8 @@ class UploadFileService extends ServiceBase
                 'fileNum' => $fileNum,
                 'filename' => implode(',', $filename),
                 'status' => $status,
-                'startTime' => $startTime,
-                'endTime' => $endTime,
+                'startTime' => $startTime === 0 ? 0 : substr($startTime,0,10),
+                'endTime' => $endTime === 0 ? 0 : substr($endTime,0,10),
             ];
 
             UploadFile::create()->data($insert)->save();
@@ -56,8 +56,8 @@ class UploadFileService extends ServiceBase
                 'filename' => implode(',', $filename),
                 //'status' => QueryBuilder::inc(1),//自增1
                 'status' => $status,
-                'startTime' => $startTime,
-                'endTime' => $endTime,
+                'startTime' => $startTime === 0 ? 0 : substr($startTime,0,10),
+                'endTime' => $endTime === 0 ? 0 : substr($endTime,0,10),
             ]);
         }
 

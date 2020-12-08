@@ -250,10 +250,10 @@ class UserController extends BusinessBase
         $frEmail = $this->request()->getRequestParam('frEmail') ?? '';//邮箱
         $jbr = $this->request()->getRequestParam('jbr') ?? '';//经办人
         $jbrCode = $this->request()->getRequestParam('jbrCode') ?? '';//经办人身份证号
-        $jbrPhone = $this->request()->getRequestParam('jbrCode') ?? '';//经办人手机
-        $jbrTel = $this->request()->getRequestParam('jbrCode') ?? '';//经办人座机
-        $jbrAddr = $this->request()->getRequestParam('jbrCode') ?? '';//经办人地址
-        $jbrEmail = $this->request()->getRequestParam('jbrCode') ?? '';//经办人邮箱
+        $jbrPhone = $this->request()->getRequestParam('jbrPhone') ?? '';//经办人手机
+        $jbrTel = $this->request()->getRequestParam('jbrTel') ?? '';//经办人座机
+        $jbrAddr = $this->request()->getRequestParam('jbrAddr') ?? '';//经办人地址
+        $jbrEmail = $this->request()->getRequestParam('jbrEmail') ?? '';//经办人邮箱
 
         EntInfo::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
             $builder->where('orderId', $orderId);
