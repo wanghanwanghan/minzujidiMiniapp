@@ -9,6 +9,7 @@ use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Models\Api\Order;
 use App\HttpController\Service\CommonService;
 use App\HttpController\Service\CreateTable;
+use Carbon\Carbon;
 use EasySwoole\Http\Message\UploadFile;
 use EasySwoole\ORM\DbManager;
 use wanghanwanghan\someUtils\control;
@@ -150,6 +151,8 @@ class AddrController extends BusinessBase
                 'ent.code',
                 'ent.entName',
                 'ent.regEntName',
+                'ent.entStatusInApi',
+                'ent.entAddrInApi',
                 'addr.isUse',
                 'addrUse.startTime',
                 'addrUse.endTime',
@@ -167,8 +170,32 @@ class AddrController extends BusinessBase
         switch ((int)$cond)
         {
             case 1:
-                //1是按照地址过期时间从近到远
-                $list->order('addrUse.endTime', 'asc');
+                //1是地址模糊搜索
+                $list->order('addrUse.endTime','asc');
+                break;
+            case 2:
+                //2是开业
+                $list->where('ent.entStatusInApi','%开业%','like');
+                break;
+            case 3:
+                //3是开业并且地址异常
+                $list->where('ent.entStatusInApi','%地址异常%','like');
+                break;
+            case 4:
+                //4是吊销
+                $list->where('ent.entStatusInApi','%吊销%','like');
+                break;
+            case 5:
+                //5是注销
+                $list->where('ent.entStatusInApi','%注销%','like');
+                break;
+            case 6:
+                //6是地址变更
+                $list->where('ent.entAddrInApi','%民族园%','not like');
+                break;
+            case 7:
+                //7是30天内到期
+                $list->where('addrUse.endTime' ,Carbon::now()->addDays(30)->timestamp,'<');
                 break;
             default:
         }
