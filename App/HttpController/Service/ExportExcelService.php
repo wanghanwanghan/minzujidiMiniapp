@@ -52,6 +52,8 @@ class ExportExcelService extends ServiceBase
             '地址名称',
             '地址开始使用时间',
             '地址到期时间',
+            '租赁合同开始时间',
+            '租赁合同到期时间',
         ];
 
         $list = Order::create()->alias('orderTable')
@@ -86,12 +88,15 @@ class ExportExcelService extends ServiceBase
                 'addrTable.name',
                 'useAddrTable.startTime',
                 'useAddrTable.endTime',
+                'uploadTable.startTime as zlhtStartTime',
+                'uploadTable.endTime as zlhtEndTime',
             ])
             ->join('miniapp_ent_info as entInfoTable','orderTable.orderId = entInfoTable.orderId','left')
             ->join('miniapp_addr as addrTable','orderTable.orderId = addrTable.orderId','left')
             ->join('miniapp_use_addr as useAddrTable','orderTable.orderId = useAddrTable.orderId','left')
+            ->join('miniapp_upload_file as uploadTable','orderTable.orderId = uploadTable.orderId','left')
             ->where('orderTable.entName',$entList,'in')
-            ->where(['orderTable.status'=>3,'orderTable.handleStatus'=>4])
+            ->where(['orderTable.status'=>3,'orderTable.handleStatus'=>4,'uploadTable.type'=>4])
             ->all();
 
         $list = obj2Arr($list);
@@ -166,8 +171,10 @@ class ExportExcelService extends ServiceBase
                 $one['created_at'] = date('Y-m-d H:i:s',$one['created_at']);
 
                 $one['startTime'] = date('Y-m-d H:i:s',$one['startTime']);
-
                 $one['endTime'] = date('Y-m-d H:i:s',$one['endTime']);
+
+                $one['zlhtStartTime'] = date('Y-m-d H:i:s',$one['zlhtStartTime']);
+                $one['zlhtEndTime'] = date('Y-m-d H:i:s',$one['zlhtEndTime']);
 
                 $tmp[] = array_values($one);
             }
