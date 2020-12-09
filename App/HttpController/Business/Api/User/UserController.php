@@ -112,6 +112,9 @@ class UserController extends BusinessBase
         //创建小程序支付对象
         $payObj = (new wxPayService())->miniAppPay($jsCode, $orderId, $info->finalPrice, '民族基地');
 
+        //新企业提交
+        CommonService::getInstance()->send_xinqiyetijiao();
+
         return $this->writeJson(200, null, $payObj, '成功');
     }
 

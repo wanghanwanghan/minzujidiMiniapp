@@ -206,6 +206,11 @@ class OrderController extends BusinessBase
 
         $info->update(['handleStatus'=>$handleStatus,'errInfo'=>$errInfo]);
 
+        //审核失败
+        if ($handleStatus == '1') CommonService::getInstance()->send_shenheshibai();
+        //办理成功
+        if ($handleStatus == '4') CommonService::getInstance()->send_banlichenggong();
+
         return $this->writeJson(200, null, null, '成功');
     }
 

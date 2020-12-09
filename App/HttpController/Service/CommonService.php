@@ -32,33 +32,6 @@ class CommonService extends ServiceBase
         return control::writeLog($content, LOG_PATH, $type, $filename);
     }
 
-    //发送短信
-    function vCodeSend($phoneArr, $type)
-    {
-        $ak = $this->ak;
-        $sk = $this->sk;
-        $auth = new Auth($ak, $sk);
-        $client = new Sms($auth);
-
-        $tmp = [];
-        foreach ($phoneArr as $one) {
-            $tmp[] = (string)$one;
-        }
-
-        mt_srand();
-        $code = mt_rand(100000, 999999);
-
-        $res = $client->sendMessage('1328986196495314944', $tmp, ['code' => $code]);
-
-        $redis = Redis::defer('redis');
-
-        $redis->select(0);
-
-        $redis->set(current($tmp) . $type, $code, 300);
-
-        return empty(current($res)) ? '验证码发送失败' : '验证码发送成功';
-    }
-
     //发送邮件
     function sendEmail($sendTo, array $addAttachment)
     {
@@ -89,4 +62,131 @@ class CommonService extends ServiceBase
 
         return true;
     }
+
+    //发送短信
+    function vCodeSend($phoneArr, $type)
+    {
+        $ak = $this->ak;
+        $sk = $this->sk;
+        $auth = new Auth($ak, $sk);
+        $client = new Sms($auth);
+
+        $tmp = [];
+        foreach ($phoneArr as $one) {
+            $tmp[] = (string)$one;
+        }
+
+        mt_srand();
+        $code = mt_rand(100000, 999999);
+
+        $res = $client->sendMessage('1328986196495314944', $tmp, ['code' => $code]);
+
+        $redis = Redis::defer('redis');
+
+        $redis->select(0);
+
+        $redis->set(current($tmp) . $type, $code, 300);
+
+        return empty(current($res)) ? '验证码发送失败' : '验证码发送成功';
+    }
+
+    //发送短信 审核失败01_miniapp
+    function send_shenheshibai($phoneArr = [18618457910])
+    {
+        $tempId = '1336485113759805440';
+
+        $ak = $this->ak;
+        $sk = $this->sk;
+        $auth = new Auth($ak, $sk);
+        $client = new Sms($auth);
+
+        $tmp = [];
+        foreach ($phoneArr as $one) {
+            $tmp[] = (string)$one;
+        }
+
+        $code = '';
+
+        $res = $client->sendMessage($tempId, $tmp, ['code' => $code]);
+
+        return empty(current($res)) ? '审核失败发送失败' : '审核失败发送成功';
+    }
+
+    //发送短信 办理成功01_miniapp
+    function send_banlichenggong($phoneArr = [18618457910])
+    {
+        $tempId = '1336485535127973888';
+
+        $ak = $this->ak;
+        $sk = $this->sk;
+        $auth = new Auth($ak, $sk);
+        $client = new Sms($auth);
+
+        $tmp = [];
+        foreach ($phoneArr as $one) {
+            $tmp[] = (string)$one;
+        }
+
+        $code = '';
+
+        $res = $client->sendMessage($tempId, $tmp, ['code' => $code]);
+
+        return empty(current($res)) ? '办理成功发送失败' : '办理成功发送成功';
+    }
+
+    //发送短信 出现风险01_admin
+    function send_chuxianfengxian($phoneArr = [18618457910])
+    {
+        $tempId = '1336492830952009728';
+
+        $ak = $this->ak;
+        $sk = $this->sk;
+        $auth = new Auth($ak, $sk);
+        $client = new Sms($auth);
+
+        $tmp = [];
+        foreach ($phoneArr as $one) {
+            $tmp[] = (string)$one;
+        }
+
+        $code = '';
+
+        $res = $client->sendMessage($tempId, $tmp, ['code' => $code]);
+
+        return empty(current($res)) ? '出现风险发送失败' : '出现风险发送成功';
+    }
+
+    //发送短信 新企业提交01_admin
+    function send_xinqiyetijiao($phoneArr = [18618457910])
+    {
+        $tempId = '1336493162050367488';
+
+        $ak = $this->ak;
+        $sk = $this->sk;
+        $auth = new Auth($ak, $sk);
+        $client = new Sms($auth);
+
+        $tmp = [];
+        foreach ($phoneArr as $one) {
+            $tmp[] = (string)$one;
+        }
+
+        $code = '';
+
+        $res = $client->sendMessage($tempId, $tmp, ['code' => $code]);
+
+        return empty(current($res)) ? '新企业提交发送失败' : '新企业提交发送成功';
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }
