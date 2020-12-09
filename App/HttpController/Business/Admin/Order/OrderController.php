@@ -90,8 +90,22 @@ class OrderController extends BusinessBase
 
         $uploadFile = UploadFile::create()->where('orderId', $orderId)->all();
 
+        //1是工商，2是税务，3是银行，4是社保，5是公积金
+        $orderInfo = obj2Arr($orderInfo);
+
+        for ($i=1;$i<=5;$i++)
+        {
+            if (empty($orderId)) continue;
+
+            if ($i === 1) str_replace('1','工商',$orderId['areaFeeItems']);
+            if ($i === 2) str_replace('2','税务',$orderId['areaFeeItems']);
+            if ($i === 3) str_replace('3','银行',$orderId['areaFeeItems']);
+            if ($i === 4) str_replace('4','社保',$orderId['areaFeeItems']);
+            if ($i === 5) str_replace('5','公积金',$orderId['areaFeeItems']);
+        }
+
         $info = [
-            'orderInfo' => obj2Arr($orderInfo),
+            'orderInfo' => $orderInfo,
             'entInfo' => obj2Arr($entInfo),
             'guDongInfo' => obj2Arr($guDongInfo),
             'uploadFile' => obj2Arr($uploadFile),
