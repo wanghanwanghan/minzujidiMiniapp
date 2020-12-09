@@ -104,6 +104,11 @@ class OrderController extends BusinessBase
             if ($i === 5) $orderInfo['areaFeeItems'] = str_replace('5','公积金',$orderInfo['areaFeeItems']);
         }
 
+        $orderInfo['taxType'] === 1 ? $orderInfo['taxType'] = '一般纳税人' : $orderInfo['taxType'] = '小规模纳税人';
+        $orderInfo['modifyAddr'] === 1 ? $orderInfo['modifyAddr'] = '地址变更' : $orderInfo['modifyAddr'] = '地址不变更';
+        $orderInfo['modifyArea'] === 1 ? $orderInfo['modifyArea'] = '跨区' : $orderInfo['modifyArea'] = '不跨区';
+        $orderInfo['proxy'] === 1 ? $orderInfo['proxy'] = '代理记账' : $orderInfo['proxy'] = '不代理记账';
+
         $info = [
             'orderInfo' => $orderInfo,
             'entInfo' => obj2Arr($entInfo),
