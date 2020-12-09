@@ -223,12 +223,14 @@ class OrderController extends BusinessBase
 
         if (empty($info)) $this->writeJson(201, null, null, '未找到订单');
 
+        $phone = $info->phone;
+
         $info->update(['handleStatus'=>$handleStatus,'errInfo'=>$errInfo]);
 
         //审核失败
-        if ($handleStatus == '1') CommonService::getInstance()->send_shenheshibai();
+        if ($handleStatus == '1') CommonService::getInstance()->send_shenheshibai([$phone]);
         //办理成功
-        if ($handleStatus == '4') CommonService::getInstance()->send_banlichenggong();
+        if ($handleStatus == '4') CommonService::getInstance()->send_banlichenggong([$phone]);
 
         return $this->writeJson(200, null, null, '成功');
     }
