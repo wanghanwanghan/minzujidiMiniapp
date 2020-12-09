@@ -77,7 +77,6 @@ class OrderController extends BusinessBase
     //订单详情
     function selectDetail()
     {
-        (new wxPayService())->push();
         $addrId = $this->request()->getRequestParam('addrId') ?? '';
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
 
@@ -225,13 +224,48 @@ class OrderController extends BusinessBase
         if (empty($info)) $this->writeJson(201, null, null, '未找到订单');
 
         $phone = $info->phone;
+        $updated_at = $info->updated_at;
+        $created_at = $info->created_at;
+        $finalPrice = $info->finalPrice;
 
         $info->update(['handleStatus'=>$handleStatus,'errInfo'=>$errInfo]);
 
-        //审核失败
-        if ($handleStatus == '1') CommonService::getInstance()->send_shenheshibai([$phone]);
+        //审核失败/成功
+        if ($handleStatus == '1' || $handleStatus == '2')
+        {
+            if ($handleStatus == '1') CommonService::getInstance()->send_shenheshibai([$phone]);
+
+            $phone = Order::create()->where('orderId',$orderId)->get()->phone;
+            $openid = User::create()->where('phone',$phone)->get()->openid;
+
+            $ext = [
+                'character_string1'=>$orderId,
+                'thing2'=>'订单',
+                'time4'=>date('Y-m-d H:i:s',$updated_at),
+                'phrase6'=>$handleStatus == '1' ? '审核失败' : '审核成功',
+            ];
+
+            (new wxPayService())->push_shenhe($openid,$ext);
+        }
+
         //办理成功
-        if ($handleStatus == '4') CommonService::getInstance()->send_banlichenggong([$phone]);
+        if ($handleStatus == '4')
+        {
+            CommonService::getInstance()->send_banlichenggong([$phone]);
+
+            $phone = Order::create()->where('orderId',$orderId)->get()->phone;
+            $openid = User::create()->where('phone',$phone)->get()->openid;
+
+            $ext = [
+                'time2' => date('Y-m-d H:i:s',$updated_at),
+                'amount3' => $finalPrice,
+                'character_string5' => $orderId,
+                'time8' => $created_at,
+                'thing4' => '无',
+            ];
+
+            (new wxPayService())->push_banli($openid,$ext);
+        }
 
         return $this->writeJson(200, null, null, '成功');
     }

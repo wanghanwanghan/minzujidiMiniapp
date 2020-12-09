@@ -111,24 +111,58 @@ class wxPayService
     }
 
     //推送
-    function push()
+    function push_banli($openid,$ext=[])
     {
         $access_token = $this->getAccessToken();
         $access_token = $access_token['access_token'];
 
         $url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token={$access_token}";
 
+        //办理完成
+        $template = 'UbsCvA4YXkBG6l-i59dcKWhee-knfG6hw_4x3Pb-fHM';
+
         $data = [
             'access_token' => $access_token,
-            'touser' => 'oJwPW5Bdz5CbBVOmi0IM10diL2-c',
-            'template_id' => 'UbsCvA4YXkBG6l-i59dcKWhee-knfG6hw_4x3Pb-fHM',
+            'touser' => $openid,
+            'template_id' => $template,
             'page' => '/pages/detail/detail',
             'data' => [
-                'time2' => ['value' => '2019年10月1日 15:01'],
-                'amount3' => ['value' => '123123.00'],
-                'character_string5' => ['value' => '1111111111111111111'],
-                'time8' => ['value' => '2019年10月1日 15:01'],
-                'thing4' => ['value' => '字符串2'],
+                'time2' => ['value' => $ext['time2']],
+                'amount3' => ['value' => $ext['amount3']],
+                'character_string5' => ['value' => $ext['character_string5']],
+                'time8' => ['value' => $ext['time8']],
+                'thing4' => ['value' => $ext['thing4']],
+            ],
+            'miniprogram_state' => 'developer',
+            'lang' => 'zh_CN',
+        ];
+
+        $res = (new CoHttpClient())->setDecode(true)->send($url,$data,[],[],'postJson');
+
+        CommonService::getInstance()->log4PHP($res);
+    }
+
+    //推送
+    function push_shenhe($openid,$ext=[])
+    {
+        $access_token = $this->getAccessToken();
+        $access_token = $access_token['access_token'];
+
+        $url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token={$access_token}";
+
+        //审核成功/失败
+        $template = 'xvOhfUajztdgZqrmb7nfa3fg62Z2bi90C_yVWoRUPoM';
+
+        $data = [
+            'access_token' => $access_token,
+            'touser' => $openid,
+            'template_id' => $template,
+            'page' => '/pages/detail/detail',
+            'data' => [
+                'character_string1' => ['value' => $ext['character_string1']],
+                'thing2' => ['value' => $ext['thing2']],
+                'time4' => ['value' => $ext['time4']],
+                'phrase6' => ['value' => $ext['phrase6']],
             ],
             'miniprogram_state' => 'developer',
             'lang' => 'zh_CN',
