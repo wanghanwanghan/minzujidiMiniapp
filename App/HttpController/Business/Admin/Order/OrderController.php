@@ -77,6 +77,7 @@ class OrderController extends BusinessBase
     //订单详情
     function selectDetail()
     {
+        (new wxPayService())->push();
         $addrId = $this->request()->getRequestParam('addrId') ?? '';
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
 

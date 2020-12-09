@@ -120,12 +120,15 @@ class wxPayService
 
         $data = [
             'access_token' => $access_token,
-            'touser' => 'oDCC45HOXc-CC6XyqVfAjyM_N-zQ',
-            'template_id' => 'zyTie20yrJMNorCRpDv5v10NsBNnM0Qy2oZ6wvd4PU4',
-            'page' => '/pages/coupon/coupon',
+            'touser' => 'oJwPW5Bdz5CbBVOmi0IM10diL2-c',
+            'template_id' => 'UbsCvA4YXkBG6l-i59dcKWhee-knfG6hw_4x3Pb-fHM',
+            'page' => '/pages/detail/detail',
             'data' => [
-                'thing1' => ['value' => '胡大胖'],
-                'thing2' => ['value' => '快还钱'],
+                'time2' => ['value' => ''],
+                'amount3' => ['value' => ''],
+                'character_string5' => ['value' => ''],
+                'time8' => ['value' => ''],
+                'thing4' => ['value' => ''],
             ],
             'miniprogram_state' => 'developer',
             'lang' => 'zh_CN',
