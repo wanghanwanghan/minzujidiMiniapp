@@ -125,6 +125,12 @@ class Router extends AbstractRouter
             $routeCollector->addRoute(['GET','POST'],'/selectEntList',$prefix.'selectEntList');
         });
 
+        //消息推送
+        $routeCollector->addGroup('/pushMsg',function (RouteCollector $routeCollector)
+        {
+            $prefix='/Business/Admin/PushMsg/PushMsgController/';
+            $routeCollector->addRoute(['GET','POST'],'/revMsg',$prefix.'revMsg');
+        });
     }
 
 
