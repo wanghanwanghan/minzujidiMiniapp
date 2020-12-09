@@ -95,7 +95,7 @@ class OrderController extends BusinessBase
 
         for ($i=1;$i<=5;$i++)
         {
-            if (empty($orderId)) continue;
+            if (empty($orderInfo)) continue;
 
             if ($i === 1) str_replace('1','工商',$orderId['areaFeeItems']);
             if ($i === 2) str_replace('2','税务',$orderId['areaFeeItems']);
