@@ -3,6 +3,7 @@
 namespace App\HttpController\Business\Api\User;
 
 use App\HttpController\Business\BusinessBase;
+use App\HttpController\Models\Admin\Addr;
 use App\HttpController\Models\Api\EntGuDong;
 use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Models\Api\Order;
@@ -397,12 +398,15 @@ class UserController extends BusinessBase
                 $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
                 //公司名称
                 $entName = $entInfo->entName;
+                $entAddr = Addr::create()->where('orderId',$orderId)->get()->name;
                 $tradeType = $entInfo->hy;
                 $regMoney = $entInfo->zczb;
                 $code = $entInfo->code;
                 $fr = $entInfo->fr;
+                $frAddr = $entInfo->frAddr;
                 $frCode = $entInfo->frCode;
                 $frPhone = $entInfo->frPhone;
+                $finalPrice = Order::create()->where('orderId',$orderId)->get()->finalPrice;
 
                 $sYear = Carbon::now()->year;
                 $sMonth = Carbon::now()->month;
@@ -412,10 +416,12 @@ class UserController extends BusinessBase
                 $eDay = Carbon::now()->addDays(365)->day;
 
                 $docxObj->setValue('entName',$entName);
+                $docxObj->setValue('entAddr',$entAddr);
                 $docxObj->setValue('tradeType',$tradeType);
                 $docxObj->setValue('regMoney',$regMoney);
                 $docxObj->setValue('code',$code);
                 $docxObj->setValue('fr',$fr);
+                $docxObj->setValue('frAddr',$frAddr);
                 $docxObj->setValue('frCode',$frCode);
                 $docxObj->setValue('frPhone',$frPhone);
                 $docxObj->setValue('sYear',$sYear);
@@ -424,6 +430,7 @@ class UserController extends BusinessBase
                 $docxObj->setValue('eYear',$eYear);
                 $docxObj->setValue('eMon',$eMonth);
                 $docxObj->setValue('eDay',$eDay);
+                $docxObj->setValue('finalPrice',$finalPrice);
 
                 //签字盖章
                 $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang.png','width'=>9999,'height'=>180]);
