@@ -2,6 +2,9 @@
 
 namespace App\HttpController\Service\Pay\wx;
 
+use App\HttpController\Models\Api\Order;
+use App\HttpController\Models\Api\User;
+use App\HttpController\Service\CommonService;
 use App\HttpController\Service\HttpClient\CoHttpClient;
 use EasySwoole\Pay\Pay;
 use EasySwoole\Pay\WeChat\Config as wxConf;
@@ -23,6 +26,19 @@ class wxPayService
         $conf->setApiClientKey(CERT_PATH.'apiclient_key.pem');
 
         return $conf;
+    }
+
+    private function getAccessToken()
+    {
+        $data = [
+            'appid' => 'wx864577e52e8277a2',
+            'secret' => '2f88169a1bab8f461150483be40eb487',
+            'grant_type' => 'client_credential',
+        ];
+
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?' . http_build_query($data);
+
+        return (new CoHttpClient())->setDecode(true)->send($url, $data, [], [], 'get');
     }
 
     private function getOpenId($code): array
@@ -52,6 +68,10 @@ class wxPayService
         $openId = $this->getOpenId($jsCode);
 
         $openId = end($openId);
+
+        //更新用户openid
+        $phone = Order::create()->where('orderId',$orderId)->get()->phone;
+        User::create()->where('phone',$phone)->update(['openid'=>$openId]);
 
         $bean->setOpenid($openId);
 
@@ -90,6 +110,31 @@ class wxPayService
         return $pay->weChat($this->getConf())->refund($refund);
     }
 
+    //推送
+    function push()
+    {
+        $access_token = $this->getAccessToken();
+        $access_token = $access_token['access_token'];
+
+        $url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token={$access_token}";
+
+        $data = [
+            'access_token' => $access_token,
+            'touser' => 'oDCC45HOXc-CC6XyqVfAjyM_N-zQ',
+            'template_id' => 'zyTie20yrJMNorCRpDv5v10NsBNnM0Qy2oZ6wvd4PU4',
+            'page' => '/pages/coupon/coupon',
+            'data' => [
+                'thing1' => ['value' => '胡大胖'],
+                'thing2' => ['value' => '快还钱'],
+            ],
+            'miniprogram_state' => 'developer',
+            'lang' => 'zh_CN',
+        ];
+
+        $res = (new CoHttpClient())->setDecode(true)->send($url,$data,[],[],'postJson');
+
+        CommonService::getInstance()->log4PHP($res);
+    }
 
 
 }
