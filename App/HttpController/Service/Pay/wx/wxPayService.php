@@ -126,7 +126,7 @@ class wxPayService
             'data' => [
                 'time2' => ['value' => '2019年10月1日 15:01'],
                 'amount3' => ['value' => '123123.00'],
-                'character_string5' => ['value' => '字符串1'],
+                'character_string5' => ['value' => '1111111111111111111'],
                 'time8' => ['value' => '2019年10月1日 15:01'],
                 'thing4' => ['value' => '字符串2'],
             ],
