@@ -97,11 +97,11 @@ class OrderController extends BusinessBase
         {
             if (empty($orderInfo)) continue;
 
-            if ($i === 1) str_replace('1','工商',$orderInfo['areaFeeItems']);
-            if ($i === 2) str_replace('2','税务',$orderInfo['areaFeeItems']);
-            if ($i === 3) str_replace('3','银行',$orderInfo['areaFeeItems']);
-            if ($i === 4) str_replace('4','社保',$orderInfo['areaFeeItems']);
-            if ($i === 5) str_replace('5','公积金',$orderInfo['areaFeeItems']);
+            if ($i === 1) $orderInfo['areaFeeItems'] = str_replace('1','工商',$orderInfo['areaFeeItems']);
+            if ($i === 2) $orderInfo['areaFeeItems'] = str_replace('2','税务',$orderInfo['areaFeeItems']);
+            if ($i === 3) $orderInfo['areaFeeItems'] = str_replace('3','银行',$orderInfo['areaFeeItems']);
+            if ($i === 4) $orderInfo['areaFeeItems'] = str_replace('4','社保',$orderInfo['areaFeeItems']);
+            if ($i === 5) $orderInfo['areaFeeItems'] = str_replace('5','公积金',$orderInfo['areaFeeItems']);
         }
 
         $info = [
