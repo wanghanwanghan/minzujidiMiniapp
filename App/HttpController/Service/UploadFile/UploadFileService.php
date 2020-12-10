@@ -22,7 +22,7 @@ class UploadFileService extends ServiceBase
     const STATUS_8 = 8;
     const STATUS_9 = 9;
 
-    function uploadFile($filename, $orderId, $phone, $type, $status = 0 , $startTime = 0, $endTime = 0)
+    function uploadFile($filename, $orderId, $phone, $type, $status = 0 , $startTime = 0, $endTime = 0, $isc = 0)
     {
         $filename = explode(',', trim($filename));
 
@@ -50,15 +50,36 @@ class UploadFileService extends ServiceBase
 
         } else {
 
-            //如果存在就更新
-            $info->update([
-                'fileNum' => $fileNum,
-                'filename' => implode(',', $filename),
-                //'status' => QueryBuilder::inc(1),//自增1
-                'status' => $status,
-                'startTime' => $startTime === 0 ? 0 : substr($startTime,0,10),
-                'endTime' => $endTime === 0 ? 0 : substr($endTime,0,10),
-            ]);
+            if ($isc === 1)
+            {
+                $oldFileName = $info->filename;
+
+                $filename = $oldFileName.','.implode(',', $filename);
+
+                $filename = trim($filename,',');
+
+                //续写
+                $info->update([
+                    'fileNum' => $fileNum,
+                    'filename' => $filename,
+                    //'status' => QueryBuilder::inc(1),//自增1
+                    'status' => $status,
+                    'startTime' => $startTime === 0 ? 0 : substr($startTime,0,10),
+                    'endTime' => $endTime === 0 ? 0 : substr($endTime,0,10),
+                ]);
+
+            }else
+            {
+                //如果存在就更新
+                $info->update([
+                    'fileNum' => $fileNum,
+                    'filename' => implode(',', $filename),
+                    //'status' => QueryBuilder::inc(1),//自增1
+                    'status' => $status,
+                    'startTime' => $startTime === 0 ? 0 : substr($startTime,0,10),
+                    'endTime' => $endTime === 0 ? 0 : substr($endTime,0,10),
+                ]);
+            }
         }
 
         $res = UploadFile::create()->where('orderId', $orderId)->get();

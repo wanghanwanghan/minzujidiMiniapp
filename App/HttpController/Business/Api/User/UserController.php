@@ -174,9 +174,12 @@ class UserController extends BusinessBase
         $phone = $this->request()->getRequestParam('phone') ?? '';
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
         $type = $this->request()->getRequestParam('type') ?? '';
+        $isc = $this->request()->getRequestParam('isc') ?? 0;
         $filename = $this->request()->getRequestParam('filename') ?? '';
         $startTime = $this->request()->getRequestParam('startTime') ?? 0;
         $endTime = $this->request()->getRequestParam('endTime') ?? 0;
+
+        $isc = (int)$isc;
 
         if (empty($phone) || !is_numeric($phone) || strlen($phone) != 11) return $this->writeJson(201, null, null, '手机错误');
         if (empty($orderId)) return $this->writeJson(201, null, null, '订单号错误');
@@ -186,7 +189,7 @@ class UserController extends BusinessBase
         $type == 6 ? $status = 1 : $status = 0;
 
         $res = UploadFileService::getInstance()
-            ->uploadFile($filename, $orderId, $phone, $type, $status, $startTime, $endTime);
+            ->uploadFile($filename, $orderId, $phone, $type, $status, $startTime, $endTime, $isc);
 
         return $this->writeJson(200, null, $res, '成功');
     }
