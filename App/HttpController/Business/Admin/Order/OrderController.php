@@ -260,7 +260,7 @@ class OrderController extends BusinessBase
                 'time2' => date('Y-m-d H:i:s',$updated_at),
                 'amount3' => $finalPrice,
                 'character_string5' => $orderId,
-                'time8' => $created_at,
+                'time8' => date('Y-m-d H:i:s',$created_at),
                 'thing4' => '无',
             ];
 
