@@ -133,7 +133,7 @@ class wxPayService
                 'time8' => ['value' => $ext['time8']],
                 'thing4' => ['value' => $ext['thing4']],
             ],
-            'miniprogram_state' => 'developer',
+            'miniprogram_state' => 'formal',
             'lang' => 'zh_CN',
         ];
 
@@ -164,7 +164,7 @@ class wxPayService
                 'time4' => ['value' => $ext['time4']],
                 'phrase6' => ['value' => $ext['phrase6']],
             ],
-            'miniprogram_state' => 'developer',
+            'miniprogram_state' => 'formal',
             'lang' => 'zh_CN',
         ];
 
