@@ -217,7 +217,7 @@ class OrderController extends BusinessBase
     {
         $orderId = $this->request()->getRequestParam('orderId');
         $handleStatus = $this->request()->getRequestParam('handleStatus');
-        $errInfo = $this->request()->getRequestParam('errInfo');
+        $errInfo = $this->request()->getRequestParam('errInfo') ?? '';
 
         $info = Order::create()->where('orderId',$orderId)->get();
 
