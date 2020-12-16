@@ -45,6 +45,9 @@ class UserController extends BusinessBase
 
         if (!preg_match($pattern, $email)) return $this->writeJson(201, null, null, 'email格式错误');
 
+        if (!preg_match('/^[0-9a-zA-Z\_]{8,20}$/',$password))
+            return $this->writeJson(201, null, null, '密码只能是8-20位的字母数字下划线组合');
+
         $redis = Redis::defer('redis');
 
         $redis->select(0);
