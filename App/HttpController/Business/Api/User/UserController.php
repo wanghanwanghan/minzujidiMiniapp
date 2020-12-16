@@ -30,6 +30,7 @@ class UserController extends BusinessBase
     function userReg()
     {
         $phone = $this->request()->getRequestParam('phone') ?? '';
+        $password = $this->request()->getRequestParam('password') ?? '';
         $email = $this->request()->getRequestParam('email') ?? '';
         $vCode = $this->request()->getRequestParam('vCode') ?? '';
         $type = $this->request()->getRequestParam('userType');
@@ -57,7 +58,12 @@ class UserController extends BusinessBase
         //已经注册过了
         if ($res) return $this->writeJson(201, null, null, '手机号已经注册过了');
 
-        User::create()->data(['phone' => $phone, 'email' => $email, 'type' => $type])->save();
+        User::create()->data([
+            'phone' => $phone,
+            'password' => $password,
+            'email' => $email,
+            'type' => $type
+        ])->save();
 
         return $this->writeJson(200, null, null, '注册成功');
     }
@@ -66,20 +72,29 @@ class UserController extends BusinessBase
     function userLogin()
     {
         $phone = $this->request()->getRequestParam('phone') ?? '';
+        $password = $this->request()->getRequestParam('password') ?? '';
         $userType = $this->request()->getRequestParam('userType') ?? '';
         $vCode = $this->request()->getRequestParam('vCode') ?? '';
-
-        $redis = Redis::defer('redis');
-
-        $redis->select(0);
-
-        $vCodeInRedis = $redis->get($phone . 'login');
-
-        if ((int)$vCodeInRedis !== (int)$vCode) return $this->writeJson(201, null, null, '验证码错误');
 
         $res = User::create()->where('phone', $phone)->where('type', $userType)->get();
 
         if (empty($res)) return $this->writeJson(201, null, null, '号码未注册');
+
+        if (!empty($password))
+        {
+            $res = User::create()
+                ->where('phone', $phone)
+                ->where('password', $password)
+                ->where('type', $userType)->get();
+            if (empty($res)) return $this->writeJson(201, null, null, '密码错误');
+        }else
+        {
+            $redis = Redis::defer('redis');
+            $redis->select(0);
+            $vCodeInRedis = $redis->get($phone . 'login');
+            if ((int)$vCodeInRedis !== (int)$vCode) return $this->writeJson(201, null, null, '验证码错误');
+            $res = User::create()->where('phone', $phone)->where('type', $userType)->get();
+        }
 
         return $this->writeJson(200, null, $res, '登录成功');
     }
