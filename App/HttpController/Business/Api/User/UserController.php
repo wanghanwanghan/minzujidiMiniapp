@@ -42,7 +42,6 @@ class UserController extends BusinessBase
         if (strlen($phone) !== 11) return $this->writeJson(201, null, null, '手机号错误');
 
         $pattern = '/^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/i';
-
         if (!preg_match($pattern, $email)) return $this->writeJson(201, null, null, 'email格式错误');
 
         if (!preg_match('/^[0-9a-zA-Z\_]{8,20}$/',$password))
