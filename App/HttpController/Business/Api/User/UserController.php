@@ -26,6 +26,35 @@ class UserController extends BusinessBase
         return parent::onRequest($action);
     }
 
+    //后台创建订单的时候自动注册
+    function autoReg()
+    {
+        $phone = $this->request()->getRequestParam('phone') ?? '';
+        $password = $this->request()->getRequestParam('password') ?? '';
+        $email = $this->request()->getRequestParam('email') ?? '';
+        $type = $this->request()->getRequestParam('userType');
+
+        $pattern = '/^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/i';
+        if (!preg_match($pattern, $email)) return $this->writeJson(201, null, null, 'email格式错误');
+
+        if (!preg_match('/^[0-9a-zA-Z\_]{8,20}$/',$password))
+            return $this->writeJson(201, null, null, '密码只能是8-20位的字母数字下划线组合');
+
+        $check = User::create()->where('phone',$phone)->get();
+
+        if (!empty($check)) return $this->writeJson(201, null, null, '手机号已注册');
+
+        User::create()->data([
+            'phone' => $phone,
+            'password' => $password,
+            'email' => $email,
+            'type' => $type
+        ])->save();
+
+        return $this->writeJson(200, null, null, '注册成功');
+    }
+
+
     //用户注册
     function userReg()
     {
