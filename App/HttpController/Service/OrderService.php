@@ -29,7 +29,7 @@ class OrderService extends ServiceBase
     }
 
     //创建订单
-    function createOrder($phone,$userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy)
+    function createOrder($phone,$userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy,$price)
     {
         $userType = (int)$userType;
         $taxType = (int)$taxType;
@@ -89,7 +89,9 @@ class OrderService extends ServiceBase
         {
             $money = (new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr();
 
-            if ($money <= 0) $insert['status'] = self::ORDER_STATUS_3;
+            if ($money <= 0 || !empty($price)) $insert['status'] = self::ORDER_STATUS_3;
+
+            if (!empty($price)) $insert['finalPrice'] = $price;
 
             Order::create()->data($insert)->save();
 

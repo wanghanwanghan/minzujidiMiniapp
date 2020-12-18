@@ -163,9 +163,10 @@ class UserController extends BusinessBase
         $areaFeeItems = $this->request()->getRequestParam('areaFeeItems');
         $proxy = $this->request()->getRequestParam('proxy');
         $userType = $this->request()->getRequestParam('userType');
+        $price = $this->request()->getRequestParam('price') ?? '';
 
         $orderInfo = OrderService::getInstance()
-            ->createOrder($phone, $userType, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy);
+            ->createOrder($phone, $userType, $taxType, $modifyAddr, $modifyArea, $areaFeeItems, $proxy, $price);
 
         return $this->writeJson(200, null, $orderInfo, '成功');
     }
