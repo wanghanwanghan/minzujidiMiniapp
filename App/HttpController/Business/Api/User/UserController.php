@@ -30,7 +30,7 @@ class UserController extends BusinessBase
     function autoReg()
     {
         $phone = $this->request()->getRequestParam('phone') ?? '';
-        $password = $this->request()->getRequestParam('password') ?? '';
+        $password = $this->request()->getRequestParam('password') ?? '11111111';
         $email = $this->request()->getRequestParam('email') ?? '';
         $type = $this->request()->getRequestParam('userType');
 
