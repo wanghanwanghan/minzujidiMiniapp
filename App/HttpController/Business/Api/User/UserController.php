@@ -250,7 +250,7 @@ class UserController extends BusinessBase
 
         if (empty($phone) || !is_numeric($phone) || strlen($phone) != 11) return $this->writeJson(201, null, null, '手机错误');
         if (empty($orderId)) return $this->writeJson(201, null, null, '订单号错误');
-        if (empty($type) || !is_numeric($type) || strlen($type) != 1) return $this->writeJson(201, null, null, '文件类型错误');
+        if (empty($type) || !is_numeric($type)) return $this->writeJson(201, null, null, '文件类型错误');
         if (empty($filename)) return $this->writeJson(201, null, null, '文件名称错误');
 
         $type == 6 ? $status = 1 : $status = 0;
