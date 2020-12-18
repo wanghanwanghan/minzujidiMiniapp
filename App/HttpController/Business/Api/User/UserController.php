@@ -507,6 +507,9 @@ class UserController extends BusinessBase
                 $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
                 $file = FILE_PATH . $orderId . '.docx';
                 break;
+            case '99':
+                $file = FILE_PATH . Order::create()->where('orderId',$orderId)->get()->filePackage;
+                break;
             default:
                 $file = null;
         }
