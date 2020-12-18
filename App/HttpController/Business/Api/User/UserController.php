@@ -42,7 +42,7 @@ class UserController extends BusinessBase
 
         $check = User::create()->where('phone',$phone)->get();
 
-        if (!empty($check)) return $this->writeJson(201, null, null, '手机号已注册');
+        if (!empty($check)) return $this->writeJson(201, null, $check, '手机号已注册');
 
         User::create()->data([
             'phone' => $phone,
@@ -51,7 +51,9 @@ class UserController extends BusinessBase
             'type' => $type
         ])->save();
 
-        return $this->writeJson(200, null, null, '注册成功');
+        $check = User::create()->where('phone',$phone)->get();
+
+        return $this->writeJson(200, null, $check, '注册成功');
     }
 
     //用户注册
