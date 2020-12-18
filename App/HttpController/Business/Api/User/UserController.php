@@ -54,7 +54,6 @@ class UserController extends BusinessBase
         return $this->writeJson(200, null, null, '注册成功');
     }
 
-
     //用户注册
     function userReg()
     {
@@ -564,6 +563,7 @@ class UserController extends BusinessBase
         $res['handleStatus'] = $handleStatus;
         $res['handleTime'] = $handleTime;
         $res['errInfo'] = $orderInfo->errInfo;
+        $res['filePackage'] = $orderInfo->filePackage;
 
         return $this->writeJson(200,null,$res,'成功');
     }
