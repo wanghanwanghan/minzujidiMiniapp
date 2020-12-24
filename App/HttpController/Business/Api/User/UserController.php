@@ -198,7 +198,7 @@ class UserController extends BusinessBase
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 10;
 
-        $hasEntName == 1 ? $hasEntName = '=' : $hasEntName = '<>';
+        $hasEntName == 1 ? $hasEntName = '<>' : $hasEntName = '=';
 
         $list = Order::create()->where('phone', $phone)
             ->where('entName', '', $hasEntName)
