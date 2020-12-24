@@ -205,6 +205,7 @@ class UserController extends BusinessBase
         empty($list) ? $list = null : null;
 
         foreach ($list as &$one) {
+
             switch ($one['status']) {
                 case '1':
                     $one['statusWord'] = '待确认';
@@ -222,6 +223,8 @@ class UserController extends BusinessBase
                     $one['statusWord'] = '已退款';
                     break;
             }
+
+            $one['regEntName'] = EntInfo::create()->field('regEntName')->where('orderId',$one['orderId'])->get();
 
             $one['created_atWord'] = date('Y-m-d H:i:s', $one['created_at']);
         }
