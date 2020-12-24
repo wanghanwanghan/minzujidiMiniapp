@@ -194,11 +194,18 @@ class UserController extends BusinessBase
     {
         $phone = $this->request()->getRequestParam('phone') ?? '';
         $userType = $this->request()->getRequestParam('userType') ?? '';
+        $hasEntName = $this->request()->getRequestParam('hasEntName') ?? 1;
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 10;
 
-        $list = Order::create()->where('phone', $phone)->where('userType', $userType)->order('created_at', 'desc')
-            ->limit($this->exprOffset($page, $pageSize), $pageSize)->all();
+        $hasEntName == 1 ? $hasEntName = '=' : $hasEntName = '<>';
+
+        $list = Order::create()->where('phone', $phone)
+            ->where('entName', '', $hasEntName)
+            ->where('userType', $userType)
+            ->order('created_at', 'desc')
+            ->limit($this->exprOffset($page, $pageSize), $pageSize)
+            ->all();
 
         $list = json_decode(json_encode($list), true);
 
@@ -362,6 +369,12 @@ class UserController extends BusinessBase
         ];
 
         EntInfo::create()->data($insert)->save();
+
+        $orderInfo = Order::create()->where('orderId',$orderId)->get();
+
+        $orderInfo->update([
+            'entName' => $regEntName,
+        ]);
 
         return $this->writeJson(200, null, $insert, '成功');
     }
