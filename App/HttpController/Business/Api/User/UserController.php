@@ -198,11 +198,24 @@ class UserController extends BusinessBase
         $orderInfo = Order::create()->where([
             'orderId' => $orderId,
             'phone' => $phone,
-            'finalPrice' => 0,
-            'handleStatus' => 0,
+            'status' => 3,
+        ])->where('finalPrice',0,'<>')->get();
+
+        if (!empty($orderInfo)) return $this->writeJson(201, null, null, '已支付订单不可删除');
+
+        $orderInfo = Order::create()->where([
+            'orderId' => $orderId,
+            'phone' => $phone,
+        ])->where('handleStatus',0,'<>')->get();
+
+        if (!empty($orderInfo)) return $this->writeJson(201, null, null, '办理中订单不可删除');
+
+        $orderInfo = Order::create()->where([
+            'orderId' => $orderId,
+            'phone' => $phone,
         ])->get();
 
-        if (empty($orderInfo)) return $this->writeJson(201, null, null, '删除失败');
+        if (empty($orderInfo)) return $this->writeJson(201, null, null, '订单不存在');
 
         Order::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
             $builder->where('orderId',$orderId);
