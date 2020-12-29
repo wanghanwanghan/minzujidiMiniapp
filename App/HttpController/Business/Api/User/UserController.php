@@ -402,13 +402,16 @@ class UserController extends BusinessBase
             'jbrEmail' => $jbrEmail,
         ];
 
+        if (count(explode(',',$regEntName)) <= 1)
+        {
+            $orderInfo = Order::create()->where('orderId',$orderId)->get();
+            $orderInfo->update([
+                'entName' => $regEntName,
+            ]);
+            $insert['entName'] = $regEntName;
+        }
+
         EntInfo::create()->data($insert)->save();
-
-        $orderInfo = Order::create()->where('orderId',$orderId)->get();
-
-        $orderInfo->update([
-            'entName' => $regEntName,
-        ]);
 
         return $this->writeJson(200, null, $insert, '成功');
     }
