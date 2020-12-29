@@ -45,6 +45,7 @@ class Router extends AbstractRouter
         $routeCollector->addGroup('/user',function (RouteCollector $routeCollector) use ($prefix)
         {
             $routeCollector->addRoute(['GET','POST'],'/create/order',$prefix.'createOrder');//创建订单
+            $routeCollector->addRoute(['GET','POST'],'/delete/order',$prefix.'deleteOrder');//删除订单
             $routeCollector->addRoute(['GET','POST'],'/pay/order',$prefix.'payOrder');//支付订单
             $routeCollector->addRoute(['GET','POST'],'/get/order/list',$prefix.'getOrderList');//获取订单列表
             $routeCollector->addRoute(['GET','POST'],'/reg',$prefix.'userReg');//用户注册

@@ -189,6 +189,40 @@ class UserController extends BusinessBase
         return $this->writeJson(200, null, $payObj, '成功');
     }
 
+    //删除订单
+    function deleteOrder()
+    {
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
+        $phone = $this->request()->getRequestParam('phone') ?? '';
+
+        $orderInfo = Order::create()->where([
+            'orderId' => $orderId,
+            'phone' => $phone,
+            'finalPrice' => 0,
+            'handleStatus' => 0,
+        ])->get();
+
+        if (empty($orderInfo)) return $this->writeJson(201, null, null, '删除失败');
+
+        Order::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
+            $builder->where('orderId',$orderId);
+        });
+
+        EntInfo::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
+            $builder->where('orderId', $orderId);
+        });
+
+        EntGuDong::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
+            $builder->where('orderId', $orderId);
+        });
+
+        UploadFile::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
+            $builder->where('orderId', $orderId);
+        });
+
+        return $this->writeJson(200, null, null, '删除成功');
+    }
+
     //获取订单列表
     function getOrderList()
     {
