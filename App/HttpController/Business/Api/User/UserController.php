@@ -536,11 +536,11 @@ class UserController extends BusinessBase
                 $sDay = Carbon::now()->day;
                 $eYear = Carbon::now()->addDays(365)->year;
                 $eMonth = Carbon::now()->addDays(365)->month;
-                $eDay = Carbon::now()->addDays(365)->day;
+                $eDay = Carbon::now()->addDays(364)->day;
 
                 $docxObj->setValue('entName',$entName);
                 $docxObj->setValue('entAddr',$entAddr);
-                $docxObj->setValue('tradeType',$tradeType);
+                //$docxObj->setValue('tradeType',$tradeType);
                 $docxObj->setValue('regMoney',$regMoney);
                 $docxObj->setValue('code',$code);
                 $docxObj->setValue('fr',$fr);
@@ -556,7 +556,7 @@ class UserController extends BusinessBase
                 $docxObj->setValue('finalPrice',$finalPrice);
 
                 //签字盖章
-                $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang.png','width'=>9999,'height'=>180]);
+                $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang_one.png','width'=>9999,'height'=>180]);
                 $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
                 $file = FILE_PATH . $orderId . '.docx';
                 break;
