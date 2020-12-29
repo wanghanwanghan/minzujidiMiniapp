@@ -91,7 +91,7 @@ class CommonService extends ServiceBase
     }
 
     //发送短信 审核失败01_miniapp
-    function send_shenheshibai($phoneArr = [18618457910])
+    function send_shenheshibai($phoneArr = [13511018713])
     {
         $tempId = '1336485113759805440';
 
@@ -113,7 +113,7 @@ class CommonService extends ServiceBase
     }
 
     //发送短信 办理成功01_miniapp
-    function send_banlichenggong($phoneArr = [18618457910])
+    function send_banlichenggong($phoneArr = [13511018713])
     {
         $tempId = '1336485535127973888';
 
@@ -135,7 +135,7 @@ class CommonService extends ServiceBase
     }
 
     //发送短信 出现风险01_admin
-    function send_chuxianfengxian($phoneArr = [18618457910])
+    function send_chuxianfengxian($phoneArr = [13511018713])
     {
         $tempId = '1336492830952009728';
 
@@ -157,7 +157,7 @@ class CommonService extends ServiceBase
     }
 
     //发送短信 新企业提交01_admin
-    function send_xinqiyetijiao($phoneArr = [18618457910])
+    function send_xinqiyetijiao($phoneArr = [13511018713])
     {
         $tempId = '1336493162050367488';
 
