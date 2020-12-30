@@ -389,6 +389,7 @@ class UserController extends BusinessBase
         $jbrTel = $this->request()->getRequestParam('jbrTel') ?? '';//经办人座机
         $jbrAddr = $this->request()->getRequestParam('jbrAddr') ?? '';//经办人地址
         $jbrEmail = $this->request()->getRequestParam('jbrEmail') ?? '';//经办人邮箱
+        $zs = $this->request()->getRequestParam('zs') ?? '';//住所
 
         EntInfo::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
             $builder->where('orderId', $orderId);
@@ -414,6 +415,7 @@ class UserController extends BusinessBase
             'jbrTel' => $jbrTel,
             'jbrAddr' => $jbrAddr,
             'jbrEmail' => $jbrEmail,
+            'zs' => $zs,
         ];
 
         if (count(explode(',',$regEntName)) <= 1)
