@@ -135,7 +135,7 @@ class CommonService extends ServiceBase
     }
 
     //发送短信 出现风险01_admin
-    function send_chuxianfengxian($phoneArr = [13511018713,13611180976])
+    function send_chuxianfengxian($phoneArr = [13511018713,13611180976,18618457910])
     {
         $tempId = '1336492830952009728';
 
@@ -157,7 +157,7 @@ class CommonService extends ServiceBase
     }
 
     //发送短信 新企业提交01_admin
-    function send_xinqiyetijiao($phoneArr = [13511018713,13611180976])
+    function send_xinqiyetijiao($phoneArr = [13511018713,13611180976,18618457910])
     {
         $tempId = '1336493162050367488';
 
