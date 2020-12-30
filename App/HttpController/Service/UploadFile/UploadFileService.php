@@ -24,6 +24,23 @@ class UploadFileService extends ServiceBase
 
     function uploadFile($filename, $orderId, $phone, $type, $status = 0 , $startTime = 0, $endTime = 0, $isc = 0)
     {
+        //4-1
+        if ($type === '4-1')
+        {
+            $info = UploadFile::create()->where('orderId', $orderId)->where('type', 4)->get();
+
+            if (!empty($info))
+            {
+                $info->update([
+                    'startTime' => $startTime === 0 ? 0 : substr($startTime,0,10),
+                    'endTime' => $endTime === 0 ? 0 : substr($endTime,0,10),
+                ]);
+            }
+
+            return '123';
+        }
+
+
         $filename = explode(',', trim($filename));
 
         $filename = array_filter($filename);
