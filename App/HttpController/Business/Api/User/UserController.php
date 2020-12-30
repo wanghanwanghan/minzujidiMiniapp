@@ -309,7 +309,7 @@ class UserController extends BusinessBase
 
         $isc = (int)$isc;
 
-        if (empty($type) || !is_numeric($type)) return $this->writeJson(201, null, null, '文件类型错误');
+        if (empty($type)) return $this->writeJson(201, null, null, '文件类型错误');
         if (empty($orderId)) return $this->writeJson(201, null, null, '订单号错误');
 
         if ($type !== '4-1')
