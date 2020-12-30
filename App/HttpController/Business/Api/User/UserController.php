@@ -550,12 +550,28 @@ class UserController extends BusinessBase
                 $frPhone = $entInfo->frPhone;
                 $finalPrice = Order::create()->where('orderId',$orderId)->get()->finalPrice;
 
-                $sYear = Carbon::now()->year;
-                $sMonth = Carbon::now()->month;
-                $sDay = Carbon::now()->day;
-                $eYear = Carbon::now()->addDays(365)->year;
-                $eMonth = Carbon::now()->addDays(365)->month;
-                $eDay = Carbon::now()->addDays(364)->day;
+                $timeInfo = UploadFile::create()->where('orderId',$orderId)->where('type',4)->get();
+
+                if (empty($timeInfo))
+                {
+                    $sYear = Carbon::now()->year;
+                    $sMonth = Carbon::now()->month;
+                    $sDay = Carbon::now()->day;
+                    $eYear = Carbon::now()->addDays(365)->year;
+                    $eMonth = Carbon::now()->addDays(365)->month;
+                    $eDay = Carbon::now()->addDays(364)->day;
+                }else
+                {
+                    $sTime = $timeInfo->startTime;
+                    $eTime = $timeInfo->endTime;
+
+                    $sYear = date('Y',$sTime);
+                    $sMonth = date('m',$sTime);
+                    $sDay = date('d',$sTime);
+                    $eYear = date('Y',$eTime);
+                    $eMonth = date('m',$eTime);
+                    $eDay = date('d',$eTime);
+                }
 
                 $docxObj->setValue('entName',$entName);
                 $docxObj->setValue('entAddr',$entAddr);
