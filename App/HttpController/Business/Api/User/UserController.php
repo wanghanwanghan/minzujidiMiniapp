@@ -322,6 +322,9 @@ class UserController extends BusinessBase
 
         $type == 6 ? $status = 1 : $status = 0;
 
+        if ($type == 5) CommonService::getInstance()->send_xxbtz();
+        if ($type == 6) CommonService::getInstance()->send_xytz();
+
         $res = UploadFileService::getInstance()
             ->uploadFile($filename, $orderId, $phone, $type, $status, $startTime, $endTime, $isc);
 
@@ -540,8 +543,6 @@ class UserController extends BusinessBase
                 $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
                 $file = FILE_PATH . $orderId . '.docx';
 
-                CommonService::getInstance()->send_xxbtz();
-
                 break;
             case '6':
                 //企业设立登记住所管理协议
@@ -603,8 +604,6 @@ class UserController extends BusinessBase
                 $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang_one.png','width'=>9999,'height'=>180]);
                 $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
                 $file = FILE_PATH . $orderId . '.docx';
-
-                CommonService::getInstance()->send_xytz();
 
                 break;
             case '99':

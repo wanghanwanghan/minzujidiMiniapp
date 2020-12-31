@@ -29,7 +29,7 @@ class UploadFileService extends ServiceBase
         {
             $info = UploadFile::create()->where('orderId', $orderId)->where('type', 4)->get();
 
-            if (!empty($info))
+            if (!empty($info) && (is_numeric($startTime) && is_numeric($endTime)))
             {
                 $info->update([
                     'startTime' => $startTime === 0 ? 0 : substr($startTime,0,10),
