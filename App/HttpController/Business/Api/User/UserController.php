@@ -14,7 +14,9 @@ use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
 use App\HttpController\Service\UploadFile\UploadFileService;
+use App\Task\Docx2pdf;
 use Carbon\Carbon;
+use EasySwoole\EasySwoole\Task\TaskManager;
 use EasySwoole\Mysqli\QueryBuilder;
 use EasySwoole\RedisPool\Redis;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -607,6 +609,9 @@ class UserController extends BusinessBase
         }
 
         empty($userFile) ? $sendFile = [$file] : $sendFile = [$file,FILE_PATH.$userFile->filename];
+
+        //docx2pdf
+        $sendFile = TaskManager::getInstance()->sync(new Docx2pdf($sendFile));
 
         $downloadType != 1 ?: CommonService::getInstance()->sendEmail($email,$sendFile);
 
