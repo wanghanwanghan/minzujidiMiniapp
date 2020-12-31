@@ -634,7 +634,7 @@ class UserController extends BusinessBase
 
         $downloadType != 1 ?: CommonService::getInstance()->sendEmail($email,$sendFile);
 
-        return $this->writeJson(200,null,$file,'成功');
+        return $this->writeJson(200,null,$sendFile,'成功');
     }
 
     //办理状态
