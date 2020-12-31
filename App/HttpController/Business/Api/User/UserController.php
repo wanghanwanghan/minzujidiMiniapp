@@ -614,12 +614,24 @@ class UserController extends BusinessBase
                 $file = null;
         }
 
-        empty($userFile) ? $sendFile = [$file] : $sendFile = [$file,FILE_PATH.$userFile->filename];
+        if (!empty($userFile))
+        {
+            $arr = explode(',',$userFile->filename);
+
+            foreach ($arr as $key => $val)
+            {
+                $arr[$key] = FILE_PATH.$val;
+            }
+
+            $sendFile = array_merge($arr,[$file]);
+
+        }else
+        {
+            $sendFile = [$file];
+        }
 
         //docx2pdf
         $sendFile = TaskManager::getInstance()->sync(new Docx2pdf($sendFile));
-
-        CommonService::getInstance()->log4PHP($sendFile);
 
         $downloadType != 1 ?: CommonService::getInstance()->sendEmail($email,$sendFile);
 
