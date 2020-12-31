@@ -24,7 +24,7 @@ class Docx2pdf implements TaskInterface
             //$this->sendFile[$key] = str_replace('docx', 'pdf', $oneFile);
             date('Ymd') == '20201231' ?
                 CommonService::getInstance(['docs2pdf' => Carbon::now()->format('Y-m-d H:i:s'), 'file' => $this->sendFile]) :
-                file_get_contents('http://127.0.0.1:8992/docx2pdf/' . $oneFile);
+                file_get_contents('http://127.0.0.1:8992/docx2pdf/' . str_replace('/', '-', $oneFile));
         }
 
         return $this->sendFile;
