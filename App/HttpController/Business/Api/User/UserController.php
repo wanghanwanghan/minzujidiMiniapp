@@ -619,6 +619,8 @@ class UserController extends BusinessBase
         //docx2pdf
         $sendFile = TaskManager::getInstance()->sync(new Docx2pdf($sendFile));
 
+        CommonService::getInstance()->log4PHP($sendFile);
+
         $downloadType != 1 ?: CommonService::getInstance()->sendEmail($email,$sendFile);
 
         return $this->writeJson(200,null,$file,'成功');
