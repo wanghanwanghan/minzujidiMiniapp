@@ -2,8 +2,6 @@
 
 namespace App\Task;
 
-use App\HttpController\Service\CommonService;
-use Carbon\Carbon;
 use EasySwoole\Task\AbstractInterface\TaskInterface;
 
 class Docx2pdf implements TaskInterface
