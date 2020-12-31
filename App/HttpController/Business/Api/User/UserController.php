@@ -539,6 +539,9 @@ class UserController extends BusinessBase
                 //签字盖章
                 $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
                 $file = FILE_PATH . $orderId . '.docx';
+
+                CommonService::getInstance()->send_xxbtz();
+
                 break;
             case '6':
                 //企业设立登记住所管理协议
@@ -600,6 +603,9 @@ class UserController extends BusinessBase
                 $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang_one.png','width'=>9999,'height'=>180]);
                 $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
                 $file = FILE_PATH . $orderId . '.docx';
+
+                CommonService::getInstance()->send_xytz();
+
                 break;
             case '99':
                 $file = FILE_PATH . Order::create()->where('orderId',$orderId)->get()->filePackage;

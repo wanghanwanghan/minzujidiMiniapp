@@ -178,7 +178,49 @@ class CommonService extends ServiceBase
         return empty(current($res)) ? '新企业提交发送失败' : '新企业提交发送成功';
     }
 
+    //发送短信 信息表通知01_miniapp
+    function send_xxbtz($phoneArr = [13511018713,13611180976,18618457910])
+    {
+        $tempId = '1344261606464307200';
 
+        $ak = $this->ak;
+        $sk = $this->sk;
+        $auth = new Auth($ak, $sk);
+        $client = new Sms($auth);
+
+        $tmp = [];
+        foreach ($phoneArr as $one) {
+            $tmp[] = (string)$one;
+        }
+
+        $code = '';
+
+        $res = $client->sendMessage($tempId, $tmp, ['code' => $code]);
+
+        return empty(current($res)) ? '信息表通知发送失败' : '信息表通知发送成功';
+    }
+
+    //发送短信 协议通知01_miniapp
+    function send_xytz($phoneArr = [13511018713,13611180976,18618457910])
+    {
+        $tempId = '1344261807816065024';
+
+        $ak = $this->ak;
+        $sk = $this->sk;
+        $auth = new Auth($ak, $sk);
+        $client = new Sms($auth);
+
+        $tmp = [];
+        foreach ($phoneArr as $one) {
+            $tmp[] = (string)$one;
+        }
+
+        $code = '';
+
+        $res = $client->sendMessage($tempId, $tmp, ['code' => $code]);
+
+        return empty(current($res)) ? '协议通知发送失败' : '协议通知发送成功';
+    }
 
 
 
