@@ -266,8 +266,6 @@ class UserController extends BusinessBase
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
             ->all();
 
-        CommonService::getInstance()->log4PHP($list);
-
         $list = json_decode(json_encode($list), true);
 
         empty($list) ? $list = null : null;
