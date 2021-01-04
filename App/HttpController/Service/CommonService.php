@@ -81,6 +81,8 @@ class CommonService extends ServiceBase
 
         $res = $client->sendMessage('1328986196495314944', $tmp, ['code' => $code]);
 
+        CommonService::getInstance()->log4PHP($res);
+
         $redis = Redis::defer('redis');
 
         $redis->select(0);
