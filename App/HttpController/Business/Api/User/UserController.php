@@ -250,17 +250,23 @@ class UserController extends BusinessBase
 
         $hasEntName == 1 ? $hasEntName = '<>' : $hasEntName = '=';
 
-        $list = Order::create()->where('phone', $phone)
-            ->where('entName', '', $hasEntName)
-            ->where('userType', $userType)
-            ->order('created_at', 'desc')
+//        $list = Order::create()->where('phone', $phone)
+//            ->where('entName', '', $hasEntName)
+//            ->where('userType', $userType)
+//            ->order('created_at', 'desc')
+//            ->limit($this->exprOffset($page, $pageSize), $pageSize)
+//            ->all();
+
+        $list = Order::create()->alias('t1')->join('miniapp_ent_info as t2','t1.orderId = t2.orderId','left')
+            ->field([
+                't1.*'
+            ])->where('t2.regEntName', '', $hasEntName)
+            ->where('t1.userType', $userType)
+            ->order('t1.created_at', 'desc')
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
             ->all();
 
         $list = json_decode(json_encode($list), true);
-
-        CommonService::getInstance()->log4PHP($list);
-
 
         empty($list) ? $list = null : null;
 
