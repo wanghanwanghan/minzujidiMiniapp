@@ -92,7 +92,6 @@ class OrderService extends ServiceBase
             if ($money <= 0 || !empty($price))
             {
                 $insert['status'] = self::ORDER_STATUS_3;
-                CommonService::getInstance()->send_xinqiyetijiao();
             }
 
             if (!empty($price)) $insert['finalPrice'] = $price;

@@ -117,6 +117,11 @@ class OrderController extends BusinessBase
             'uploadFile' => obj2Arr($uploadFile),
         ];
 
+        if (!empty(obj2Arr($entInfo)) && !empty(obj2Arr($guDongInfo)) && !empty(obj2Arr($uploadFile)))
+        {
+            CommonService::getInstance()->send_xinqiyetijiao();
+        }
+
         return $this->writeJson(200, null, $info);
     }
 
