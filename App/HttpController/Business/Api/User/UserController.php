@@ -18,6 +18,7 @@ use App\Task\Docx2pdf;
 use Carbon\Carbon;
 use EasySwoole\EasySwoole\Task\TaskManager;
 use EasySwoole\Mysqli\QueryBuilder;
+use EasySwoole\ORM\DbManager;
 use EasySwoole\RedisPool\Redis;
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -265,6 +266,10 @@ class UserController extends BusinessBase
             ->order('t1.created_at', 'desc')
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
             ->all();
+
+        $sql = DbManager::getInstance()->getLastQuery()->getLastQuery();
+
+        CommonService::getInstance()->log4PHP($sql);
 
         $list = json_decode(json_encode($list), true);
 
