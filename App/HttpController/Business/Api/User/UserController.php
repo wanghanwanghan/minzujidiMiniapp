@@ -251,13 +251,16 @@ class UserController extends BusinessBase
         $hasEntName == 1 ? $hasEntName = '<>' : $hasEntName = '=';
 
         $list = Order::create()->where('phone', $phone)
-            ->where('regEntName', '', $hasEntName)
+            ->where('entName', '', $hasEntName)
             ->where('userType', $userType)
             ->order('created_at', 'desc')
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
             ->all();
 
         $list = json_decode(json_encode($list), true);
+
+        CommonService::getInstance()->log4PHP($list);
+
 
         empty($list) ? $list = null : null;
 
