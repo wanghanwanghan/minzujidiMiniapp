@@ -249,7 +249,7 @@ class UserController extends BusinessBase
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 10;
 
-        $hasEntName == 1 ? $hasEntName = '' : $hasEntName = 'not';
+        $hasEntName == 1 ? $hasEntName = 'not' : $hasEntName = '';
 
         $list = Order::create()->alias('t1')->join('miniapp_ent_info as t2','t1.orderId = t2.orderId','left')
             ->field(['t1.*'])
