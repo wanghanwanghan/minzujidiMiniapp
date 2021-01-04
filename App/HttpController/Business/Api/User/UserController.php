@@ -249,7 +249,7 @@ class UserController extends BusinessBase
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 10;
 
-        $hasEntName == 1 ? $hasEntName = '<>' : $hasEntName = '=';
+        $hasEntName == 1 ? $hasEntName = '' : $hasEntName = 'not';
 
 //        $list = Order::create()->where('phone', $phone)
 //            ->where('entName', '', $hasEntName)
@@ -259,9 +259,9 @@ class UserController extends BusinessBase
 //            ->all();
 
         $list = Order::create()->alias('t1')->join('miniapp_ent_info as t2','t1.orderId = t2.orderId','left')
-            ->field([
-                't1.*'
-            ])->where('t1.phone', $phone)->where('t2.regEntName', '', $hasEntName)
+            ->field(['t1.*'])
+            ->where('t1.phone', $phone)
+            ->where("t2.regEntName is {$hasEntName} null")
             ->where('t1.userType', $userType)
             ->order('t1.created_at', 'desc')
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
