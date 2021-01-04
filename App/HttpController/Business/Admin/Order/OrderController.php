@@ -113,7 +113,7 @@ class OrderController extends BusinessBase
         $info = [
             'orderInfo' => $orderInfo,
             'entInfo' => obj2Arr($entInfo),
-            'guDongInfo' => obj2Arr($guDongInfo),
+            'guDongInfo' => empty(obj2Arr($guDongInfo)) ? null : obj2Arr($guDongInfo),
             'uploadFile' => obj2Arr($uploadFile),
         ];
 
