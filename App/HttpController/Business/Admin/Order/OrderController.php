@@ -117,6 +117,7 @@ class OrderController extends BusinessBase
             'uploadFile' => obj2Arr($uploadFile),
         ];
 
+        //都填完发送通知
         if (!empty(obj2Arr($entInfo)) && !empty(obj2Arr($guDongInfo)) && !empty(obj2Arr($uploadFile)))
         {
             CommonService::getInstance()->send_xinqiyetijiao();

@@ -3,6 +3,7 @@
 namespace App\HttpController\Business\Api\Module;
 
 use App\HttpController\Business\BusinessBase;
+use App\HttpController\Models\Api\Order;
 use App\HttpController\Models\Api\TradeType;
 use App\HttpController\Service\CommonService;
 use App\HttpController\Service\CreateTable;
@@ -18,6 +19,7 @@ class ModuleController extends BusinessBase
     //计算费用
     function exprFee()
     {
+        $phone = $this->request()->getRequestParam('phone') ?? '';
         $userType = $this->request()->getRequestParam('userType');
         $taxType = $this->request()->getRequestParam('taxType');
         $modifyAddr = $this->request()->getRequestParam('modifyAddr');
@@ -27,7 +29,14 @@ class ModuleController extends BusinessBase
 
         $fee = (new ExprFee($userType,$taxType,$modifyAddr,$modifyArea,$areaFeeItems,$proxy))->expr();
 
-        return $this->writeJson(200,null,['fee'=>$fee],'成功');
+        if (empty($phone)) return $this->writeJson();
+
+        $info = Order::create()->where('phone',$phone)->get();
+
+        return $this->writeJson(200,null,[
+            'fee' => $fee,
+            'redirect' => empty($info) ? 2 : 1,
+        ],'成功');
     }
 
     //发送验证码

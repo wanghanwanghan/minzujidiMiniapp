@@ -31,7 +31,7 @@ class ExprFee extends ServiceBase
         {
             case 1:
                 //会员企业
-                $money = 0;
+                $money = 1;
                 if ($this->proxy === 1) $money += 2499;
                 $money += count($this->areaFeeItems) * 600;
                 break;
