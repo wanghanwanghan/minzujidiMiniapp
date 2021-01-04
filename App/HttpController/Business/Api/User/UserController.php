@@ -260,7 +260,7 @@ class UserController extends BusinessBase
         $list = Order::create()->alias('t1')->join('miniapp_ent_info as t2','t1.orderId = t2.orderId','left')
             ->field([
                 't1.*'
-            ])->where('phone', $phone)->where('t2.regEntName', '', $hasEntName)
+            ])->where('t1.phone', $phone)->where('t2.regEntName', '', $hasEntName)
             ->where('t1.userType', $userType)
             ->order('t1.created_at', 'desc')
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
