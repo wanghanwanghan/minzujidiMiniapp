@@ -117,8 +117,6 @@ class OrderController extends BusinessBase
             'uploadFile' => obj2Arr($uploadFile),
         ];
 
-        CommonService::getInstance()->log4PHP(obj2Arr($guDongInfo));
-
         return $this->writeJson(200, null, $info);
     }
 

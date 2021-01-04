@@ -251,7 +251,7 @@ class UserController extends BusinessBase
         $hasEntName == 1 ? $hasEntName = '<>' : $hasEntName = '=';
 
         $list = Order::create()->where('phone', $phone)
-            ->where('entName', '', $hasEntName)
+            ->where('regEntName', '', $hasEntName)
             ->where('userType', $userType)
             ->order('created_at', 'desc')
             ->limit($this->exprOffset($page, $pageSize), $pageSize)
