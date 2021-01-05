@@ -188,7 +188,6 @@ class UserController extends BusinessBase
 
         //新企业提交
         $res = CommonService::getInstance()->send_xinqiyetijiao();
-        CommonService::getInstance()->log4PHP($res);
 
         return $this->writeJson(200, null, $payObj, '成功');
     }
