@@ -112,9 +112,9 @@ class OrderController extends BusinessBase
 
         $info = [
             'orderInfo' => $orderInfo,
-            'entInfo' => obj2Arr($entInfo),
+            'entInfo' => empty(obj2Arr($entInfo)) ? null : obj2Arr($entInfo),
             'guDongInfo' => empty(obj2Arr($guDongInfo)) ? null : obj2Arr($guDongInfo),
-            'uploadFile' => obj2Arr($uploadFile),
+            'uploadFile' => empty(obj2Arr($uploadFile)) ? null : obj2Arr($uploadFile),
         ];
 
         //都填完发送通知
