@@ -16,6 +16,7 @@ use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
 use Carbon\Carbon;
 use EasySwoole\Mysqli\QueryBuilder;
+use EasySwoole\RedisPool\Redis;
 use wanghanwanghan\someUtils\control;
 
 class OrderController extends BusinessBase
@@ -120,7 +121,13 @@ class OrderController extends BusinessBase
         //都填完发送通知
         if (!empty(obj2Arr($entInfo)) && !empty(obj2Arr($guDongInfo)) && !empty(obj2Arr($uploadFile)))
         {
-            CommonService::getInstance()->send_xinqiyetijiao();
+            $redis = Redis::defer('redis');
+            $redis->select(4);
+
+            if ($redis->get($orderId) !== null)
+            {
+                CommonService::getInstance()->send_xinqiyetijiao();
+            }
         }
 
         return $this->writeJson(200, null, $info);
