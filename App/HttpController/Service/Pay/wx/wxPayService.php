@@ -157,7 +157,7 @@ class wxPayService
             'access_token' => $access_token,
             'touser' => $openid,
             'template_id' => $template,
-            'page' => '/pages/detail/detail?orderId='.$ext['character_string1'],
+            'page' => '/pages/detail/detail?id='.$ext['character_string1'],
             'data' => [
                 'character_string1' => ['value' => $ext['character_string1']],
                 'thing2' => ['value' => $ext['thing2']],
