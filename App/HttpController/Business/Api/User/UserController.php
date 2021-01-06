@@ -644,6 +644,8 @@ class UserController extends BusinessBase
     {
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
 
+        CommonService::getInstance()->log4PHP($orderId);
+
         $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
 
         $entName = explode(',',$entInfo->regEntName);
