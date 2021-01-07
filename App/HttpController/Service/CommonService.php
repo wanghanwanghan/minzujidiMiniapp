@@ -58,7 +58,7 @@ class CommonService extends ServiceBase
         }
         $mailer = new Mailer($config);
         //发送邮件
-        $mailer->sendTo($sendTo, $mimeBean);
+        CommonService::getInstance()->log4PHP($mailer->sendTo($sendTo, $mimeBean));
 
         return true;
     }
