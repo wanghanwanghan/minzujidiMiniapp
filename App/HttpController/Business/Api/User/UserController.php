@@ -183,10 +183,6 @@ class UserController extends BusinessBase
 
         $info = Order::create()->where('orderId', $orderId)->get();
 
-        CommonService::getInstance()->log4PHP($orderId);
-        CommonService::getInstance()->log4PHP($info);
-
-
         //创建小程序支付对象
         $payObj = (new wxPayService())->miniAppPay($jsCode, $orderId, $info->finalPrice, '民族基地');
 
