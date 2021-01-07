@@ -282,10 +282,7 @@ class OrderController extends BusinessBase
             (new wxPayService())->push_banli($openid,$ext);
         }
 
-        if ($handleStatus == '0')
-        {
-            CommonService::getInstance()->send_xinqiyetijiao();
-        }
+        if ($handleStatus == '0') CommonService::getInstance()->send_xinqiyetijiao();
 
         return $this->writeJson(200, null, null, '成功');
     }
