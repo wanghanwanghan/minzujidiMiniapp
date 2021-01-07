@@ -276,7 +276,7 @@ class OrderController extends BusinessBase
                 'amount3' => $finalPrice,
                 'character_string5' => $orderId,
                 'time8' => date('Y-m-d H:i:s',$created_at),
-                'thing4' => '无',
+                'thing4' => '办理完成',
             ];
 
             (new wxPayService())->push_banli($openid,$ext);
