@@ -504,10 +504,13 @@ class UserController extends BusinessBase
 
         $userFile = UploadFile::create()->where('orderId',$orderId)->where('type',$fileType)->get();
 
+        $subject = '民族基地';
+
         switch ($fileType)
         {
             case '5':
                 //企业设立及变更备案信息表
+                $subject = '企业设立及变更备案信息表';
                 $docxObj = new TemplateProcessor(STATIC_PATH . 'xinxibiao.docx');
                 $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
                 //公司名称
@@ -550,6 +553,7 @@ class UserController extends BusinessBase
                 break;
             case '6':
                 //企业设立登记住所管理协议
+                $subject = '企业设立登记住所管理协议';
                 $docxObj = new TemplateProcessor(STATIC_PATH . 'xieyi.docx');
                 $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
                 //公司名称
@@ -563,6 +567,7 @@ class UserController extends BusinessBase
                 $frCode = $entInfo->frCode;
                 $frPhone = $entInfo->frPhone;
                 $finalPrice = Order::create()->where('orderId',$orderId)->get()->finalPrice;
+                $finalPriceChinese = CommonService::getInstance()->toChineseNumber($finalPrice);
 
                 $timeInfo = UploadFile::create()->where('orderId',$orderId)->where('type',4)->get();
 
@@ -603,6 +608,7 @@ class UserController extends BusinessBase
                 $docxObj->setValue('eMon',$eMonth);
                 $docxObj->setValue('eDay',$eDay);
                 $docxObj->setValue('finalPrice',$finalPrice);
+                $docxObj->setValue('finalPriceChinese',$finalPriceChinese);
 
                 //签字盖章
                 $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang_one.png','width'=>9999,'height'=>180]);
@@ -611,6 +617,7 @@ class UserController extends BusinessBase
 
                 break;
             case '99':
+                $subject = '企业设立登记全部资料';
                 $file = FILE_PATH . Order::create()->where('orderId',$orderId)->get()->filePackage;
                 break;
             default:
@@ -634,11 +641,11 @@ class UserController extends BusinessBase
         }
 
         //docx2pdf
-        $sendFile = TaskManager::getInstance()->sync(new Docx2pdf($sendFile));
+        $sendFilePdf = TaskManager::getInstance()->sync(new Docx2pdf($sendFile));
 
-        $downloadType != 1 ?: CommonService::getInstance()->sendEmail($email,$sendFile);
+        $downloadType != 1 ?: CommonService::getInstance()->sendEmail($email,array_merge($sendFilePdf,$sendFile),$subject);
 
-        return $this->writeJson(200,null,$sendFile,'成功');
+        return $this->writeJson(200,null,$sendFilePdf,'成功');
     }
 
     //办理状态
