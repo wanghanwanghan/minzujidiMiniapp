@@ -92,10 +92,10 @@ class CommonService extends ServiceBase
         return empty(current($res)) ? '验证码发送失败' : '验证码发送成功';
     }
 
-    //发送短信 审核失败01_miniapp
+    //发送短信 审核失败02_miniapp
     function send_shenheshibai($phoneArr = [13511018713])
     {
-        $tempId = '1336485113759805440';
+        $tempId = '1349188609541943296';
 
         $ak = $this->ak;
         $sk = $this->sk;
@@ -114,10 +114,10 @@ class CommonService extends ServiceBase
         return empty(current($res)) ? '审核失败发送失败' : '审核失败发送成功';
     }
 
-    //发送短信 办理成功01_miniapp
+    //发送短信 办理成功02_miniapp
     function send_banlichenggong($phoneArr = [13511018713])
     {
-        $tempId = '1336485535127973888';
+        $tempId = '1349189035637096448';
 
         $ak = $this->ak;
         $sk = $this->sk;
