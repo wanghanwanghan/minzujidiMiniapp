@@ -695,7 +695,7 @@ class UserController extends BusinessBase
         $res['handleStatus'] = $handleStatus;
         $res['handleTime'] = $handleTime;
         $res['errInfo'] = $orderInfo->errInfo;
-        $res['redirect'] = preg_match('/[协议|承诺]/',$orderInfo->errInfo) ? '协议或信息表' : '其他';
+        $res['redirect'] = preg_match('/[协议|承诺]/',$orderInfo->errInfo) ? '协议或承诺书' : '其他';
         $res['filePackage'] = $orderInfo->filePackage;
 
         return $this->writeJson(200,null,$res,'成功');
