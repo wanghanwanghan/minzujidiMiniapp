@@ -137,6 +137,8 @@ class wxPayService
             'lang' => 'zh_CN',
         ];
 
+        CommonService::getInstance()->log4PHP($data);
+
         $res = (new CoHttpClient())->setDecode(true)->send($url,$data,[],[],'postJson');
 
         CommonService::getInstance()->log4PHP($res);
