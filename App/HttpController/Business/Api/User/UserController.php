@@ -401,6 +401,7 @@ class UserController extends BusinessBase
         $jbrAddr = $this->request()->getRequestParam('jbrAddr') ?? '';//经办人地址
         $jbrEmail = $this->request()->getRequestParam('jbrEmail') ?? '';//经办人邮箱
         $zs = $this->request()->getRequestParam('zs') ?? '';//住所
+        $code = $this->request()->getRequestParam('code') ?? '';//统一社会信用代码
 
         EntInfo::create()->destroy(function (QueryBuilder $builder) use ($orderId) {
             $builder->where('orderId', $orderId);
@@ -427,6 +428,7 @@ class UserController extends BusinessBase
             'jbrAddr' => $jbrAddr,
             'jbrEmail' => $jbrEmail,
             'zs' => $zs,
+            'code' => $code,
         ];
 
         if (count(explode(',',$regEntName)) <= 1)
@@ -552,7 +554,7 @@ class UserController extends BusinessBase
                 $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
                 //公司名称
                 $entName = $entInfo->entName;
-                $entAddr = Addr::create()->where('orderId',$orderId)->get()->name;
+                $entAddr = EntInfo::create()->where('orderId',$orderId)->get()->zs;
                 $tradeType = $entInfo->hy;
                 $regMoney = $entInfo->zczb;
                 $code = $entInfo->code;
