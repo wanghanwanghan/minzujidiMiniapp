@@ -125,7 +125,7 @@ class wxPayService
             'access_token' => $access_token,
             'touser' => $openid,
             'template_id' => $template,
-            'page' => '/pages/detail/detail',
+            'page' => '/pages/detail/detail?id='.$ext['character_string5'],
             'data' => [
                 'time2' => ['value' => $ext['time2']],
                 'amount3' => ['value' => $ext['amount3']],
