@@ -661,9 +661,18 @@ class UserController extends BusinessBase
 
         $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
 
-        $entName = explode(',',$entInfo->regEntName);
+        $entName = $entInfo->entName;
+        $regEntName = $entInfo->regEntName;
 
-        !is_string($entName) ?: $entName = [$entName];
+        if (!empty($entName))
+        {
+            $entName = [$entName];
+        }else
+        {
+            $entName = explode(',',$regEntName);
+
+            !is_string($entName) ?: $entName = [$entName];
+        }
 
         $orderInfo = Order::create()->where('orderId',$orderId)->get();
 
