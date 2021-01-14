@@ -509,8 +509,8 @@ class UserController extends BusinessBase
         switch ($fileType)
         {
             case '5':
-                //企业设立及变更备案信息表
-                $subject = '民孵企服 - 企业设立及变更备案信息表';
+                //企业设立登记住所承诺书
+                $subject = '民孵企服 - 企业设立登记住所承诺书';
                 $docxObj = new TemplateProcessor(STATIC_PATH . 'xinxibiao.docx');
                 $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
                 //公司名称
@@ -552,8 +552,8 @@ class UserController extends BusinessBase
 
                 break;
             case '6':
-                //企业设立登记住所承诺书
-                $subject = '民孵企服 - 企业设立登记住所承诺书';
+                //企业设立登记住所管理协议
+                $subject = '民孵企服 - 企业设立登记住所管理协议';
                 $docxObj = new TemplateProcessor(STATIC_PATH . 'xieyi.docx');
                 $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
                 //公司名称
