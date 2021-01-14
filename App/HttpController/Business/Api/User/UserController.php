@@ -517,7 +517,7 @@ class UserController extends BusinessBase
                 $entName = $entInfo->entName;
 //                $tradeType = $entInfo->hy;
 //                $regMoney = $entInfo->zczb;
-//                $fr = $entInfo->fr;
+                $fr = $entInfo->fr;
 //                $frCode = $entInfo->frCode;
 //                $frPhone = $entInfo->frPhone;
 //                $frTel = $entInfo->frTel;
@@ -533,7 +533,7 @@ class UserController extends BusinessBase
                 $docxObj->setValue('entName',$entName);
 //                $docxObj->setValue('tradeType',$tradeType);
 //                $docxObj->setValue('regMoney',$regMoney);
-//                $docxObj->setValue('fr',$fr);
+                $docxObj->setValue('fr',$fr);
 //                $docxObj->setValue('frCode',$frCode);
 //                $docxObj->setValue('frPhone',$frPhone);
 //                $docxObj->setValue('frTel',$frTel);
