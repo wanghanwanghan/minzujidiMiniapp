@@ -699,7 +699,17 @@ class UserController extends BusinessBase
         $res['handleStatus'] = $handleStatus;
         $res['handleTime'] = $handleTime;
         $res['errInfo'] = $orderInfo->errInfo;
+
         $res['redirect'] = preg_match('/[协议|承诺]/',$orderInfo->errInfo) ? '协议或承诺书' : '其他';
+
+        if (explode('协议',$orderInfo->errInfo) >=2 || explode('承诺',$orderInfo->errInfo) >=2)
+        {
+            $res['redirect'] = '协议或承诺书';
+        }else
+        {
+            $res['redirect'] = '其他';
+        }
+
         $res['filePackage'] = $orderInfo->filePackage;
 
         return $this->writeJson(200,null,$res,'成功');
