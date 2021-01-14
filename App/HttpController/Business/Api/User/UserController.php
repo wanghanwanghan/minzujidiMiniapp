@@ -613,7 +613,7 @@ class UserController extends BusinessBase
                 //签字盖章!
                 $docxObj->setImageValue('zhang', [
                     'path' => STATIC_PATH . 'mzjd_zhang_one.png',
-                    'width' => 0,
+                    'width' => 300,
                     'height' => 180
                 ]);
                 $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
