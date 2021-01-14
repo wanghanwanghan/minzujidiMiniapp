@@ -611,8 +611,7 @@ class UserController extends BusinessBase
                 $docxObj->setValue('finalPriceChinese',$finalPriceChinese);
 
                 //签字盖章
-                // $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang_one.png','width'=>1000,'height'=>180]);
-                $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang_one.png']);
+                $docxObj->setImageValue('zhang', ['path' => STATIC_PATH . 'mzjd_zhang_one.png','width'=>200,'height'=>180]);
                 $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
                 $file = FILE_PATH . $orderId . '.docx';
 
