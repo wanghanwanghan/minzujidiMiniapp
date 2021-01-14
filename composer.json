@@ -24,7 +24,8 @@
         "phpoffice/phpword": "^0.17.0",
         "easyswoole/socket": "^1.1",
         "easyswoole/task": "^1.1",
-        "viest/php-ext-xlswriter-ide-helper": "dev-master"
+        "viest/php-ext-xlswriter-ide-helper": "dev-master",
+        "php-unoconv/php-unoconv": "^4.1"
     },
     "autoload": {
         "psr-4": {
