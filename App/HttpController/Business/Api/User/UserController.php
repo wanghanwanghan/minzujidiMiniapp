@@ -609,7 +609,8 @@ class UserController extends BusinessBase
 
                 //签字盖章!
                 $docxObj->setImageValue('zhang', [
-                    'path' => STATIC_PATH . 'mzjd_zhang_one.png',
+                    // 'path' => STATIC_PATH . 'mzjd_zhang_one.png',
+                    'path' => STATIC_PATH . 'mzjd_zhang.png',
                     'width' => 430,
                     'height' => 180
                 ]);
