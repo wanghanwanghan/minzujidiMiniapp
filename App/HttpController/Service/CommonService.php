@@ -35,6 +35,7 @@ class CommonService extends ServiceBase
     //发送邮件
     function sendEmail($sendTo, array $addAttachment, $setSubject = '民族基地')
     {
+        //
         $redis = Redis::defer('redis');
         $redis->select(0);
 
