@@ -611,7 +611,7 @@ class UserController extends BusinessBase
                 $docxObj->setImageValue('zhang', [
                     // 'path' => STATIC_PATH . 'mzjd_zhang_one.png',
                     'path' => STATIC_PATH . 'mzjd_zhang.png',
-                    'width' => 430,
+                    'width' => 440,
                     'height' => 180
                 ]);
                 $docxObj->saveAs(FILE_PATH . $orderId . '.docx');
