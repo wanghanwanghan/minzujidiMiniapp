@@ -501,8 +501,6 @@ class UserController extends BusinessBase
 
         $email = $user->email;
 
-        $userFile = UploadFile::create()->where('orderId',$orderId)->where('type',$fileType)->get();
-
         $subject = '民族基地';
 
         switch ($fileType)
@@ -627,21 +625,7 @@ class UserController extends BusinessBase
                 $file = null;
         }
 
-        if (!empty($userFile))
-        {
-            $arr = explode(',',$userFile->filename);
-
-            foreach ($arr as $key => $val)
-            {
-                $arr[$key] = FILE_PATH.$val;
-            }
-
-            $sendFile = array_merge($arr,[$file]);
-
-        }else
-        {
-            $sendFile = [$file];
-        }
+        $sendFile = [$file];
 
         //docx2pdf
         $sendFile = TaskManager::getInstance()->sync(new Docx2pdf($sendFile));
@@ -655,8 +639,6 @@ class UserController extends BusinessBase
     function entStatus()
     {
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
-
-        CommonService::getInstance()->log4PHP($orderId);
 
         $entInfo = EntInfo::create()->where('orderId',$orderId)->get();
 
