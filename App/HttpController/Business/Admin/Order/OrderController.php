@@ -127,7 +127,7 @@ class OrderController extends BusinessBase
             if ($redis->get($orderId) !== 'send')
             {
                 CommonService::getInstance()->send_xinqiyetijiao();
-                $redis->set($orderId,'send',300);
+                $redis->set($orderId,'send');
             }
         }
 
@@ -285,11 +285,7 @@ class OrderController extends BusinessBase
         $redis = Redis::defer('redis');
         $redis->select(4);
 
-        if ($redis->get($orderId) !== 'send' && $handleStatus == '0')
-        {
-            CommonService::getInstance()->send_xinqiyetijiao();
-            $redis->set($orderId,'send',300);
-        }
+        if ($handleStatus == '0') CommonService::getInstance()->send_xinqiyetijiao();
 
         return $this->writeJson(200, null, null, '成功');
     }
