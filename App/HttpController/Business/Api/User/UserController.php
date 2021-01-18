@@ -628,6 +628,8 @@ class UserController extends BusinessBase
                 $file = null;
         }
 
+        CommonService::getInstance()->log4PHP($userFile);
+
         if (!empty($userFile))
         {
             $arr = explode(',',$userFile->filename);
