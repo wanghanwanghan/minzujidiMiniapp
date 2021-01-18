@@ -664,6 +664,9 @@ class UserController extends BusinessBase
 
         switch ($handleStatus)
         {
+            case '-1':
+                $handleStatus = '未填写完成';
+                break;
             case '0':
                 $handleStatus = '审核中';
                 break;
