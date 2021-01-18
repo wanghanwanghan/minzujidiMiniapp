@@ -496,7 +496,6 @@ class UserController extends BusinessBase
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
         $downloadType = $this->request()->getRequestParam('downloadType') ?? 1;
         $fileType = $this->request()->getRequestParam('fileType') ?? '';
-        $email = $this->request()->getRequestParam('email') ?? 'minglongoc@me.com';
 
         $user = User::create()->where('phone',$phone)->get();
 
@@ -628,8 +627,6 @@ class UserController extends BusinessBase
                 $file = null;
         }
 
-        CommonService::getInstance()->log4PHP($userFile);
-
         if (!empty($userFile))
         {
             $arr = explode(',',$userFile->filename);
@@ -647,11 +644,11 @@ class UserController extends BusinessBase
         }
 
         //docx2pdf
-        $sendFilePdf = TaskManager::getInstance()->sync(new Docx2pdf($sendFile));
+        $sendFile = TaskManager::getInstance()->sync(new Docx2pdf($sendFile));
 
-        $downloadType != 1 ?: CommonService::getInstance()->sendEmail($email,array_merge($sendFilePdf,$sendFile),$subject);
+        $downloadType != 1 ?: CommonService::getInstance()->sendEmail($email,$sendFile,$subject);
 
-        return $this->writeJson(200,null,$sendFilePdf,'成功');
+        return $this->writeJson(200,null,$sendFile,'成功');
     }
 
     //办理状态
