@@ -35,12 +35,15 @@ class CommonService extends ServiceBase
     //发送邮件
     function sendEmail($sendTo, array $addAttachment, $setSubject = '民族基地')
     {
+        $redis = Redis::defer('redis');
+        $redis->select(0);
+
         $config = new MailerConfig();
         $config->setServer('smtp.exmail.qq.com');
         $config->setSsl(true);
         $config->setPort(465);
         $config->setUsername('mail@meirixindong.com');
-        $config->setPassword('1q2w3e4r%T');
+        $config->setPassword($redis->hGet('config','mailPassword'));
         $config->setMailFrom('mail@meirixindong.com');
         $config->setTimeout(60);//设置客户端连接超时时间
         $config->setMaxPackage(1024 * 1024 * 50);//设置包发送的大小：50M

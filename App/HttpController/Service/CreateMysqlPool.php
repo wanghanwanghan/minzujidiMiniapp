@@ -19,7 +19,7 @@ class CreateMysqlPool extends AbstractPool
         parent::__construct(new \EasySwoole\Pool\Config());
 
         $mysqlConf = new Config([
-            'host' => '39.105.42.192',
+            'host' => '127.0.0.1',
             'port' => '63306',
             'user' => 'chinaiiss',
             'password' => 'zbxlbj@2018*()',
