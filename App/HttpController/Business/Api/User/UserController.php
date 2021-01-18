@@ -209,7 +209,7 @@ class UserController extends BusinessBase
         $orderInfo = Order::create()->where([
             'orderId' => $orderId,
             'phone' => $phone,
-        ])->where('handleStatus',0,'<>')->get();
+        ])->where('handleStatus',0,'>=')->get();
 
         if (!empty($orderInfo)) return $this->writeJson(201, null, null, '办理中订单不可删除');
 
