@@ -310,6 +310,18 @@ class OrderController extends BusinessBase
         return $this->writeJson(200, null, null, '记录成功');
     }
 
+    //
+    function getRecodeOrder()
+    {
+        $orderId = $this->request()->getRequestParam('orderId');
+
+        $res = RecodeOrder::create()->where('orderId',$orderId)->all();
+
+        $res = obj2Arr($res);
+
+        return $this->writeJson(200, null, $res, '成功');
+    }
+
     //修改订单所用的地址
     function editOrderAddr()
     {
