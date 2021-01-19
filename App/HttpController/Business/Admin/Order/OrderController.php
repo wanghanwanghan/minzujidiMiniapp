@@ -126,8 +126,8 @@ class OrderController extends BusinessBase
 
             if ($redis->get($orderId) !== 'send')
             {
-                CommonService::getInstance()->send_xinqiyetijiao();
                 $redis->set($orderId,'send');
+                CommonService::getInstance()->send_xinqiyetijiao();
             }
         }
 
