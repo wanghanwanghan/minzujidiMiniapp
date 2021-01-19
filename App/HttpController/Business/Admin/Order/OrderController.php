@@ -5,6 +5,7 @@ namespace App\HttpController\Business\Admin\Order;
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Models\Admin\Addr;
 use App\HttpController\Models\Admin\AddrUse;
+use App\HttpController\Models\Admin\RecodeOrder;
 use App\HttpController\Models\Admin\SupervisorPhoneEntName;
 use App\HttpController\Models\Api\EntGuDong;
 use App\HttpController\Models\Api\EntInfo;
@@ -299,14 +300,14 @@ class OrderController extends BusinessBase
         $errInfo = $this->request()->getRequestParam('errInfo');
         $remark = $this->request()->getRequestParam('remark');
 
-        CreateTable::getInstance()->recodeOrder();
+        RecodeOrder::create()->data([
+            'orderId' => trim($orderId),
+            'handleStatus' => trim($handleStatus),
+            'errInfo' => trim($errInfo),
+            'remark' => trim($remark),
+        ])->save();
 
-
-
-
-
-
-
+        return $this->writeJson(200, null, null, '记录成功');
     }
 
     //修改订单所用的地址
