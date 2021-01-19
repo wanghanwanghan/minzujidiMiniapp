@@ -12,6 +12,7 @@ use App\HttpController\Models\Api\Order;
 use App\HttpController\Models\Api\UploadFile;
 use App\HttpController\Models\Api\User;
 use App\HttpController\Service\CommonService;
+use App\HttpController\Service\CreateTable;
 use App\HttpController\Service\OrderService;
 use App\HttpController\Service\Pay\wx\wxPayService;
 use Carbon\Carbon;
@@ -288,6 +289,24 @@ class OrderController extends BusinessBase
         if ($handleStatus == '0') CommonService::getInstance()->send_xinqiyetijiao();
 
         return $this->writeJson(200, null, null, '成功');
+    }
+
+    //
+    function recodeOrder()
+    {
+        $orderId = $this->request()->getRequestParam('orderId');
+        $handleStatus = $this->request()->getRequestParam('handleStatus');
+        $errInfo = $this->request()->getRequestParam('errInfo');
+        $remark = $this->request()->getRequestParam('remark');
+
+        CreateTable::getInstance()->recodeOrder();
+
+
+
+
+
+
+
     }
 
     //修改订单所用的地址

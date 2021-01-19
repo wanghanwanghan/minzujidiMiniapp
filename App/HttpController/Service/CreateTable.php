@@ -284,6 +284,26 @@ class CreateTable extends ServiceBase
         return 'ok';
     }
 
+    function recodeOrder()
+    {
+        $sql = DDLBuilder::table(__FUNCTION__, function (Table $table) {
+            $table->setTableComment('订单动态记录表')->setTableEngine(Engine::INNODB)->setTableCharset(Character::UTF8MB4_GENERAL_CI);
+            $table->colInt('id', 11)->setIsAutoIncrement()->setIsUnsigned()->setIsPrimaryKey()->setColumnComment('主键');
+            $table->colVarChar('orderId',50)->setDefaultValue('');
+            $table->colText('errInfo');
+            $table->colText('remark');
+            $table->colInt('created_at', 11)->setIsUnsigned()->setDefaultValue(0);
+            $table->colInt('updated_at', 11)->setIsUnsigned()->setDefaultValue(0);
+        });
+
+        $obj = Manager::getInstance()->get('miniapp')->getObj();
+
+        $obj->rawQuery($sql);
+
+        Manager::getInstance()->get('miniapp')->recycleObj($obj);
+
+        return 'ok';
+    }
 
 
 
