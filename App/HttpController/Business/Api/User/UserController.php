@@ -557,6 +557,8 @@ class UserController extends BusinessBase
                 $entName = $entInfo->entName;
                 $entAddr = EntInfo::create()->where('orderId',$orderId)->get()->zs;
                 $tradeType = $entInfo->hy;
+                Order::create()->where('orderId',$orderId)->get()->modifyAddr == 1 ?
+                    $modifyAddr = '地址变更（外迁）' : $modifyAddr = '新成立企业';
                 $regMoney = $entInfo->zczb;
                 $code = $entInfo->code;
                 $fr = $entInfo->fr;
@@ -591,7 +593,8 @@ class UserController extends BusinessBase
 
                 $docxObj->setValue('entName',$entName);
                 $docxObj->setValue('entAddr',$entAddr);
-                //$docxObj->setValue('tradeType',$tradeType);
+                $docxObj->setValue('tradeType',$tradeType);
+                $docxObj->setValue('modifyAddr',$modifyAddr);
                 $docxObj->setValue('regMoney',$regMoney);
                 $docxObj->setValue('code',$code);
                 $docxObj->setValue('fr',$fr);
