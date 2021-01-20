@@ -124,11 +124,16 @@ class SupervisorController extends BusinessBase
             ->limit($this->exprOffset($page,$pageSize),$pageSize)
             ->all();
 
+        !empty($entList) ? $entList = obj2Arr($entList) : $entList = [];
+
+        foreach ($entList as $key => $oneEnt)
+        {
+            $entList[$key]['danger'] = SupervisorEntNameInfo::create()
+                ->where(['entName' => $oneEnt['entName'],])
+                ->where('leven',[1,2],'in')->count();
+        }
+
         CommonService::getInstance()->log4PHP($entList);
-
-
-
-
 
         $total = Order::create()->where('status',3)->where('handleStatus',4)->count();
 
