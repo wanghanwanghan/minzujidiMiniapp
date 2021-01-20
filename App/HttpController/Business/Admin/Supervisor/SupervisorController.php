@@ -6,6 +6,7 @@ use App\HttpController\Business\BusinessBase;
 use App\HttpController\Models\Admin\SupervisorEntNameInfo;
 use App\HttpController\Models\Admin\SupervisorPhoneEntName;
 use App\HttpController\Models\Api\Order;
+use App\HttpController\Service\CommonService;
 use Carbon\Carbon;
 
 class SupervisorController extends BusinessBase
@@ -122,6 +123,12 @@ class SupervisorController extends BusinessBase
         $entList = Order::create()->where('status',3)->where('handleStatus',4)
             ->limit($this->exprOffset($page,$pageSize),$pageSize)
             ->all();
+
+        CommonService::getInstance()->log4PHP($entList);
+
+
+
+
 
         $total = Order::create()->where('status',3)->where('handleStatus',4)->count();
 
