@@ -130,7 +130,7 @@ class SupervisorController extends BusinessBase
         {
             $entList[$key]['danger'] = SupervisorEntNameInfo::create()
                 ->where(['entName' => $oneEnt['entName'],])
-                ->where('leven',[1,2],'in')->count();
+                ->where('level',[1,2],'in')->count();
         }
 
         CommonService::getInstance()->log4PHP($entList);
