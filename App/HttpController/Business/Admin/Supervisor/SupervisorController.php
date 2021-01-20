@@ -133,8 +133,6 @@ class SupervisorController extends BusinessBase
                 ->where('level',[1,2],'in')->count();
         }
 
-        CommonService::getInstance()->log4PHP($entList);
-
         $total = Order::create()->where('status',3)->where('handleStatus',4)->count();
 
         return $this->writeJson(200,$this->createPaging($page,$pageSize,$total),$entList);
