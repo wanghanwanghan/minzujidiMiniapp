@@ -720,4 +720,24 @@ class UserController extends BusinessBase
         return $this->writeJson(200,null,[],'成功');
     }
 
+    function updateOpenId()
+    {
+        $phone = $this->request()->getRequestParam('phone') ?? '';
+        $jsCode = $this->request()->getRequestParam('jsCode') ?? '';
+
+        if (strlen($phone) != 11 || !is_numeric($phone)) return $this->writeJson(201,null,null,'phone错误');
+        if (empty($jsCode)) return $this->writeJson(201,null,null,'jsCode错误');
+
+        $wx = new wxPayService();
+
+        $openId = $wx->getOpenId($jsCode);
+
+        $openId = end($openId);
+
+        //更新用户openid
+        User::create()->where('phone',$phone)->update(['openid'=>$openId]);
+
+        return $this->writeJson(200,null,null,'更新成功');
+    }
+
 }

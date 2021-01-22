@@ -41,7 +41,7 @@ class wxPayService
         return (new CoHttpClient())->setDecode(true)->send($url, $data, [], [], 'get');
     }
 
-    private function getOpenId($code): array
+    function getOpenId($code): array
     {
         $url = 'https://api.weixin.qq.com/sns/jscode2session';
 

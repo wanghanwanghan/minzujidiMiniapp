@@ -59,6 +59,7 @@ class Router extends AbstractRouter
             $routeCollector->addRoute(['GET','POST'],'/downloadFile',$prefix.'downloadFile');//下载文件
             $routeCollector->addRoute(['GET','POST'],'/entStatus',$prefix.'entStatus');//办理状态
             $routeCollector->addRoute(['GET','POST'],'/uploadFilePage',$prefix.'uploadFilePage');//上传文件页面
+            $routeCollector->addRoute(['GET','POST'],'/updateOpenId',$prefix.'updateOpenId');
         });
 
         return true;
