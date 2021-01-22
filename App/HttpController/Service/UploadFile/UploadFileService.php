@@ -37,9 +37,8 @@ class UploadFileService extends ServiceBase
                 ]);
             }
 
-            return '123';
+            return UploadFile::create()->where('orderId', $orderId)->get();
         }
-
 
         $filename = explode(',', trim($filename));
 

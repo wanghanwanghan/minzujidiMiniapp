@@ -364,19 +364,96 @@ class OrderController extends BusinessBase
         $orderId = $this->request()->getRequestParam('orderId') ?? '';
         $entName = $this->request()->getRequestParam('entName') ?? '';
         $code = $this->request()->getRequestParam('code') ?? '';
+        $fileNumber = $this->request()->getRequestParam('fileNumber') ?? '';//档案编号
+        $applyEnt = $this->request()->getRequestParam('applyEnt') ?? '';//民族园内申请单位
+        $managementPrice = $this->request()->getRequestParam('managementPrice') ?? '';//管理费
+        $receivableManagementPrice = $this->request()->getRequestParam('receivableManagementPrice') ?? '';//应收管理费
+        $zlhtDate = $this->request()->getRequestParam('zlhtDate') ?? '';//租赁合同日期
 
         if (empty($orderId)) return $this->writeJson(201,null,null,'orderId不能是空');
-        if (empty($entName)) return $this->writeJson(201,null,null,'entName不能是空');
 
-        EntInfo::create()->where('orderId',$orderId)->update(['entName'=>$entName,'code'=>$code]);
-        Order::create()->where('orderId',$orderId)->update(['entName'=>$entName]);
-        UploadFile::create()->where('orderId',$orderId)->update(['entName'=>$entName]);
-        UploadFile::create()->where('orderId',$orderId)->update(['entName'=>$entName]);
-        $info = SupervisorPhoneEntName::create()->where('entName',$entName)->get();
+        if (!empty($zlhtDate))
+        {
+            $info = UploadFile::create()->where('orderId', $orderId)->where('type', 4)->get();
 
-        !empty($info) ?: SupervisorPhoneEntName::create()->data([
-            'phone'=>11111111111,'entName'=>$entName,'status'=>1
-        ])->save();
+            $time = explode(',',$zlhtDate);
+
+            if (!empty($info) && (is_numeric($time[0]) && is_numeric($time[1])))
+            {
+                $info->update([
+                    'startTime' => $time[0] === 0 ? 0 : substr($time[0],0,10),
+                    'endTime' => $time[1] === 0 ? 0 : substr($time[1],0,10),
+                ]);
+            }else
+            {
+                $order = Order::create()->where('orderId',$orderId)->get();
+                UploadFile::create()->data([
+                    'orderId'=>$orderId,
+                    'phone'=>$order->phone,
+                    'type'=>4,
+                    'startTime'=>$time[0],
+                    'endTime'=>$time[1],
+                ])->save();
+            }
+        }
+
+        if (!empty($entName))
+        {
+            EntInfo::create()->where('orderId',$orderId)->update([
+                'entName'=>$entName,
+            ]);
+
+            Order::create()->where('orderId',$orderId)->update([
+                'entName'=>$entName
+            ]);
+
+            UploadFile::create()->where('orderId',$orderId)->update([
+                'entName'=>$entName
+            ]);
+
+            $info = SupervisorPhoneEntName::create()->where('entName',$entName)->get();
+
+            !empty($info) ?: SupervisorPhoneEntName::create()->data([
+                'phone'=>11111111111,
+                'entName'=>$entName,
+                'status'=>1
+            ])->save();
+        }
+
+        if (!empty($code))
+        {
+            EntInfo::create()->where('orderId',$orderId)->update([
+                'code'=>$code,
+            ]);
+        }
+
+        if (!empty($fileNumber))
+        {
+            EntInfo::create()->where('orderId',$orderId)->update([
+                'fileNumber'=>$fileNumber,
+            ]);
+        }
+
+        if (!empty($applyEnt))
+        {
+            EntInfo::create()->where('orderId',$orderId)->update([
+                'applyEnt'=>$applyEnt,
+            ]);
+        }
+
+        if (!empty($managementPrice))
+        {
+            EntInfo::create()->where('orderId',$orderId)->update([
+                'managementPrice'=>$managementPrice,
+            ]);
+        }
+
+        if (!empty($receivableManagementPrice))
+        {
+            EntInfo::create()->where('orderId',$orderId)->update([
+                'receivableManagementPrice'=>$receivableManagementPrice,
+            ]);
+        }
 
         return $this->writeJson(200,null,null,'成功');
     }
