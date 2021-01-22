@@ -369,10 +369,18 @@ class OrderController extends BusinessBase
         $managementPrice = $this->request()->getRequestParam('managementPrice') ?? '';//管理费
         $receivableManagementPrice = $this->request()->getRequestParam('receivableManagementPrice') ?? '';//应收管理费
         $zlhtDate = $this->request()->getRequestParam('zlhtDate') ?? '';//租赁合同日期
+        $addr = $this->request()->getRequestParam('addr') ?? '';//地址分配
 
         preg_match('/NaN/',$zlhtDate) ? $zlhtDate = '' : null;
 
         if (empty($orderId)) return $this->writeJson(201,null,null,'orderId不能是空');
+
+        if (!empty($addr))
+        {
+            EntInfo::create()->where('orderId',$orderId)->update([
+                'addr'=>$addr,
+            ]);
+        }
 
         if (!empty($zlhtDate))
         {
