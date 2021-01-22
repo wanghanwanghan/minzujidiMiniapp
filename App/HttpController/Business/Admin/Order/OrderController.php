@@ -370,6 +370,8 @@ class OrderController extends BusinessBase
         $receivableManagementPrice = $this->request()->getRequestParam('receivableManagementPrice') ?? '';//应收管理费
         $zlhtDate = $this->request()->getRequestParam('zlhtDate') ?? '';//租赁合同日期
 
+        if ($zlhtDate === 'NaN') $zlhtDate = '';
+
         if (empty($orderId)) return $this->writeJson(201,null,null,'orderId不能是空');
 
         if (!empty($zlhtDate))
