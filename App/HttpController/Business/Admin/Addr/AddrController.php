@@ -125,6 +125,8 @@ class AddrController extends BusinessBase
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
 
+        CommonService::getInstance()->log4PHP($cond);
+
         is_numeric($id) ? $list = Addr::create()->where('addr.id',$id) : $list = Addr::create();
         is_numeric($id) ? $entList = Addr::create()->where('addr.id',$id) : $entList = Addr::create();
         is_numeric($id) ? $total = Addr::create()->where('id',$id) : $total = Addr::create();
@@ -237,6 +239,85 @@ class AddrController extends BusinessBase
         {
             return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list);
         }
+    }
+
+    function selectListTest()
+    {
+        $keyword = $this->request()->getRequestParam('keyword') ?? '';//搜公司名称，地址名称，法人
+        $cond = $this->request()->getRequestParam('cond') ?? '';//开业-地址异常-吊销-注销-地址变更-30天内到期
+        $export = $this->request()->getRequestParam('export') ?? '';
+        $page = $this->request()->getRequestParam('page') ?? 1;
+        $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
+
+        $list = EntInfo::create()->alias('ent')->field([
+            'ent.code',
+            'ent.entName',
+            'ent.regEntName',
+            'ent.entStatusInApi',
+            'ent.entAddrInApi',
+            'ent.addr',
+            'ent.fr',
+            'ent.frPhone',
+            'ent.jbr',
+            'ent.jbrPhone',
+            'orderTable.finalPrice',
+        ])->join('miniapp_order as orderTable','ent.orderId = orderTable.orderId','left');
+
+        if (!empty($keyword)) $list
+            ->where("ent.entName like '%{$keyword}%' or ent.addr like '%{$keyword}%' or ent.fr like '%{$keyword}%'");
+
+        //查询条件
+        switch ((int)$cond)
+        {
+            case 1:
+                //1是地址模糊搜索
+                //Addr::create()->where('name','%民族园1号%','like');
+                //$list->where('addrUse.endTime','asc');
+                break;
+            case 2:
+                //2是开业
+                $list->where('ent.entStatusInApi','%开业%','like');
+                break;
+            case 3:
+                //3是开业并且地址异常
+                $list->where('ent.entStatusInApi','%地址%','like');
+                break;
+            case 4:
+                //4是吊销
+                $list->where('ent.entStatusInApi','%吊销%','like');
+                break;
+            case 5:
+                //5是注销
+                $list->where('ent.entStatusInApi','%注销%','like');
+                break;
+            case 6:
+                //6是地址变更
+                $list->where('ent.entAddrInApi','%民族园%','not like');
+                break;
+            case 7:
+                //7是30天内到期
+                $list->where('addrUse.endTime',Carbon::now()->addDays(30)->timestamp,'<');
+                $list->order('addrUse.endTime','asc');
+                break;
+            default:
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     //获取地址详情

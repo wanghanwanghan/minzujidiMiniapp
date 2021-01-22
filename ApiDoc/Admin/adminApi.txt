@@ -98,10 +98,8 @@
 地址:admin/v1/addr/selectList
 方法:get/post
 参数:
-     id = 1，地址主键
-     isUse = 1，1是已被使用，0是未使用
-     entName = XXX，支持模糊搜索，导出时，传逗号分割的字符串
-     cond = XXX，查询条件，1是地址模糊搜索，2是开业，3是开业并且地址异常，4是吊销，5是注销，6是地址变更，7是30天内到期
+     keyword = XXX，支持模糊搜索，导出时，传逗号分割的字符串
+     cond = XXX，查询条件
      export = 1，是否导出
      page = 1
      pageSize = 10
