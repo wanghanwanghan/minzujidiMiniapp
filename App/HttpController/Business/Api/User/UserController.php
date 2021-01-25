@@ -428,6 +428,7 @@ class UserController extends BusinessBase
             'jbrAddr' => $jbrAddr,
             'jbrEmail' => $jbrEmail,
             'zs' => $zs,
+            'addr' => $zs,
             'code' => $code,
         ];
 

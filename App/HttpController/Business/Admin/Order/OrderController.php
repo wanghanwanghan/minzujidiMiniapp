@@ -378,6 +378,7 @@ class OrderController extends BusinessBase
         if (!empty($addr))
         {
             EntInfo::create()->where('orderId',$orderId)->update([
+                'zs'=>$addr,
                 'addr'=>$addr,
             ]);
         }
