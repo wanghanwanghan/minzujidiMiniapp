@@ -115,144 +115,16 @@ class AddrController extends BusinessBase
     }
 
     //获取地址列表/详情
-    function selectListTTT()
-    {
-        $id = $this->request()->getRequestParam('id') ?? '';
-        $isUse = $this->request()->getRequestParam('isUse') ?? '';
-        $entName = $this->request()->getRequestParam('entName') ?? '';//搜公司名称，地址名称，法人
-        $cond = $this->request()->getRequestParam('cond') ?? '';
-        $export = $this->request()->getRequestParam('export') ?? '';
-        $page = $this->request()->getRequestParam('page') ?? 1;
-        $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
-
-        CommonService::getInstance()->log4PHP($cond);
-
-        is_numeric($id) ? $list = Addr::create()->where('addr.id',$id) : $list = Addr::create();
-        is_numeric($id) ? $entList = Addr::create()->where('addr.id',$id) : $entList = Addr::create();
-        is_numeric($id) ? $total = Addr::create()->where('id',$id) : $total = Addr::create();
-
-        !is_numeric($isUse) ?: $list->where('addr.isUse',$isUse);
-        !is_numeric($isUse) ?: $entList->where('addr.isUse',$isUse);
-        !is_numeric($isUse) ?: $total->where('isUse',$isUse);
-
-        if (strpos($entName,',') !== false)
-        {
-            //这里是数组
-            $entName = explode(',',$entName);
-            $entName = array_filter($entName);
-        }else
-        {
-            empty($entName) ?: $list
-                ->where("ent.entName like '%{$entName}%' or addr.name like '%{$entName}%' or ent.fr like '%{$entName}%'");
-            empty($entName) ?: $total = EntInfo::create()
-                ->where("entName like '%{$entName}%' or fr like '%{$entName}%'");
-        }
-
-        $list->alias('addr')
-            ->field([
-                'addr.id',
-                'addr.name',
-                'addr.category',
-                'ent.code',
-                'ent.entName',
-                'ent.regEntName',
-                'ent.entStatusInApi',
-                'ent.entAddrInApi',
-                'addr.isUse',
-                'addrUse.startTime',
-                'addrUse.endTime',
-                'ent.fr',
-                'ent.frPhone',
-                'ent.jbr',
-                'ent.jbrPhone',
-                'orderTable.finalPrice',
-            ])
-            ->join('miniapp_use_addr as addrUse','addr.orderId = addrUse.orderId','left')
-            ->join('miniapp_ent_info as ent','addr.orderId = ent.orderId','left')
-            ->join('miniapp_order as orderTable','addr.orderId = orderTable.orderId','left');
-
-        //查询条件
-        switch ((int)$cond)
-        {
-            case 1:
-                //1是地址模糊搜索
-                //Addr::create()->where('name','%民族园1号%','like');
-                //$list->where('addrUse.endTime','asc');
-                break;
-            case 2:
-                //2是开业
-                $list->where('ent.entStatusInApi','%开业%','like');
-                break;
-            case 3:
-                //3是开业并且地址异常
-                $list->where('ent.entStatusInApi','%地址%','like');
-                break;
-            case 4:
-                //4是吊销
-                $list->where('ent.entStatusInApi','%吊销%','like');
-                break;
-            case 5:
-                //5是注销
-                $list->where('ent.entStatusInApi','%注销%','like');
-                break;
-            case 6:
-                //6是地址变更
-                $list->where('ent.entAddrInApi','%民族园%','not like');
-                break;
-            case 7:
-                //7是30天内到期
-                $list->where('addrUse.endTime',Carbon::now()->addDays(30)->timestamp,'<');
-                $list->order('addrUse.endTime','asc');
-                break;
-            default:
-        }
-
-        $list = $list->limit($this->exprOffset($page, $pageSize), $pageSize)->all();
-
-        $list = obj2Arr($list);
-
-        $total = $total->count();
-
-        if ((int)$export === 1)
-        {
-            if (!empty($entName) && is_array($entName))
-            {
-                $entList = $entName;
-            }else
-            {
-                $entList = $entList->alias('addr')
-                    ->field(['ent.entName'])
-                    ->join('miniapp_use_addr as addrUse','addr.orderId = addrUse.orderId','left')
-                    ->join('miniapp_ent_info as ent','addr.orderId = ent.orderId','left')
-                    ->join('miniapp_order as orderTable','addr.orderId = orderTable.orderId','left')
-                    ->all();
-
-                $entList = obj2Arr($entList);
-
-                !empty($entList) ?: $entList = [];
-
-                $entList = control::array_flatten($entList);
-            }
-
-            return $this->exportExcel($entList);
-        }else
-        {
-            return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list);
-        }
-    }
-
     function selectList()
     {
         $keyword = $this->request()->getRequestParam('keyword') ?? '';//搜公司名称，地址名称，法人
         $cond = $this->request()->getRequestParam('cond') ?? '';//开业-地址异常-吊销-注销-地址变更-30天内到期
-        $cond = str_replace(['[',']','"'],'',$cond);
         $cond = explode(',',$cond);
         $export = $this->request()->getRequestParam('export') ?? '';
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
 
-        CommonService::getInstance()->log4PHP($cond);
-
+        //
         $list = EntInfo::create()->alias('ent')->field([
             'ent.code',
             'ent.entName',
@@ -265,7 +137,9 @@ class AddrController extends BusinessBase
             'ent.jbr',
             'ent.jbrPhone',
             'orderTable.finalPrice',
-        ])->join('miniapp_order as orderTable','ent.orderId = orderTable.orderId','left');
+        ])->join('miniapp_order as orderTable','ent.orderId = orderTable.orderId','left')
+            ->join('miniapp_upload_file as uploadTable','ent.orderId = uploadTable.orderId','left')
+            ->where('uploadTable.type',4);
 
         if (!empty($keyword))
         {
@@ -281,6 +155,7 @@ class AddrController extends BusinessBase
             if (in_array('吊销',$cond)) $sql .= 'ent.entStatusInApi like "%吊销%" or ';
             if (in_array('注销',$cond)) $sql .= 'ent.entStatusInApi like "%注销%" or ';
             if (in_array('地址变更',$cond)) $sql .= 'ent.entStatusInApi not like "%民族园%" or ';
+            if (in_array('30天内到期',$cond)) $sql .= 'uploadTable.endTime < '.Carbon::now()->addDays(30)->timestamp;
 
             $sql = trim($sql);
             $sql = trim($sql,'or');
@@ -288,13 +163,93 @@ class AddrController extends BusinessBase
             $list->where($sql);
         }
 
-        //30天内到期
-        $res = $list->all();
+        //
+        $total = EntInfo::create()->alias('ent')->field([
+            'ent.code',
+            'ent.entName',
+            'ent.regEntName',
+            'ent.entStatusInApi',
+            'ent.entAddrInApi',
+            'ent.addr',
+            'ent.fr',
+            'ent.frPhone',
+            'ent.jbr',
+            'ent.jbrPhone',
+            'orderTable.finalPrice',
+        ])->join('miniapp_order as orderTable','ent.orderId = orderTable.orderId','left')
+            ->join('miniapp_upload_file as uploadTable','ent.orderId = uploadTable.orderId','left')
+            ->where('uploadTable.type',4);
 
-        $sql = DbManager::getInstance()->getLastQuery()->getLastQuery();
-        CommonService::getInstance()->log4PHP($res);
-        CommonService::getInstance()->log4PHP($sql);
+        if (!empty($keyword))
+        {
+            $total->where("ent.entName like '%{$keyword}%' or ent.addr like '%{$keyword}%' or ent.fr like '%{$keyword}%'");
+        }
 
+        if (!empty($cond))
+        {
+            $sql = '';
+
+            if (in_array('开业',$cond)) $sql .= 'ent.entStatusInApi like "%开业%" or ';
+            if (in_array('地址异常',$cond)) $sql .= 'ent.entStatusInApi like "%地址%" or ';
+            if (in_array('吊销',$cond)) $sql .= 'ent.entStatusInApi like "%吊销%" or ';
+            if (in_array('注销',$cond)) $sql .= 'ent.entStatusInApi like "%注销%" or ';
+            if (in_array('地址变更',$cond)) $sql .= 'ent.entStatusInApi not like "%民族园%" or ';
+            if (in_array('30天内到期',$cond)) $sql .= 'uploadTable.endTime < '.Carbon::now()->addDays(30)->timestamp;
+
+            $sql = trim($sql);
+            $sql = trim($sql,'or');
+
+            $total->where($sql);
+        }
+
+        $list = $list->limit($this->exprOffset($page, $pageSize), $pageSize)->all();
+
+        $list = obj2Arr($list);
+
+        $total = $total->count();
+
+        //
+        if ((int)$export === 1)
+        {
+            $entList = EntInfo::create()->alias('ent')->field([
+                'ent.entName',
+            ])->join('miniapp_order as orderTable','ent.orderId = orderTable.orderId','left')
+                ->join('miniapp_upload_file as uploadTable','ent.orderId = uploadTable.orderId','left')
+                ->where('uploadTable.type',4);
+
+            if (!empty($keyword))
+            {
+                $entList->where("ent.entName like '%{$keyword}%' or ent.addr like '%{$keyword}%' or ent.fr like '%{$keyword}%'");
+            }
+
+            if (!empty($cond))
+            {
+                $sql = '';
+
+                if (in_array('开业',$cond)) $sql .= 'ent.entStatusInApi like "%开业%" or ';
+                if (in_array('地址异常',$cond)) $sql .= 'ent.entStatusInApi like "%地址%" or ';
+                if (in_array('吊销',$cond)) $sql .= 'ent.entStatusInApi like "%吊销%" or ';
+                if (in_array('注销',$cond)) $sql .= 'ent.entStatusInApi like "%注销%" or ';
+                if (in_array('地址变更',$cond)) $sql .= 'ent.entStatusInApi not like "%民族园%" or ';
+                if (in_array('30天内到期',$cond)) $sql .= 'uploadTable.endTime < '.Carbon::now()->addDays(30)->timestamp;
+
+                $sql = trim($sql);
+                $sql = trim($sql,'or');
+
+                $entList->where($sql);
+            }
+
+            $entList = $entList->all();
+
+            $entList = obj2Arr($entList);
+
+            $entList = control::array_flatten($entList);
+
+            return $this->exportExcel($entList);
+        }else
+        {
+            return $this->writeJson(200, $this->createPaging($page, $pageSize, $total), $list);
+        }
     }
 
     //获取地址详情
