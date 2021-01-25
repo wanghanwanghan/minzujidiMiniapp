@@ -163,6 +163,10 @@ class AddrController extends BusinessBase
             $list->where($sql);
         }
 
+        $list = $list->limit($this->exprOffset($page, $pageSize), $pageSize)->all();
+
+        $list = obj2Arr($list);
+
         //
         $total = EntInfo::create()->alias('ent')->field([
             'ent.code',
@@ -201,10 +205,6 @@ class AddrController extends BusinessBase
 
             $total->where($sql);
         }
-
-        $list = $list->limit($this->exprOffset($page, $pageSize), $pageSize)->all();
-
-        $list = obj2Arr($list);
 
         $total = $total->count();
 
