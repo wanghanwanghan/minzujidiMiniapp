@@ -24,10 +24,10 @@ class UploadFileService extends ServiceBase
 
     function uploadFile($filename, $orderId, $phone, $type, $status = 0 , $startTime = 0, $endTime = 0, $isc = 0)
     {
-        //4-1
-        if ($type === '4-1')
+        //6-1
+        if ($type === '6-1')
         {
-            $info = UploadFile::create()->where('orderId', $orderId)->where('type', 4)->get();
+            $info = UploadFile::create()->where('orderId', $orderId)->where('type', 6)->get();
 
             if (!empty($info) && (is_numeric($startTime) && is_numeric($endTime)))
             {
@@ -35,6 +35,15 @@ class UploadFileService extends ServiceBase
                     'startTime' => $startTime === 0 ? 0 : substr($startTime,0,10),
                     'endTime' => $endTime === 0 ? 0 : substr($endTime,0,10),
                 ]);
+            }else
+            {
+                UploadFile::create()->data([
+                    'orderId'=>$orderId,
+                    'phone'=>$phone,
+                    'type'=>6,
+                    'startTime'=>$startTime,
+                    'endTime'=>$endTime,
+                ])->save();
             }
 
             return UploadFile::create()->where('orderId', $orderId)->get();
