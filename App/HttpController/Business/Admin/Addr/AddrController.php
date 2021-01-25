@@ -206,7 +206,7 @@ class AddrController extends BusinessBase
             $total->where($sql);
         }
 
-        $total = $total->count();
+        $total = $total->count('ent.id');
 
         //
         if ((int)$export === 1)
