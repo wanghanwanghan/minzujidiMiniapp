@@ -141,8 +141,7 @@ class AddrController extends BusinessBase
             ->join('miniapp_upload_file as uploadTable','ent.orderId = uploadTable.orderId','left')
             ->where('uploadTable.type',4);
 
-        CommonService::getInstance()->log4PHP($keyword);
-        CommonService::getInstance()->log4PHP($cond);
+        return $this->writeJson(200,$keyword,$cond);
 
 
         if (!empty($keyword))
