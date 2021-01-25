@@ -128,6 +128,7 @@ class AddrController extends BusinessBase
 
         //
         $list = EntInfo::create()->alias('ent')->field([
+            'orderTable.orderId',
             'ent.code',
             'ent.entName',
             'ent.regEntName',
@@ -139,6 +140,10 @@ class AddrController extends BusinessBase
             'ent.jbr',
             'ent.jbrPhone',
             'orderTable.finalPrice',
+            'ent.fileNumber',
+            'ent.applyEnt',
+            'ent.managementPrice',
+            'ent.receivableManagementPrice',
         ])->join('miniapp_order as orderTable','ent.orderId = orderTable.orderId','left')
             ->join('miniapp_upload_file as uploadTable','ent.orderId = uploadTable.orderId','left')
             ->where('uploadTable.type',4);
@@ -170,6 +175,28 @@ class AddrController extends BusinessBase
         // CommonService::getInstance()->log4PHP(DbManager::getInstance()->getLastQuery()->getLastQuery());
 
         $list = obj2Arr($list);
+
+        //协议和住所是否到期
+        foreach ($list as $key => $oneEnt)
+        {
+            $list[$key]['xyIsExpire'] = 0;
+            $list[$key]['zlhtIsExpire'] = 0;
+
+            $xyInfo = \App\HttpController\Models\Api\UploadFile::create()->where([
+                'orderId' => $oneEnt['orderId'],
+                'type' => 6
+            ])->get();
+
+            $zlhtInfo = \App\HttpController\Models\Api\UploadFile::create()->where([
+                'orderId' => $oneEnt['orderId'],
+                'type' => 4
+            ])->get();
+
+            $now = Carbon::now()->timestamp;
+
+            if (!empty($xyInfo) && $xyInfo->endTime < $now) $list[$key]['xyIsExpire'] = 1;
+            if (!empty($zlhtInfo) && $zlhtInfo->endTime < $now) $list[$key]['zlhtIsExpire'] = 1;
+        }
 
         //
         $total = EntInfo::create()->alias('ent')->field([
