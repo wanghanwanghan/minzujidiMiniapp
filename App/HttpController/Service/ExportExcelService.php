@@ -24,6 +24,7 @@ class ExportExcelService extends ServiceBase
 
         $header = [
             '订单号',
+            '档案编号',
             '企业名称',
             '提交人手机号',
             '提交人所属',
@@ -52,14 +53,19 @@ class ExportExcelService extends ServiceBase
             '地址名称',
             '租赁合同开始时间',
             '租赁合同到期时间',
+            '租赁合同是否到期',
             '管理协议开始时间',
             '管理协议到期时间',
-
+            '管理协议是否到期',
+            '民族园内申请单位',
+            '管理费',
+            '应收管理费',
         ];
 
         $list = Order::create()->alias('orderTable')
             ->field([
                 'orderTable.orderId',
+                'entInfoTable.fileNumber',
                 'orderTable.entName',
                 'orderTable.phone',
                 'orderTable.userType',
@@ -88,8 +94,13 @@ class ExportExcelService extends ServiceBase
                 'entInfoTable.addr',
                 'uploadTable.startTime',
                 'uploadTable.endTime',
+                '"" as zlhtIsExpire',
                 '"" as xyStartTime',
                 '"" as xyEndTime',
+                '"" as xyIsExpire',
+                'entInfoTable.applyEnt',
+                'entInfoTable.managementPrice',
+                'entInfoTable.receivableManagementPrice',
             ])
             ->join('miniapp_ent_info as entInfoTable','orderTable.orderId = entInfoTable.orderId','left')
             ->join('miniapp_upload_file as uploadTable','orderTable.orderId = uploadTable.orderId','left')
@@ -174,6 +185,10 @@ class ExportExcelService extends ServiceBase
 
                 $one['startTime'] = date('Y-m-d',$one['startTime']);//upload type = 4 租赁合同时间
                 $one['endTime'] = date('Y-m-d',$one['endTime']);
+                if (!empty($one['endTime']))
+                {
+                    $one['zlhtIsExpire'] = time() > $one['endTime'] ? '已经过期' : '未过期';
+                }
 
                 //添加管理协议时间，如果存在
                 $xy = UploadFile::create()->where(['orderId'=>$one['orderId'],'type'=>6])->get();
@@ -183,6 +198,10 @@ class ExportExcelService extends ServiceBase
                     //
                     $one['xyStartTime'] = date('Y-m-d',$xy['startTime']);
                     $one['xyEndTime'] = date('Y-m-d',$xy['endTime']);
+                    if (!empty($xy['endTime']))
+                    {
+                        $one['xyIsExpire'] = time() > $xy['endTime'] ? '已经过期' : '未过期';
+                    }
                 }
 
                 $tmp[] = array_values($one);
