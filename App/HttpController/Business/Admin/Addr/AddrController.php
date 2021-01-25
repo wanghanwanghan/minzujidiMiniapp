@@ -120,6 +120,7 @@ class AddrController extends BusinessBase
         $keyword = $this->request()->getRequestParam('keyword') ?? '';//搜公司名称，地址名称，法人
         $cond = $this->request()->getRequestParam('cond') ?? '';//开业-地址异常-吊销-注销-地址变更-30天内到期
         $cond = explode(',',$cond);
+        $cond = array_filter($cond);
         $export = $this->request()->getRequestParam('export') ?? '';
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
@@ -140,9 +141,6 @@ class AddrController extends BusinessBase
         ])->join('miniapp_order as orderTable','ent.orderId = orderTable.orderId','left')
             ->join('miniapp_upload_file as uploadTable','ent.orderId = uploadTable.orderId','left')
             ->where('uploadTable.type',4);
-
-        return $this->writeJson(200,$keyword,$cond);
-
 
         if (!empty($keyword))
         {
