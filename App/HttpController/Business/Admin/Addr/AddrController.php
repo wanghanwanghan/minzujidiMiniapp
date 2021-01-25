@@ -166,7 +166,7 @@ class AddrController extends BusinessBase
             $sql = trim($sql);
             $sql = trim($sql,'or');
 
-            $list->where("({$sql})");
+            empty($sql) ?: $list->where("({$sql})");
         }
 
         $list = $list->limit($this->exprOffset($page, $pageSize), $pageSize)->all();
@@ -216,7 +216,7 @@ class AddrController extends BusinessBase
             $sql = trim($sql);
             $sql = trim($sql,'or');
 
-            $total->where("({$sql})");
+            empty($sql) ?: $total->where("({$sql})");
         }
 
         $total = $total->count('ent.id');
@@ -253,7 +253,7 @@ class AddrController extends BusinessBase
                 $sql = trim($sql);
                 $sql = trim($sql,'or');
 
-                $entList->where("({$sql})");
+                empty($sql) ?: $entList->where("({$sql})");
             }
 
             $entList = $entList->all();
