@@ -150,9 +150,13 @@ class AddrController extends BusinessBase
 
         if (!empty($cond))
         {
+            if (in_array('30天内到期',$cond))
+            {
+                $list->where('uploadTable.endTime',Carbon::now()->addDays(30)->timestamp,'<');
+            }
+
             $sql = '';
 
-            if (in_array('30天内到期',$cond)) $sql .= 'uploadTable.endTime < '.Carbon::now()->addDays(30)->timestamp.' and ';
             if (in_array('开业',$cond)) $sql .= 'ent.entStatusInApi like "%开业%" or ';
             if (in_array('地址异常',$cond)) $sql .= 'ent.entStatusInApi like "%地址%" or ';
             if (in_array('吊销',$cond)) $sql .= 'ent.entStatusInApi like "%吊销%" or ';
@@ -161,16 +165,14 @@ class AddrController extends BusinessBase
 
             $sql = trim($sql);
             $sql = trim($sql,'or');
-            $sql = trim($sql,'and');
-            $sql = trim($sql);
 
-            $list->where($sql);
+            $list->where("({$sql})");
         }
 
         $list = $list->limit($this->exprOffset($page, $pageSize), $pageSize)->all();
+
         CommonService::getInstance()
             ->log4PHP(DbManager::getInstance()->getLastQuery()->getLastQuery());
-
 
         $list = obj2Arr($list);
 
@@ -198,9 +200,13 @@ class AddrController extends BusinessBase
 
         if (!empty($cond))
         {
+            if (in_array('30天内到期',$cond))
+            {
+                $list->where('uploadTable.endTime',Carbon::now()->addDays(30)->timestamp,'<');
+            }
+
             $sql = '';
 
-            if (in_array('30天内到期',$cond)) $sql .= 'uploadTable.endTime < '.Carbon::now()->addDays(30)->timestamp.' and ';
             if (in_array('开业',$cond)) $sql .= 'ent.entStatusInApi like "%开业%" or ';
             if (in_array('地址异常',$cond)) $sql .= 'ent.entStatusInApi like "%地址%" or ';
             if (in_array('吊销',$cond)) $sql .= 'ent.entStatusInApi like "%吊销%" or ';
@@ -209,10 +215,8 @@ class AddrController extends BusinessBase
 
             $sql = trim($sql);
             $sql = trim($sql,'or');
-            $sql = trim($sql,'and');
-            $sql = trim($sql);
 
-            $total->where($sql);
+            $list->where("({$sql})");
         }
 
         $total = $total->count('ent.id');
@@ -233,9 +237,13 @@ class AddrController extends BusinessBase
 
             if (!empty($cond))
             {
+                if (in_array('30天内到期',$cond))
+                {
+                    $list->where('uploadTable.endTime',Carbon::now()->addDays(30)->timestamp,'<');
+                }
+
                 $sql = '';
 
-                if (in_array('30天内到期',$cond)) $sql .= 'uploadTable.endTime < '.Carbon::now()->addDays(30)->timestamp.' and ';
                 if (in_array('开业',$cond)) $sql .= 'ent.entStatusInApi like "%开业%" or ';
                 if (in_array('地址异常',$cond)) $sql .= 'ent.entStatusInApi like "%地址%" or ';
                 if (in_array('吊销',$cond)) $sql .= 'ent.entStatusInApi like "%吊销%" or ';
@@ -244,10 +252,8 @@ class AddrController extends BusinessBase
 
                 $sql = trim($sql);
                 $sql = trim($sql,'or');
-                $sql = trim($sql,'and');
-                $sql = trim($sql);
 
-                $entList->where($sql);
+                $list->where("({$sql})");
             }
 
             $entList = $entList->all();
