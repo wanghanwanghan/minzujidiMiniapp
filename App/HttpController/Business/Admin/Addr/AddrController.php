@@ -179,8 +179,7 @@ class AddrController extends BusinessBase
         //协议和住所是否到期
         foreach ($list as $key => $oneEnt)
         {
-            $list[$key]['xyIsExpire'] = 0;
-            $list[$key]['zlhtIsExpire'] = 0;
+            $list[$key]['xyIsExpire'] = $list[$key]['zlhtIsExpire'] = '未过期';
 
             $xyInfo = \App\HttpController\Models\Api\UploadFile::create()->where([
                 'orderId' => $oneEnt['orderId'],
@@ -194,8 +193,8 @@ class AddrController extends BusinessBase
 
             $now = Carbon::now()->timestamp;
 
-            if (!empty($xyInfo) && $xyInfo->endTime < $now) $list[$key]['xyIsExpire'] = 1;
-            if (!empty($zlhtInfo) && $zlhtInfo->endTime < $now) $list[$key]['zlhtIsExpire'] = 1;
+            if (!empty($xyInfo) && $xyInfo->endTime < $now) $list[$key]['xyIsExpire'] = '已经过期';
+            if (!empty($zlhtInfo) && $zlhtInfo->endTime < $now) $list[$key]['zlhtIsExpire'] = '已经过期';
         }
 
         //
