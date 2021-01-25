@@ -199,17 +199,7 @@ class AddrController extends BusinessBase
 
         //
         $total = EntInfo::create()->alias('ent')->field([
-            'ent.code',
-            'ent.entName',
-            'ent.regEntName',
-            'ent.entStatusInApi',
-            'ent.entAddrInApi',
-            'ent.addr',
-            'ent.fr',
-            'ent.frPhone',
-            'ent.jbr',
-            'ent.jbrPhone',
-            'orderTable.finalPrice',
+            'ent.id',
         ])->join('miniapp_order as orderTable','ent.orderId = orderTable.orderId','left')
             ->join('miniapp_upload_file as uploadTable','ent.orderId = uploadTable.orderId','left')
             ->where('uploadTable.type',4);
