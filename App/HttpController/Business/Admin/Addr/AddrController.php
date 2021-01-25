@@ -202,7 +202,7 @@ class AddrController extends BusinessBase
         {
             if (in_array('30天内到期',$cond))
             {
-                $list->where('uploadTable.endTime',Carbon::now()->addDays(30)->timestamp,'<');
+                $total->where('uploadTable.endTime',Carbon::now()->addDays(30)->timestamp,'<');
             }
 
             $sql = '';
@@ -239,7 +239,7 @@ class AddrController extends BusinessBase
             {
                 if (in_array('30天内到期',$cond))
                 {
-                    $list->where('uploadTable.endTime',Carbon::now()->addDays(30)->timestamp,'<');
+                    $entList->where('uploadTable.endTime',Carbon::now()->addDays(30)->timestamp,'<');
                 }
 
                 $sql = '';
