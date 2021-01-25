@@ -161,6 +161,8 @@ class AddrController extends BusinessBase
 
             $sql = trim($sql);
             $sql = trim($sql,'or');
+            $sql = trim($sql,'and');
+            $sql = trim($sql);
 
             $list->where($sql);
         }
@@ -207,6 +209,8 @@ class AddrController extends BusinessBase
 
             $sql = trim($sql);
             $sql = trim($sql,'or');
+            $sql = trim($sql,'and');
+            $sql = trim($sql);
 
             $total->where($sql);
         }
@@ -240,6 +244,8 @@ class AddrController extends BusinessBase
 
                 $sql = trim($sql);
                 $sql = trim($sql,'or');
+                $sql = trim($sql,'and');
+                $sql = trim($sql);
 
                 $entList->where($sql);
             }
