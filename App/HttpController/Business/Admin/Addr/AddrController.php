@@ -152,12 +152,12 @@ class AddrController extends BusinessBase
         {
             $sql = '';
 
+            if (in_array('30天内到期',$cond)) $sql .= 'uploadTable.endTime < '.Carbon::now()->addDays(30)->timestamp.' and ';
             if (in_array('开业',$cond)) $sql .= 'ent.entStatusInApi like "%开业%" or ';
             if (in_array('地址异常',$cond)) $sql .= 'ent.entStatusInApi like "%地址%" or ';
             if (in_array('吊销',$cond)) $sql .= 'ent.entStatusInApi like "%吊销%" or ';
             if (in_array('注销',$cond)) $sql .= 'ent.entStatusInApi like "%注销%" or ';
             if (in_array('地址变更',$cond)) $sql .= '(ent.entAddrInApi not like "%民族园%" and ent.entAddrInApi <> "") or ';
-            if (in_array('30天内到期',$cond)) $sql .= 'uploadTable.endTime < '.Carbon::now()->addDays(30)->timestamp;
 
             $sql = trim($sql);
             $sql = trim($sql,'or');
@@ -198,12 +198,12 @@ class AddrController extends BusinessBase
         {
             $sql = '';
 
+            if (in_array('30天内到期',$cond)) $sql .= 'uploadTable.endTime < '.Carbon::now()->addDays(30)->timestamp.' and ';
             if (in_array('开业',$cond)) $sql .= 'ent.entStatusInApi like "%开业%" or ';
             if (in_array('地址异常',$cond)) $sql .= 'ent.entStatusInApi like "%地址%" or ';
             if (in_array('吊销',$cond)) $sql .= 'ent.entStatusInApi like "%吊销%" or ';
             if (in_array('注销',$cond)) $sql .= 'ent.entStatusInApi like "%注销%" or ';
             if (in_array('地址变更',$cond)) $sql .= '(ent.entAddrInApi not like "%民族园%" and ent.entAddrInApi <> "") or ';
-            if (in_array('30天内到期',$cond)) $sql .= 'uploadTable.endTime < '.Carbon::now()->addDays(30)->timestamp;
 
             $sql = trim($sql);
             $sql = trim($sql,'or');
@@ -231,12 +231,12 @@ class AddrController extends BusinessBase
             {
                 $sql = '';
 
+                if (in_array('30天内到期',$cond)) $sql .= 'uploadTable.endTime < '.Carbon::now()->addDays(30)->timestamp.' and ';
                 if (in_array('开业',$cond)) $sql .= 'ent.entStatusInApi like "%开业%" or ';
                 if (in_array('地址异常',$cond)) $sql .= 'ent.entStatusInApi like "%地址%" or ';
                 if (in_array('吊销',$cond)) $sql .= 'ent.entStatusInApi like "%吊销%" or ';
                 if (in_array('注销',$cond)) $sql .= 'ent.entStatusInApi like "%注销%" or ';
                 if (in_array('地址变更',$cond)) $sql .= '(ent.entAddrInApi not like "%民族园%" and ent.entAddrInApi <> "") or ';
-                if (in_array('30天内到期',$cond)) $sql .= 'uploadTable.endTime < '.Carbon::now()->addDays(30)->timestamp;
 
                 $sql = trim($sql);
                 $sql = trim($sql,'or');
