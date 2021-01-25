@@ -50,10 +50,11 @@ class ExportExcelService extends ServiceBase
             '经办人联系地址',
             '经办人电子邮箱',
             '地址名称',
-            '地址开始使用时间',
-            '地址到期时间',
             '租赁合同开始时间',
             '租赁合同到期时间',
+            '管理协议开始时间',
+            '管理协议到期时间',
+
         ];
 
         $list = Order::create()->alias('orderTable')
@@ -87,8 +88,8 @@ class ExportExcelService extends ServiceBase
                 'entInfoTable.addr',
                 'uploadTable.startTime',
                 'uploadTable.endTime',
-                '"" as zlhtStartTime',
-                '"" as zlhtEndTime',
+                '"" as xyStartTime',
+                '"" as xyEndTime',
             ])
             ->join('miniapp_ent_info as entInfoTable','orderTable.orderId = entInfoTable.orderId','left')
             ->join('miniapp_upload_file as uploadTable','orderTable.orderId = uploadTable.orderId','left')
@@ -171,17 +172,17 @@ class ExportExcelService extends ServiceBase
 
                 $one['created_at'] = date('Y-m-d H:i:s',$one['created_at']);
 
-                $one['startTime'] = date('Y-m-d H:i:s',$one['startTime']);
-                $one['endTime'] = date('Y-m-d H:i:s',$one['endTime']);
+                $one['startTime'] = date('Y-m-d',$one['startTime']);//upload type = 4 租赁合同时间
+                $one['endTime'] = date('Y-m-d',$one['endTime']);
 
-                //添加租赁合同时间，如果存在
-                $zlht = UploadFile::create()->where(['orderId'=>$one['orderId'],'type'=>4])->get();
+                //添加管理协议时间，如果存在
+                $xy = UploadFile::create()->where(['orderId'=>$one['orderId'],'type'=>6])->get();
 
-                if (!empty($zlht))
+                if (!empty($xy))
                 {
                     //
-                    $one['zlhtStartTime'] = date('Y-m-d H:i:s',$zlht['startTime']);
-                    $one['zlhtEndTime'] = date('Y-m-d H:i:s',$zlht['endTime']);
+                    $one['xyStartTime'] = date('Y-m-d',$xy['startTime']);
+                    $one['xyEndTime'] = date('Y-m-d',$xy['endTime']);
                 }
 
                 $tmp[] = array_values($one);

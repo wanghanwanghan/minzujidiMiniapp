@@ -122,7 +122,6 @@ class AddrController extends BusinessBase
         $cond = str_replace(['[',']','"'],'',$cond);
         $cond = explode(',',$cond);
         $cond = array_filter($cond);
-        CommonService::getInstance()->log4PHP($cond);
         $export = $this->request()->getRequestParam('export') ?? '';
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
