@@ -171,7 +171,7 @@ class AddrController extends BusinessBase
 
         $list = $list->limit($this->exprOffset($page, $pageSize), $pageSize)->all();
 
-        //CommonService::getInstance()->log4PHP(DbManager::getInstance()->getLastQuery()->getLastQuery());
+        CommonService::getInstance()->log4PHP(DbManager::getInstance()->getLastQuery()->getLastQuery());
 
         $list = obj2Arr($list);
 
