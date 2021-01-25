@@ -2,6 +2,7 @@
 
 namespace App\Crontab\Service;
 
+use App\Crontab\CrontabList\RunStatus;
 use App\Crontab\CrontabList\RunSupervisor;
 use EasySwoole\Component\Singleton;
 use EasySwoole\EasySwoole\Crontab\Crontab;
@@ -14,6 +15,7 @@ class CrontabService
     function create()
     {
         $this->runSupervisor();
+        $this->runEntStatus();
 
         return true;
     }
@@ -22,5 +24,11 @@ class CrontabService
     private function runSupervisor()
     {
         return Crontab::getInstance()->addTask(RunSupervisor::class);
+    }
+
+    //地址管理页
+    private function runEntStatus()
+    {
+        return Crontab::getInstance()->addTask(RunStatus::class);
     }
 }

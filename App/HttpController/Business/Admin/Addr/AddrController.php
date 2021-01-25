@@ -126,6 +126,13 @@ class AddrController extends BusinessBase
         $page = $this->request()->getRequestParam('page') ?? 1;
         $pageSize = $this->request()->getRequestParam('pageSize') ?? 5;
 
+        CommonService::getInstance()->log4PHP($keyword);
+        CommonService::getInstance()->log4PHP($cond);
+        CommonService::getInstance()->log4PHP($export);
+        CommonService::getInstance()->log4PHP($page);
+        CommonService::getInstance()->log4PHP($pageSize);
+
+
         //
         $list = EntInfo::create()->alias('ent')->field([
             'ent.code',
