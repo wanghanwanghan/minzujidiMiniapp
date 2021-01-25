@@ -49,8 +49,6 @@ class ExportExcelService extends ServiceBase
             '经办人座机号',
             '经办人联系地址',
             '经办人电子邮箱',
-            '地址分类',
-            '地址号码',
             '地址名称',
             '地址开始使用时间',
             '地址到期时间',
@@ -86,19 +84,20 @@ class ExportExcelService extends ServiceBase
                 'entInfoTable.jbrTel',
                 'entInfoTable.jbrAddr',
                 'entInfoTable.jbrEmail',
-                'addrTable.category',
-                'addrTable.number',
-                'addrTable.name',
-                'useAddrTable.startTime',
-                'useAddrTable.endTime',
+                'entInfoTable.addr',
+                'uploadTable.startTime',
+                'uploadTable.endTime',
                 '"" as zlhtStartTime',
                 '"" as zlhtEndTime',
             ])
             ->join('miniapp_ent_info as entInfoTable','orderTable.orderId = entInfoTable.orderId','left')
-            ->join('miniapp_addr as addrTable','orderTable.orderId = addrTable.orderId','left')
-            ->join('miniapp_use_addr as useAddrTable','orderTable.orderId = useAddrTable.orderId','left')
+            ->join('miniapp_upload_file as uploadTable','orderTable.orderId = uploadTable.orderId','left')
             ->where('orderTable.entName',$entList,'in')
-            ->where(['orderTable.status'=>3,'orderTable.handleStatus'=>4])
+            ->where([
+                'orderTable.status'=>3,
+                'orderTable.handleStatus'=>4,
+                'uploadTable.type'=>4,
+            ])
             ->all();
 
         $list = obj2Arr($list);
