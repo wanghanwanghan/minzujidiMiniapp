@@ -126,6 +126,8 @@ WHERE
 	AND `uploadTable`.`type` = 4
 SQL;
 
+        CommonService::getInstance()->log4PHP($sql);
+
         $res = $obj->rawQuery($sql);
 
         Manager::getInstance()->get('miniapp')->recycleObj($obj);
