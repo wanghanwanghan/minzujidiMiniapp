@@ -114,11 +114,11 @@ class ExportExcelService extends ServiceBase
 
         CommonService::getInstance()->log4PHP(DbManager::getInstance()->getLastQuery()->getLastQuery());
 
+        CommonService::getInstance()->log4PHP($list);
+
         $list = obj2Arr($list);
 
         $tmp = [];
-
-        CommonService::getInstance()->log4PHP($list);
 
         if (!empty($list))
         {
