@@ -27,7 +27,7 @@ class ExportExcelService extends ServiceBase
 
         foreach ($entList as $one)
         {
-            $entList .= "'{$one}',";
+            $entListTemp .= "'{$one}',";
         }
 
         $entListTemp = trim($entListTemp);
