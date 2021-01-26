@@ -112,6 +112,8 @@ class ExportExcelService extends ServiceBase
             ])
             ->all();
 
+        CommonService::getInstance()->log4PHP(DbManager::getInstance()->getLastQuery()->getLastQuery());
+
         $list = obj2Arr($list);
 
         $tmp = [];
