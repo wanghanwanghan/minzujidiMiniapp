@@ -90,7 +90,7 @@ SELECT
 	orderTable.proxy,
 	orderTable.finalPrice,
 	orderTable.created_at,
-	entInfoTable.CODE,
+	entInfoTable.code,
 	entInfoTable.entStatusInApi,
 	entInfoTable.entAddrInApi,
 	entInfoTable.fr,
