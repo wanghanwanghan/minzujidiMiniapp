@@ -118,6 +118,8 @@ class ExportExcelService extends ServiceBase
 
         $tmp = [];
 
+        CommonService::getInstance()->log4PHP($list);
+
         if (!empty($list))
         {
             foreach ($list as $one)
