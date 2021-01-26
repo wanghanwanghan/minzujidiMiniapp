@@ -321,10 +321,10 @@ SQL;
                 $one['created_at'] = date('Y-m-d H:i:s', $one['created_at']);
 
                 $one['startTime'] = date('Y-m-d', $one['startTime']);//upload type = 4 租赁合同时间
-                $one['endTime'] = date('Y-m-d', $one['endTime']);
                 if (!empty($one['endTime'])) {
                     $one['zlhtIsExpire'] = time() > $one['endTime'] ? '已经过期' : '未过期';
                 }
+                $one['endTime'] = date('Y-m-d', $one['endTime']);
 
                 //添加管理协议时间，如果存在
                 $xy = UploadFile::create()->where(['orderId' => $one['orderId'], 'type' => 6])->get();
