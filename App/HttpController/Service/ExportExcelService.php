@@ -256,12 +256,91 @@ SQL;
 
         Manager::getInstance()->get('miniapp')->recycleObj($obj);
 
-        CommonService::getInstance()->log4PHP($res);
+        $list = obj2Arr($res);
 
+        $tmp = [];
 
+        if (!empty($list)) {
+            foreach ($list as $one) {
+                switch ($one['userType']) {
+                    case 1:
+                        $one['userType'] = '民族园内企业';
+                        break;
+                    case 2:
+                        $one['userType'] = '新注册企业';
+                        break;
+                    case 3:
+                        $one['userType'] = '渠道方';
+                        break;
+                }
 
+                switch ($one['taxType']) {
+                    case 1:
+                        $one['taxType'] = '小规模纳税人';
+                        break;
+                    case 2:
+                        $one['taxType'] = '一般纳税人';
+                        break;
+                }
 
+                switch ($one['modifyAddr']) {
+                    case 1:
+                        $one['modifyAddr'] = '需要变更地址';
+                        break;
+                    case 2:
+                        $one['modifyAddr'] = '不需要变更地址';
+                        break;
+                }
 
+                switch ($one['modifyArea']) {
+                    case 1:
+                        $one['modifyArea'] = '不同区';
+                        break;
+                    case 2:
+                        $one['modifyArea'] = '同区';
+                        break;
+                }
+
+                $areaFeeItems = '';
+                if (strpos($one['areaFeeItems'], '1') !== false) $areaFeeItems .= '工商,';
+                if (strpos($one['areaFeeItems'], '2') !== false) $areaFeeItems .= '税务,';
+                if (strpos($one['areaFeeItems'], '3') !== false) $areaFeeItems .= '银行,';
+                if (strpos($one['areaFeeItems'], '4') !== false) $areaFeeItems .= '社保,';
+                if (strpos($one['areaFeeItems'], '5') !== false) $areaFeeItems .= '公积金,';
+                $one['areaFeeItems'] = trim($areaFeeItems, ',');
+
+                switch ($one['proxy']) {
+                    case 1:
+                        $one['proxy'] = '需要代理记账';
+                        break;
+                    case 2:
+                        $one['proxy'] = '不需要代理记账';
+                        break;
+                }
+
+                $one['created_at'] = date('Y-m-d H:i:s', $one['created_at']);
+
+                $one['startTime'] = date('Y-m-d', $one['startTime']);//upload type = 4 租赁合同时间
+                $one['endTime'] = date('Y-m-d', $one['endTime']);
+                if (!empty($one['endTime'])) {
+                    $one['zlhtIsExpire'] = time() > $one['endTime'] ? '已经过期' : '未过期';
+                }
+
+                //添加管理协议时间，如果存在
+                $xy = UploadFile::create()->where(['orderId' => $one['orderId'], 'type' => 6])->get();
+
+                if (!empty($xy)) {
+                    //
+                    $one['xyStartTime'] = date('Y-m-d', $xy['startTime']);
+                    $one['xyEndTime'] = date('Y-m-d', $xy['endTime']);
+                    if (!empty($xy['endTime'])) {
+                        $one['xyIsExpire'] = time() > $xy['endTime'] ? '已经过期' : '未过期';
+                    }
+                }
+
+                $tmp[] = array_values($one);
+            }
+        }
 
         $fileObject->header($header)->data($tmp);
 
