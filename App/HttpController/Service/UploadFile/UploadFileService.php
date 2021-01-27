@@ -39,11 +39,11 @@ class UploadFileService extends ServiceBase
             }else
             {
                 UploadFile::create()->data([
-                    'orderId'=>$orderId,
-                    'phone'=>$phone,
-                    'type'=>6,
-                    'startTime'=>$startTime,
-                    'endTime'=>$endTime,
+                    'orderId' => $orderId,
+                    'phone' => $phone,
+                    'type' => 6,
+                    'startTime' => $startTime === 0 ? 0 : substr($startTime,0,10),
+                    'endTime' => $endTime === 0 ? 0 : substr($endTime,0,10),
                 ])->save();
             }
 
