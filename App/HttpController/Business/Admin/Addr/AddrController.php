@@ -5,6 +5,7 @@ namespace App\HttpController\Business\Admin\Addr;
 use App\HttpController\Business\BusinessBase;
 use App\HttpController\Models\Admin\Addr;
 use App\HttpController\Models\Admin\AddrUse;
+use App\HttpController\Models\Api\EntGuDong;
 use App\HttpController\Models\Api\EntInfo;
 use App\HttpController\Models\Api\Order;
 use App\HttpController\Service\CommonService;
@@ -12,6 +13,7 @@ use App\HttpController\Service\CreateTable;
 use Carbon\Carbon;
 use EasySwoole\Http\Message\UploadFile;
 use EasySwoole\ORM\DbManager;
+use EasySwoole\RedisPool\Redis;
 use wanghanwanghan\someUtils\control;
 
 class AddrController extends BusinessBase
@@ -275,20 +277,43 @@ class AddrController extends BusinessBase
     //获取地址详情
     function selectDetail()
     {
-        $id = $this->request()->getRequestParam('id') ?? '';
+        $orderId = $this->request()->getRequestParam('orderId') ?? '';
 
-        $info = Addr::create()->where('id',$id)->get();
+        $orderInfo = Order::create()->where('orderId', $orderId)->get();
 
-        !empty($info) ?: $info = null;
+        $entInfo = EntInfo::create()->where('orderId', $orderId)->get();
 
-        $detail = AddrUse::create()->where('addrId',$id)->order('updated_at', 'desc')->all();
+        $guDongInfo = EntGuDong::create()->where('orderId', $orderId)->all();
 
-        !empty($detail) ?: $detail = null;
+        $uploadFile = \App\HttpController\Models\Api\UploadFile::create()->where('orderId', $orderId)->all();
 
-        $res['info'] = $info;
-        $res['detail'] = $detail;
+        //1是工商，2是税务，3是银行，4是社保，5是公积金
+        $orderInfo = obj2Arr($orderInfo);
 
-        return $this->writeJson(200, null, $res);
+        for ($i=1;$i<=5;$i++)
+        {
+            if (empty($orderInfo)) continue;
+
+            if ($i === 1) $orderInfo['areaFeeItems'] = str_replace('1','工商',$orderInfo['areaFeeItems']);
+            if ($i === 2) $orderInfo['areaFeeItems'] = str_replace('2','税务',$orderInfo['areaFeeItems']);
+            if ($i === 3) $orderInfo['areaFeeItems'] = str_replace('3','银行',$orderInfo['areaFeeItems']);
+            if ($i === 4) $orderInfo['areaFeeItems'] = str_replace('4','社保',$orderInfo['areaFeeItems']);
+            if ($i === 5) $orderInfo['areaFeeItems'] = str_replace('5','公积金',$orderInfo['areaFeeItems']);
+        }
+
+        $orderInfo['taxType'] === 1 ? $orderInfo['taxType'] = '一般纳税人' : $orderInfo['taxType'] = '小规模纳税人';
+        $orderInfo['modifyAddr'] === 1 ? $orderInfo['modifyAddr'] = '地址变更' : $orderInfo['modifyAddr'] = '地址不变更';
+        $orderInfo['modifyArea'] === 1 ? $orderInfo['modifyArea'] = '跨区' : $orderInfo['modifyArea'] = '不跨区';
+        $orderInfo['proxy'] === 1 ? $orderInfo['proxy'] = '代理记账' : $orderInfo['proxy'] = '不代理记账';
+
+        $info = [
+            'orderInfo' => $orderInfo,
+            'entInfo' => empty(obj2Arr($entInfo)) ? null : obj2Arr($entInfo),
+            'guDongInfo' => empty(obj2Arr($guDongInfo)) ? null : obj2Arr($guDongInfo),
+            'uploadFile' => empty(obj2Arr($uploadFile)) ? null : obj2Arr($uploadFile),
+        ];
+
+        return $this->writeJson(200, null, $info);
     }
 
     //办理完成但还未分配地址的
