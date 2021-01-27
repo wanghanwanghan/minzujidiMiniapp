@@ -78,8 +78,6 @@ class UploadFileService extends ServiceBase
 
             if ($isc === 1)
             {
-                CommonService::getInstance()->log4PHP($filename);
-
                 $oldFileName = $info->filename;
 
                 $filename = $oldFileName.','.implode(',', $filename);
