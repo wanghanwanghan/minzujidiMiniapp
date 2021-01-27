@@ -3,6 +3,7 @@
 namespace App\HttpController\Service\UploadFile;
 
 use App\HttpController\Models\Api\UploadFile;
+use App\HttpController\Service\CommonService;
 use App\HttpController\Service\ServiceBase;
 use EasySwoole\Component\Singleton;
 use EasySwoole\Mysqli\QueryBuilder;
@@ -77,6 +78,8 @@ class UploadFileService extends ServiceBase
 
             if ($isc === 1)
             {
+                CommonService::getInstance()->log4PHP($filename);
+
                 $oldFileName = $info->filename;
 
                 $filename = $oldFileName.','.implode(',', $filename);
